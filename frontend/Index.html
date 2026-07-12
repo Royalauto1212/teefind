@@ -1,0 +1,1447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TeeFind — Tee Times in Montreal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --green-900: #1a2e0e;
+    --green-800: #243d14;
+    --green-700: #2f5019;
+    --green-600: #3B6D11;
+    --green-500: #4d8a18;
+    --green-400: #63a824;
+    --green-200: #c0dd97;
+    --green-100: #e0efcc;
+    --green-50:  #f2f8ea;
+    --sand-900: #2c2416;
+    --sand-700: #6b5a3a;
+    --sand-400: #b09060;
+    --sand-200: #e8d8b8;
+    --sand-100: #f5eedd;
+    --sand-50:  #faf7f0;
+    --sky-600:  #185FA5;
+    --sky-100:  #daeaf8;
+    --sky-50:   #eef5fc;
+    --red-600:  #c0392b;
+    --red-50:   #fdf0ef;
+    --ink:      #1a1c18;
+    --ink-60:   rgba(26,28,24,0.6);
+    --ink-30:   rgba(26,28,24,0.3);
+    --ink-10:   rgba(26,28,24,0.08);
+    --white:    #ffffff;
+    --radius-sm: 6px;
+    --radius-md: 10px;
+    --radius-lg: 16px;
+    --radius-xl: 24px;
+    --shadow-card: 0 1px 3px rgba(26,28,24,0.06), 0 4px 12px rgba(26,28,24,0.04);
+    --shadow-float: 0 8px 32px rgba(26,28,24,0.12);
+    --transition: 160ms ease;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--sand-50);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── HEADER ── */
+  header {
+    background: var(--green-900);
+    padding: 0 2rem;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 60px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+  }
+
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--green-500);
+    border-radius: var(--radius-sm);
+    display: flex; align-items: center; justify-content: center;
+  }
+
+  .logo-mark svg { width: 18px; height: 18px; }
+
+  .logo-text {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--white);
+    letter-spacing: -0.02em;
+  }
+
+  .logo-text em {
+    color: var(--green-400);
+    font-style: normal;
+  }
+
+  .header-right {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .status-pill {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: rgba(255,255,255,0.5);
+    padding: 4px 10px;
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 20px;
+  }
+
+  .status-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--green-400);
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
+  }
+
+  .alerts-btn {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 14px;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: var(--radius-md);
+    color: rgba(255,255,255,0.85);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    cursor: pointer;
+    transition: background var(--transition);
+  }
+  .alerts-btn:hover { background: rgba(255,255,255,0.14); }
+
+  .alert-count {
+    background: #e74c3c;
+    color: white;
+    font-size: 10px;
+    font-weight: 600;
+    padding: 1px 5px;
+    border-radius: 8px;
+    min-width: 16px;
+    text-align: center;
+  }
+
+  /* ── HERO STRIP ── */
+  .hero {
+    background: var(--green-800);
+    padding: 2.5rem 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 60px,
+      rgba(255,255,255,0.012) 60px,
+      rgba(255,255,255,0.012) 61px
+    );
+    pointer-events: none;
+  }
+
+  .hero-inner {
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+  }
+
+  .hero h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(28px, 4vw, 44px);
+    color: var(--white);
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.4rem;
+  }
+
+  .hero h1 em {
+    font-style: italic;
+    color: var(--green-200);
+  }
+
+  .hero-sub {
+    font-size: 15px;
+    color: rgba(255,255,255,0.55);
+    margin-bottom: 1.75rem;
+  }
+
+  /* ── FILTER CARD ── */
+  .filter-card {
+    background: var(--white);
+    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
+    padding: 1.5rem 1.75rem 0;
+    box-shadow: var(--shadow-float);
+  }
+
+  .filter-grid {
+    display: grid;
+    grid-template-columns: 160px 1fr 130px 130px 130px auto;
+    gap: 12px;
+    align-items: end;
+    margin-bottom: 1.25rem;
+  }
+
+  .field label {
+    display: block;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-60);
+    margin-bottom: 6px;
+  }
+
+  .field input,
+  .field select {
+    width: 100%;
+    height: 42px;
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--radius-md);
+    padding: 0 12px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    color: var(--ink);
+    background: var(--sand-50);
+    appearance: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+    outline: none;
+  }
+
+  .field input:focus,
+  .field select:focus {
+    border-color: var(--green-500);
+    box-shadow: 0 0 0 3px rgba(77,138,24,0.12);
+    background: var(--white);
+  }
+
+  .field.select-wrap { position: relative; }
+  .field.select-wrap::after {
+    content: '';
+    position: absolute;
+    right: 12px;
+    bottom: 14px;
+    width: 0; height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+    border-top: 5px solid var(--ink-30);
+    pointer-events: none;
+  }
+
+  .search-btn {
+    height: 42px;
+    padding: 0 24px;
+    background: var(--green-600);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    white-space: nowrap;
+    transition: background var(--transition), transform var(--transition);
+  }
+  .search-btn:hover { background: var(--green-500); }
+  .search-btn:active { transform: scale(0.98); }
+  .search-btn.loading { opacity: 0.7; cursor: wait; }
+
+  .filter-tabs {
+    display: flex;
+    gap: 0;
+    border-bottom: 1.5px solid var(--ink-10);
+  }
+
+  .filter-tab {
+    padding: 10px 20px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--ink-60);
+    cursor: pointer;
+    border-bottom: 2.5px solid transparent;
+    margin-bottom: -1.5px;
+    transition: color var(--transition), border-color var(--transition);
+    user-select: none;
+  }
+
+  .filter-tab:hover { color: var(--ink); }
+  .filter-tab.active {
+    color: var(--green-600);
+    border-color: var(--green-600);
+  }
+
+  /* ── MAIN LAYOUT ── */
+  .main {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 1.75rem 2rem;
+    display: grid;
+    grid-template-columns: 1fr 320px;
+    gap: 1.5rem;
+    align-items: start;
+  }
+
+  /* ── RESULTS ── */
+  .results-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1rem;
+  }
+
+  .results-count {
+    font-size: 14px;
+    color: var(--ink-60);
+  }
+
+  .results-count strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .sort-select {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--white);
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--radius-sm);
+    padding: 5px 10px;
+    cursor: pointer;
+    outline: none;
+  }
+
+  /* ── TEE TIME CARD ── */
+  .tee-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--ink-10);
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 16px;
+    align-items: center;
+    transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
+    animation: slideIn 0.25s ease both;
+  }
+
+  @keyframes slideIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .tee-card:hover {
+    border-color: var(--green-200);
+    box-shadow: var(--shadow-card);
+    transform: translateY(-1px);
+  }
+
+  .tee-card.members-only {
+    opacity: 0.45;
+    background: var(--sand-50);
+  }
+
+  .time-col {
+    text-align: center;
+    border-right: 1.5px solid var(--ink-10);
+    padding-right: 16px;
+  }
+
+  .time-main {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    color: var(--ink);
+    line-height: 1;
+    letter-spacing: -0.02em;
+  }
+
+  .time-ampm {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--ink-60);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    display: block;
+    margin-top: 1px;
+  }
+
+  .info-col { flex: 1; }
+
+  .course-name {
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--ink);
+    margin-bottom: 4px;
+    line-height: 1.3;
+  }
+
+  .course-meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--ink-60);
+  }
+
+  .meta-sep { color: var(--ink-30); }
+
+  .source-badge {
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+  }
+
+  .source-badge.minutegolf {
+    background: var(--sand-100);
+    color: var(--sand-700);
+  }
+
+  .source-badge.chronogolf {
+    background: var(--sky-50);
+    color: var(--sky-600);
+  }
+
+  .tag {
+    padding: 2px 7px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+
+  .tag-amber {
+    background: #fef3d0;
+    color: #996600;
+  }
+
+  .tag-members {
+    background: var(--red-50);
+    color: var(--red-600);
+  }
+
+  .action-col {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 6px;
+    min-width: 110px;
+  }
+
+  .price {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    letter-spacing: -0.02em;
+    line-height: 1;
+  }
+
+  .price-label {
+    font-size: 11px;
+    color: var(--ink-60);
+    text-align: right;
+  }
+
+  .book-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    background: var(--green-600);
+    color: white;
+    text-decoration: none;
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    width: 100%;
+    justify-content: center;
+    transition: background var(--transition);
+  }
+  .book-btn:hover { background: var(--green-500); }
+
+  .book-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+  .alert-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 5px 10px;
+    background: transparent;
+    color: var(--ink-60);
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--radius-sm);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    cursor: pointer;
+    width: 100%;
+    justify-content: center;
+    transition: all var(--transition);
+  }
+  .alert-btn:hover {
+    border-color: var(--green-400);
+    color: var(--green-600);
+    background: var(--green-50);
+  }
+
+  /* ── EMPTY STATE ── */
+  .empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    color: var(--ink-60);
+  }
+
+  .empty-state svg {
+    width: 48px; height: 48px;
+    stroke: var(--ink-30);
+    margin-bottom: 1rem;
+  }
+
+  .empty-state h3 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 20px;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .empty-state p { font-size: 14px; max-width: 300px; margin: 0 auto; }
+
+  /* ── SKELETON LOADER ── */
+  .skeleton-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--ink-10);
+    padding: 1.1rem 1.25rem;
+    margin-bottom: 8px;
+    display: grid;
+    grid-template-columns: 90px 1fr auto;
+    gap: 16px;
+    align-items: center;
+  }
+
+  .skel {
+    background: linear-gradient(90deg, var(--sand-100) 25%, var(--sand-50) 50%, var(--sand-100) 75%);
+    background-size: 200% 100%;
+    animation: shimmer 1.4s infinite;
+    border-radius: 4px;
+  }
+
+  @keyframes shimmer {
+    0% { background-position: 200% 0; }
+    100% { background-position: -200% 0; }
+  }
+
+  /* ── SIDEBAR ── */
+  .sidebar { position: sticky; top: 80px; }
+
+  .sidebar-card {
+    background: var(--white);
+    border-radius: var(--radius-lg);
+    border: 1.5px solid var(--ink-10);
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .sidebar-header {
+    padding: 1rem 1.25rem 0.75rem;
+    border-bottom: 1.5px solid var(--ink-10);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sidebar-header h2 {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--ink);
+  }
+
+  .sidebar-header svg {
+    width: 16px; height: 16px;
+    stroke: var(--green-600);
+  }
+
+  .sidebar-body { padding: 1.25rem; }
+
+  /* ── ALERT FORM ── */
+  .alert-type-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    margin-bottom: 1rem;
+  }
+
+  .alert-type-btn {
+    padding: 10px 8px;
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--radius-md);
+    background: var(--sand-50);
+    cursor: pointer;
+    text-align: center;
+    transition: all var(--transition);
+    font-family: 'DM Sans', sans-serif;
+  }
+
+  .alert-type-btn:hover { border-color: var(--green-400); }
+
+  .alert-type-btn.active {
+    border-color: var(--green-500);
+    background: var(--green-50);
+  }
+
+  .alert-type-icon {
+    font-size: 20px;
+    margin-bottom: 4px;
+    display: block;
+  }
+
+  .alert-type-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--ink);
+    display: block;
+    margin-bottom: 2px;
+  }
+
+  .alert-type-sub {
+    font-size: 11px;
+    color: var(--ink-60);
+    line-height: 1.3;
+  }
+
+  .form-row { margin-bottom: 10px; }
+  .form-row label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
+  .form-row input, .form-row select {
+    width: 100%;
+    height: 38px;
+    border: 1.5px solid var(--ink-10);
+    border-radius: var(--radius-md);
+    padding: 0 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    color: var(--ink);
+    background: var(--sand-50);
+    outline: none;
+    appearance: none;
+    transition: border-color var(--transition), box-shadow var(--transition);
+  }
+  .form-row input:focus, .form-row select:focus {
+    border-color: var(--green-500);
+    box-shadow: 0 0 0 3px rgba(77,138,24,0.12);
+    background: var(--white);
+  }
+
+  .time-range-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .create-alert-btn {
+    width: 100%;
+    height: 40px;
+    background: var(--green-600);
+    color: white;
+    border: none;
+    border-radius: var(--radius-md);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    margin-top: 12px;
+    transition: background var(--transition);
+  }
+  .create-alert-btn:hover { background: var(--green-500); }
+
+  /* ── ACTIVE ALERTS LIST ── */
+  .alert-item {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--ink-10);
+    animation: slideIn 0.2s ease both;
+  }
+  .alert-item:last-child { border-bottom: none; }
+
+  .alert-item-text { font-size: 12px; color: var(--ink); line-height: 1.4; }
+  .alert-item-sub { font-size: 11px; color: var(--ink-60); margin-top: 2px; }
+
+  .delete-alert-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    color: var(--ink-30);
+    padding: 2px 4px;
+    border-radius: 4px;
+    flex-shrink: 0;
+    transition: color var(--transition);
+  }
+  .delete-alert-btn:hover { color: var(--red-600); }
+
+  /* ── STATS SIDEBAR ── */
+  .stat-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 0;
+    border-bottom: 1px solid var(--ink-10);
+    font-size: 13px;
+  }
+  .stat-row:last-child { border-bottom: none; }
+  .stat-label { color: var(--ink-60); }
+  .stat-value { font-weight: 600; color: var(--ink); }
+
+  /* ── TOAST ── */
+  .toast-container {
+    position: fixed;
+    bottom: 1.5rem;
+    right: 1.5rem;
+    z-index: 999;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    pointer-events: none;
+  }
+
+  .toast {
+    background: var(--green-900);
+    color: white;
+    padding: 10px 16px;
+    border-radius: var(--radius-md);
+    font-size: 13px;
+    font-weight: 500;
+    box-shadow: var(--shadow-float);
+    animation: toastIn 0.25s ease both, toastOut 0.3s ease 2.7s both;
+    pointer-events: auto;
+  }
+
+  @keyframes toastIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes toastOut {
+    to { opacity: 0; transform: translateY(8px); }
+  }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 860px) {
+    .main { grid-template-columns: 1fr; }
+    .sidebar { position: static; }
+    .filter-grid { grid-template-columns: 1fr 1fr; }
+    .hero { padding: 1.5rem 1rem 0; }
+  }
+
+  @media (max-width: 540px) {
+    header { padding: 0 1rem; }
+    .hero h1 { font-size: 26px; }
+    .filter-grid { grid-template-columns: 1fr; }
+    .main { padding: 1rem; }
+    .tee-card { grid-template-columns: 70px 1fr; }
+    .action-col { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ── HEADER ── -->
+<header>
+  <a href="/" class="logo">
+    <div class="logo-mark">
+      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <circle cx="12" cy="4.5" r="2.5" fill="white"/>
+        <line x1="12" y1="7" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
+        <line x1="8.5" y1="18" x2="15.5" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
+      </svg>
+    </div>
+    <span class="logo-text">Tee<em>Find</em></span>
+  </a>
+  <div class="header-right">
+    <div class="status-pill" id="statusPill">
+      <span class="status-dot"></span>
+      <span id="statusText">Loading...</span>
+    </div>
+    <button class="alerts-btn" onclick="scrollToAlerts()">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+      </svg>
+      Alerts
+      <span class="alert-count" id="headerAlertCount" style="display:none">0</span>
+    </button>
+  </div>
+</header>
+
+<!-- ── HERO + FILTER ── -->
+<div class="hero">
+  <div class="hero-inner">
+    <h1>Find a tee time,<br><em>instantly.</em></h1>
+    <p class="hero-sub">Searching Minute Golf &amp; Chrono Golf · Greater Montréal</p>
+    <div class="filter-card">
+      <div class="filter-grid">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" id="filterDate" />
+        </div>
+        <div class="field select-wrap">
+          <label>Time of day</label>
+          <select id="filterTime">
+            <option value="">Any time</option>
+            <option value="06:00-09:00">Early bird (6–9 AM)</option>
+            <option value="09:00-12:00">Morning (9 AM–12 PM)</option>
+            <option value="12:00-15:00">Early afternoon (12–3 PM)</option>
+            <option value="15:00-20:00">Late afternoon (3–8 PM)</option>
+          </select>
+        </div>
+        <div class="field select-wrap">
+          <label>Players</label>
+          <select id="filterPlayers">
+            <option value="">Any</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+        <div class="field select-wrap">
+          <label>Holes</label>
+          <select id="filterHoles">
+            <option value="">Any</option>
+            <option value="9">9 holes</option>
+            <option value="18">18 holes</option>
+          </select>
+        </div>
+        <div class="field select-wrap">
+          <label>Source</label>
+          <select id="filterSource">
+            <option value="">All sources</option>
+            <option value="minutegolf">Minute Golf</option>
+            <option value="chronogolf">Chrono Golf</option>
+          </select>
+        </div>
+        <button class="search-btn" onclick="doSearch()" id="searchBtn">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          Search
+        </button>
+      </div>
+      <div class="filter-tabs">
+        <div class="filter-tab active" data-tab="all" onclick="switchTab(this,'all')">All times</div>
+        <div class="filter-tab" data-tab="minutegolf" onclick="switchTab(this,'minutegolf')">Minute Golf</div>
+        <div class="filter-tab" data-tab="chronogolf" onclick="switchTab(this,'chronogolf')">Chrono Golf</div>
+        <div class="filter-tab" data-tab="public" onclick="switchTab(this,'public')">Public only</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── MAIN ── -->
+<div class="main">
+
+  <!-- Results column -->
+  <div class="results-col">
+    <div class="results-header">
+      <div class="results-count" id="resultsCount">
+        <strong id="countNum">—</strong> tee times found
+      </div>
+      <select class="sort-select" id="sortSelect" onchange="applySortAndRender()">
+        <option value="time">Sort by time</option>
+        <option value="price-asc">Price: low to high</option>
+        <option value="price-desc">Price: high to low</option>
+        <option value="source">By source</option>
+      </select>
+    </div>
+    <div id="resultsList"></div>
+  </div>
+
+  <!-- Sidebar -->
+  <aside class="sidebar" id="alertsAnchor">
+
+    <!-- Alert creator -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
+          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
+        </svg>
+        <h2>Cancellation alerts</h2>
+      </div>
+      <div class="sidebar-body">
+        <p style="font-size:13px; color:var(--ink-60); margin-bottom:1rem; line-height:1.5;">
+          Get notified by email or SMS when a tee time opens up that matches your criteria.
+        </p>
+
+        <div class="alert-type-grid">
+          <button class="alert-type-btn active" id="typeDate" onclick="selectAlertType('date-window')">
+            <span class="alert-type-icon">📅</span>
+            <span class="alert-type-label">Date &amp; time</span>
+            <span class="alert-type-sub">Alert for a specific date &amp; window</span>
+          </button>
+          <button class="alert-type-btn" id="typeCourse" onclick="selectAlertType('course')">
+            <span class="alert-type-icon">⛳</span>
+            <span class="alert-type-label">Course</span>
+            <span class="alert-type-sub">Any opening at a specific course</span>
+          </button>
+        </div>
+
+        <div id="alertFormDateWindow">
+          <div class="form-row">
+            <label>Date</label>
+            <input type="date" id="alertDate" />
+          </div>
+          <div class="form-row">
+            <label>Time window</label>
+            <div class="time-range-row">
+              <input type="time" id="alertTimeFrom" placeholder="From" value="07:00" />
+              <input type="time" id="alertTimeTo" placeholder="To" value="12:00" />
+            </div>
+          </div>
+        </div>
+
+        <div id="alertFormCourse" style="display:none;">
+          <div class="form-row">
+            <label>Course</label>
+            <select id="alertCourse">
+              <option value="">Any course</option>
+            </select>
+          </div>
+        </div>
+
+        <div class="form-row">
+          <label>Players needed</label>
+          <select id="alertPlayers">
+            <option value="">Any</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+          </select>
+        </div>
+
+        <div class="form-row">
+          <label>Notify me at</label>
+          <input type="text" id="alertContact" placeholder="email or +1 555 000 0000" />
+        </div>
+
+        <button class="create-alert-btn" onclick="createAlert()">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
+          </svg>
+          Create alert
+        </button>
+      </div>
+    </div>
+
+    <!-- Active alerts -->
+    <div class="sidebar-card" id="activeAlertsCard" style="display:none;">
+      <div class="sidebar-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+        <h2>Your alerts</h2>
+      </div>
+      <div class="sidebar-body" id="alertsList"></div>
+    </div>
+
+    <!-- Stats card -->
+    <div class="sidebar-card">
+      <div class="sidebar-header">
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <line x1="18" y1="20" x2="18" y2="10"/>
+          <line x1="12" y1="20" x2="12" y2="4"/>
+          <line x1="6" y1="20" x2="6" y2="14"/>
+        </svg>
+        <h2>At a glance</h2>
+      </div>
+      <div class="sidebar-body">
+        <div class="stat-row"><span class="stat-label">Available times</span><span class="stat-value" id="statTotal">—</span></div>
+        <div class="stat-row"><span class="stat-label">Minute Golf</span><span class="stat-value" id="statMinute">—</span></div>
+        <div class="stat-row"><span class="stat-label">Chrono Golf</span><span class="stat-value" id="statChrono">—</span></div>
+        <div class="stat-row"><span class="stat-label">Courses</span><span class="stat-value" id="statCourses">—</span></div>
+        <div class="stat-row"><span class="stat-label">Last refreshed</span><span class="stat-value" id="statRefresh">—</span></div>
+      </div>
+    </div>
+
+  </aside>
+</div>
+
+<!-- Toast container -->
+<div class="toast-container" id="toastContainer"></div>
+
+<script>
+// ─────────────────────────────────────
+// CONFIG — point to your backend
+// ─────────────────────────────────────
+const API_BASE = 'https://postage-legwarmer-traverse.ngrok-free.dev/api';
+
+// For demo/development: use mock data when API is not reachable
+const DEMO_MODE = false; // Set to false when backend is running
+
+// ─────────────────────────────────────
+// STATE
+// ─────────────────────────────────────
+let allTeeTimes = [];
+let filteredTeeTimes = [];
+let activeTab = 'all';
+let alertType = 'date-window';
+let localAlerts = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
+let courses = [];
+
+// ─────────────────────────────────────
+// INIT
+// ─────────────────────────────────────
+(async function init() {
+  // Set default date to today
+  const today = new Date().toISOString().split('T')[0];
+  document.getElementById('filterDate').value = today;
+  document.getElementById('alertDate').value = today;
+
+  if (DEMO_MODE) {
+    allTeeTimes = generateMockData();
+    courses = [...new Set(allTeeTimes.map(t => t.courseId))].map(id => ({
+      id,
+      name: allTeeTimes.find(t => t.courseId === id).courseName,
+    }));
+    updateStatus(new Date(), allTeeTimes.length);
+  } else {
+    await Promise.all([loadTeeTimes(), loadCourses(), loadStatus()]);
+  }
+
+  populateCourseDropdown();
+  renderLocalAlerts();
+  applyFiltersAndRender();
+})();
+
+// ─────────────────────────────────────
+// API CALLS
+// ─────────────────────────────────────
+async function loadTeeTimes() {
+  const date = document.getElementById('filterDate').value;
+  const params = new URLSearchParams({ date, membersOnly: 'false' });
+  try {
+    const r = await fetch(`${API_BASE}/tee-times?${params}`, {
+  headers: { 'ngrok-skip-browser-warning': 'true' }
+});
+    const data = await r.json();
+    allTeeTimes = data.teeTimes;
+    updateStatus(data.lastUpdated, data.count);
+  } catch (e) {
+    console.warn('API not reachable — using mock data');
+    allTeeTimes = generateMockData();
+    updateStatus(new Date(), allTeeTimes.length);
+  }
+}
+
+async function loadCourses() {
+  try {
+    const r = await fetch(`${API_BASE}/courses`);
+    courses = await r.json();
+  } catch {}
+}
+
+async function loadStatus() {
+  try {
+    const r = await fetch(`${API_BASE}/status`);
+    const s = await r.json();
+    updateStatus(s.lastScrape, s.cachedTeeTimes);
+  } catch {}
+}
+
+function updateStatus(lastScrape, count) {
+  if (lastScrape) {
+    const d = new Date(lastScrape);
+    const mins = Math.round((Date.now() - d) / 60000);
+    document.getElementById('statusText').textContent =
+      mins < 2 ? 'Just updated' : `Updated ${mins}m ago`;
+    document.getElementById('statRefresh').textContent =
+      mins < 2 ? 'Just now' : `${mins}m ago`;
+  }
+}
+
+// ─────────────────────────────────────
+// SEARCH & FILTER
+// ─────────────────────────────────────
+async function doSearch() {
+  const btn = document.getElementById('searchBtn');
+  btn.classList.add('loading');
+  btn.textContent = 'Searching...';
+
+  if (!DEMO_MODE) {
+    await loadTeeTimes();
+  } else {
+    await new Promise(r => setTimeout(r, 600)); // simulate network
+    allTeeTimes = generateMockData();
+  }
+
+  btn.classList.remove('loading');
+  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
+  applyFiltersAndRender();
+}
+
+function applyFiltersAndRender() {
+  const timeVal  = document.getElementById('filterTime').value;
+  const players  = document.getElementById('filterPlayers').value;
+  const holes    = document.getElementById('filterHoles').value;
+  const source   = document.getElementById('filterSource').value;
+
+  let results = [...allTeeTimes];
+
+  // Tab filter
+  if (activeTab === 'minutegolf') results = results.filter(t => t.source === 'minutegolf');
+  else if (activeTab === 'chronogolf') results = results.filter(t => t.source === 'chronogolf');
+  else if (activeTab === 'public') results = results.filter(t => !t.membersOnly);
+
+  if (source) results = results.filter(t => t.source === source);
+  if (players) results = results.filter(t => t.players >= parseInt(players));
+  if (holes) results = results.filter(t => t.holes === parseInt(holes));
+
+  if (timeVal) {
+    const [from, to] = timeVal.split('-');
+    results = results.filter(t => t.time >= from && t.time <= to);
+  }
+
+  filteredTeeTimes = results;
+  applySortAndRender();
+  updateStats();
+}
+
+function applySortAndRender() {
+  const sort = document.getElementById('sortSelect').value;
+  const sorted = [...filteredTeeTimes];
+
+  if (sort === 'time') sorted.sort((a,b) => a.time.localeCompare(b.time));
+  else if (sort === 'price-asc') sorted.sort((a,b) => (a.pricePerPlayer||999) - (b.pricePerPlayer||999));
+  else if (sort === 'price-desc') sorted.sort((a,b) => (b.pricePerPlayer||0) - (a.pricePerPlayer||0));
+  else if (sort === 'source') sorted.sort((a,b) => a.source.localeCompare(b.source) || a.time.localeCompare(b.time));
+
+  renderResults(sorted);
+}
+
+function switchTab(el, tab) {
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  el.classList.add('active');
+  activeTab = tab;
+  applyFiltersAndRender();
+}
+
+// ─────────────────────────────────────
+// RENDER TEE TIMES
+// ─────────────────────────────────────
+function renderResults(times) {
+  const list = document.getElementById('resultsList');
+  const countEl = document.getElementById('countNum');
+  countEl.textContent = times.filter(t => !t.membersOnly).length;
+
+  if (times.length === 0) {
+    list.innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="4.5" r="2.5"/>
+          <line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/>
+          <line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/>
+        </svg>
+        <h3>No tee times found</h3>
+        <p>Try a different date, time range, or player count.</p>
+      </div>`;
+    return;
+  }
+
+  list.innerHTML = times.map((t, i) => renderTeeCard(t, i)).join('');
+}
+
+function renderTeeCard(t, idx) {
+  const { h, m, ampm } = parseTime12h(t.time);
+  const isMember = t.membersOnly;
+  const delay = Math.min(idx * 30, 200);
+
+  const sourceClass = t.source === 'minutegolf' ? 'minutegolf' : 'chronogolf';
+  const sourceLabel = t.source === 'minutegolf' ? 'Minute Golf' : 'Chrono Golf';
+
+  const tags = [
+    `<span class="source-badge ${sourceClass}">${sourceLabel}</span>`,
+    `${t.holes} holes`,
+    `${t.players} player${t.players !== 1 ? 's' : ''}`,
+    isMember ? '<span class="tag tag-members">Members only</span>' : '',
+    (!isMember && t.pricePerPlayer && t.pricePerPlayer < 40) ? '<span class="tag tag-amber">Great value</span>' : '',
+  ].filter(Boolean).join('<span class="meta-sep">·</span>');
+
+  const bookBtn = isMember
+    ? `<button class="book-btn" style="opacity:0.5;cursor:not-allowed;" disabled>Members only</button>`
+    : `<a class="book-btn" href="${t.bookingUrl}" target="_blank" rel="noopener">
+        Book
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
+          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
+        </svg>
+      </a>`;
+
+  return `
+    <div class="tee-card ${isMember ? 'members-only' : ''}" style="animation-delay:${delay}ms">
+      <div class="time-col">
+        <div class="time-main">${h}:${m}</div>
+        <span class="time-ampm">${ampm}</span>
+      </div>
+      <div class="info-col">
+        <div class="course-name">${t.courseName}</div>
+        <div class="course-meta">${tags}</div>
+      </div>
+      <div class="action-col">
+        ${t.pricePerPlayer
+          ? `<div class="price">$${t.pricePerPlayer}</div>
+             <div class="price-label">CAD / player</div>`
+          : `<div class="price" style="font-size:14px;color:var(--ink-60)">TBD</div>`}
+        ${bookBtn}
+        ${!isMember ? `<button class="alert-btn" onclick="prefillAlert('${t.courseId}','${t.date}','${t.time}')">
+          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          Set alert
+        </button>` : ''}
+      </div>
+    </div>`;
+}
+
+function parseTime12h(time24) {
+  const [hh, mm] = time24.split(':').map(Number);
+  const ampm = hh >= 12 ? 'PM' : 'AM';
+  const h = hh % 12 || 12;
+  return { h, m: String(mm).padStart(2, '0'), ampm };
+}
+
+function updateStats() {
+  const pub = allTeeTimes.filter(t => !t.membersOnly);
+  document.getElementById('statTotal').textContent = pub.length;
+  document.getElementById('statMinute').textContent = pub.filter(t => t.source === 'minutegolf').length;
+  document.getElementById('statChrono').textContent = pub.filter(t => t.source === 'chronogolf').length;
+  document.getElementById('statCourses').textContent = new Set(pub.map(t => t.courseId)).size;
+}
+
+// ─────────────────────────────────────
+// ALERTS
+// ─────────────────────────────────────
+function selectAlertType(type) {
+  alertType = type;
+  document.getElementById('typeDate').classList.toggle('active', type === 'date-window');
+  document.getElementById('typeCourse').classList.toggle('active', type === 'course');
+  document.getElementById('alertFormDateWindow').style.display = type === 'date-window' ? '' : 'none';
+  document.getElementById('alertFormCourse').style.display = type === 'course' ? '' : 'none';
+}
+
+function prefillAlert(courseId, date, time) {
+  scrollToAlerts();
+  // Pre-fill the alert form with this tee time's details
+  const [hh] = time.split(':').map(Number);
+  const timeFrom = `${String(Math.max(0, hh - 1)).padStart(2,'0')}:00`;
+  const timeTo   = `${String(Math.min(23, hh + 2)).padStart(2,'0')}:00`;
+
+  if (alertType === 'date-window') {
+    document.getElementById('alertDate').value = date;
+    document.getElementById('alertTimeFrom').value = timeFrom;
+    document.getElementById('alertTimeTo').value = timeTo;
+  } else {
+    document.getElementById('alertCourse').value = courseId;
+  }
+
+  document.getElementById('alertContact').focus();
+}
+
+async function createAlert() {
+  const contact = document.getElementById('alertContact').value.trim();
+  if (!contact) { toast('Please enter an email or phone number.'); return; }
+
+  const alert = {
+    id: Date.now(),
+    type: alertType,
+    contact,
+    courseId: alertType === 'course' ? document.getElementById('alertCourse').value : null,
+    date: alertType === 'date-window' ? document.getElementById('alertDate').value : null,
+    timeFrom: alertType === 'date-window' ? document.getElementById('alertTimeFrom').value : null,
+    timeTo: alertType === 'date-window' ? document.getElementById('alertTimeTo').value : null,
+    players: document.getElementById('alertPlayers').value || null,
+    createdAt: new Date().toISOString(),
+  };
+
+  // Send to backend
+  if (!DEMO_MODE) {
+    try {
+      await fetch(`${API_BASE}/alerts`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(alert),
+      });
+    } catch {}
+  }
+
+  // Store locally too
+  localAlerts.push(alert);
+  localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
+
+  renderLocalAlerts();
+  document.getElementById('alertContact').value = '';
+  toast('Alert created! We\'ll notify you when a tee time opens up.');
+}
+
+function deleteAlert(id) {
+  localAlerts = localAlerts.filter(a => a.id !== id);
+  localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
+  renderLocalAlerts();
+}
+
+function renderLocalAlerts() {
+  const card = document.getElementById('activeAlertsCard');
+  const list = document.getElementById('alertsList');
+  const count = document.getElementById('headerAlertCount');
+
+  if (localAlerts.length === 0) {
+    card.style.display = 'none';
+    count.style.display = 'none';
+    return;
+  }
+
+  card.style.display = '';
+  count.style.display = '';
+  count.textContent = localAlerts.length;
+
+  list.innerHTML = localAlerts.map(a => {
+    const desc = a.type === 'date-window'
+      ? `${a.date} · ${formatTime12hShort(a.timeFrom)} – ${formatTime12hShort(a.timeTo)}`
+      : `${courses.find(c => c.id === a.courseId)?.name || 'Any course'}`;
+    return `
+      <div class="alert-item">
+        <div>
+          <div class="alert-item-text">${desc}</div>
+          <div class="alert-item-sub">${a.contact}${a.players ? ` · ${a.players} players` : ''}</div>
+        </div>
+        <button class="delete-alert-btn" onclick="deleteAlert(${a.id})" title="Cancel alert">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+          </svg>
+        </button>
+      </div>`;
+  }).join('');
+}
+
+function formatTime12hShort(t) {
+  if (!t) return '';
+  const { h, m, ampm } = { ...(() => { const [hh,mm] = t.split(':').map(Number); return { h: hh%12||12, m: String(mm).padStart(2,'0'), ampm: hh>=12?'PM':'AM' }; })() };
+  return `${h}:${m} ${ampm}`;
+}
+
+function populateCourseDropdown() {
+  const sel = document.getElementById('alertCourse');
+  sel.innerHTML = '<option value="">Any course</option>' +
+    courses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+}
+
+function scrollToAlerts() {
+  document.getElementById('alertsAnchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ─────────────────────────────────────
+// TOAST
+// ─────────────────────────────────────
+function toast(msg) {
+  const el = document.createElement('div');
+  el.className = 'toast';
+  el.textContent = msg;
+  document.getElementById('toastContainer').appendChild(el);
+  setTimeout(() => el.remove(), 3200);
+}
+
+// ─────────────────────────────────────
+// MOCK DATA (for demo without backend)
+// ─────────────────────────────────────
+function generateMockData() {
+  const today = document.getElementById('filterDate').value || new Date().toISOString().split('T')[0];
+  const courses = [
+    { id: 'golf-dorval', name: 'Golf Dorval', source: 'minutegolf' },
+    { id: 'anjou', name: 'Club de Golf Metropolitain Anjou', source: 'chronogolf' },
+    { id: 'beaconsfield', name: 'Golf Beaconsfield', source: 'chronogolf' },
+    { id: 'laval', name: 'Laval-sur-le-Lac', source: 'minutegolf' },
+    { id: 'islesmere', name: 'Club de Golf Islesmere', source: 'chronogolf' },
+    { id: 'royal-montreal', name: 'Royal Montreal Golf Club', source: 'minutegolf' },
+  ];
+
+  const times = [];
+  const baseHours = [6,7,7,8,8,8,9,9,10,10,10,11,11,12,13,14,15,16,17];
+
+  for (const course of courses) {
+    const numSlots = 3 + Math.floor(Math.random() * 5);
+    const shuffled = [...baseHours].sort(() => Math.random() - 0.5).slice(0, numSlots);
+
+    for (const hour of shuffled) {
+      const mins = [0, 8, 16, 24, 32, 40, 48][Math.floor(Math.random() * 7)];
+      const time = `${String(hour).padStart(2,'0')}:${String(mins).padStart(2,'0')}`;
+      const isMember = Math.random() < 0.12;
+      const players = [2, 2, 3, 4][Math.floor(Math.random() * 4)];
+      const price = isMember ? null : Math.round((35 + Math.random() * 55) / 5) * 5;
+
+      times.push({
+        id: `${course.source}-${course.id}-${today}-${time}`,
+        source: course.source,
+        courseId: course.id,
+        courseName: course.name,
+        date: today,
+        time,
+        holes: Math.random() < 0.15 ? 9 : 18,
+        players,
+        pricePerPlayer: price,
+        currency: 'CAD',
+        membersOnly: isMember,
+        bookingUrl: course.source === 'minutegolf'
+          ? `https://www.minutegolf.ca/en/reservations?date=${today}&course=${course.id}`
+          : `https://www.chronogolf.ca/club/${course.id}/teetimes?date=${today}`,
+        scrapedAt: new Date(),
+      });
+    }
+  }
+
+  return times;
+}
+</script>
+</body>
+</html>
