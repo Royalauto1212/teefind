@@ -16,19 +16,13 @@
     --green-500: #4d8a18;
     --green-400: #63a824;
     --green-200: #c0dd97;
-    --green-100: #e0efcc;
     --green-50:  #f2f8ea;
-    --sand-900: #2c2416;
     --sand-700: #6b5a3a;
-    --sand-400: #b09060;
-    --sand-200: #e8d8b8;
     --sand-100: #f5eedd;
     --sand-50:  #faf7f0;
     --sky-600:  #185FA5;
-    --sky-100:  #daeaf8;
     --sky-50:   #eef5fc;
     --red-600:  #c0392b;
-    --red-50:   #fdf0ef;
     --ink:      #1a1c18;
     --ink-60:   rgba(26,28,24,0.6);
     --ink-30:   rgba(26,28,24,0.3);
@@ -44,879 +38,294 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--sand-50); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
-  body {
-    font-family: 'DM Sans', sans-serif;
-    background: var(--sand-50);
-    color: var(--ink);
-    min-height: 100vh;
-    font-size: 15px;
-    line-height: 1.5;
-    -webkit-font-smoothing: antialiased;
-  }
-
-  /* ── HEADER ── */
-  header {
-    background: var(--green-900);
-    padding: 0 2rem;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    height: 60px;
-    border-bottom: 1px solid rgba(255,255,255,0.06);
-  }
-
-  .logo {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    text-decoration: none;
-  }
-
-  .logo-mark {
-    width: 32px; height: 32px;
-    background: var(--green-500);
-    border-radius: var(--radius-sm);
-    display: flex; align-items: center; justify-content: center;
-  }
-
+  /* HEADER */
+  header { background: var(--green-900); padding: 0 2rem; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 60px; border-bottom: 1px solid rgba(255,255,255,0.06); }
+  .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .logo-mark { width: 32px; height: 32px; background: var(--green-500); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
   .logo-mark svg { width: 18px; height: 18px; }
-
-  .logo-text {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--white);
-    letter-spacing: -0.02em;
-  }
-
-  .logo-text em {
-    color: var(--green-400);
-    font-style: normal;
-  }
-
-  .header-right {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-  }
-
-  .status-pill {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    color: rgba(255,255,255,0.5);
-    padding: 4px 10px;
-    border: 1px solid rgba(255,255,255,0.1);
-    border-radius: 20px;
-  }
-
-  .status-dot {
-    width: 6px; height: 6px;
-    border-radius: 50%;
-    background: var(--green-400);
-    animation: pulse 2s infinite;
-  }
-
-  @keyframes pulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.4; }
-  }
-
-  .alerts-btn {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    padding: 6px 14px;
-    background: rgba(255,255,255,0.08);
-    border: 1px solid rgba(255,255,255,0.12);
-    border-radius: var(--radius-md);
-    color: rgba(255,255,255,0.85);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    cursor: pointer;
-    transition: background var(--transition);
-  }
+  .logo-text { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--white); letter-spacing: -0.02em; }
+  .logo-text em { color: var(--green-400); font-style: normal; }
+  .header-right { display: flex; align-items: center; gap: 12px; }
+  .status-pill { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.5); padding: 4px 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; }
+  .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); animation: pulse 2s infinite; }
+  @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
+  .alerts-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; transition: background var(--transition); }
   .alerts-btn:hover { background: rgba(255,255,255,0.14); }
+  .alert-count { background: #e74c3c; color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; min-width: 16px; text-align: center; }
 
-  .alert-count {
-    background: #e74c3c;
-    color: white;
-    font-size: 10px;
-    font-weight: 600;
-    padding: 1px 5px;
-    border-radius: 8px;
-    min-width: 16px;
-    text-align: center;
-  }
+  /* HERO */
+  .hero { background: var(--green-800); padding: 2.5rem 2rem 0; position: relative; }
+  .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(255,255,255,0.012) 60px,rgba(255,255,255,0.012) 61px); pointer-events: none; }
+  .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px,4vw,44px); color: var(--white); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .hero h1 em { font-style: italic; color: var(--green-200); }
+  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 1.75rem; }
 
-  /* ── HERO STRIP ── */
-  .hero {
-    background: var(--green-800);
-    padding: 2.5rem 2rem 0;
-    position: relative;
-    overflow: hidden;
-  }
+  /* FILTER CARD */
+  .filter-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 1.5rem 1.75rem; box-shadow: var(--shadow-float); position: sticky; top: 60px; z-index: 90; }
+  .filter-row-main { display: grid; grid-template-columns: 150px 130px 110px 110px 120px 120px auto; gap: 12px; align-items: end; }
 
-  .hero::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: repeating-linear-gradient(
-      45deg,
-      transparent,
-      transparent 60px,
-      rgba(255,255,255,0.012) 60px,
-      rgba(255,255,255,0.012) 61px
-    );
-    pointer-events: none;
-  }
-
-  .hero-inner {
-    max-width: 1100px;
-    margin: 0 auto;
-    position: relative;
-  }
-
-  .hero h1 {
-    font-family: 'DM Serif Display', serif;
-    font-size: clamp(28px, 4vw, 44px);
-    color: var(--white);
-    line-height: 1.1;
-    letter-spacing: -0.02em;
-    margin-bottom: 0.4rem;
-  }
-
-  .hero h1 em {
-    font-style: italic;
-    color: var(--green-200);
-  }
-
-  .hero-sub {
-    font-size: 15px;
-    color: rgba(255,255,255,0.55);
-    margin-bottom: 1.75rem;
-  }
-
-  /* ── FILTER CARD ── */
-  .filter-card {
-    background: var(--white);
-    border-radius: var(--radius-xl) var(--radius-xl) 0 0;
-    padding: 1.5rem 1.75rem 0;
-    box-shadow: var(--shadow-float);
-  }
-
-  .filter-grid {
-    display: grid;
-    grid-template-columns: 160px 1fr 130px 130px 130px auto;
-    gap: 12px;
-    align-items: end;
-    margin-bottom: 1.25rem;
-  }
-
-  .field label {
-    display: block;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--ink-60);
-    margin-bottom: 6px;
-  }
-
-  .field input,
-  .field select {
-    width: 100%;
-    height: 42px;
-    border: 1.5px solid var(--ink-10);
-    border-radius: var(--radius-md);
-    padding: 0 12px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    color: var(--ink);
-    background: var(--sand-50);
-    appearance: none;
-    transition: border-color var(--transition), box-shadow var(--transition);
-    outline: none;
-  }
-
-  .field input:focus,
-  .field select:focus {
-    border-color: var(--green-500);
-    box-shadow: 0 0 0 3px rgba(77,138,24,0.12);
-    background: var(--white);
-  }
-
+  .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 6px; }
+  .field input, .field select { width: 100%; height: 42px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: var(--sand-50); appearance: none; transition: border-color var(--transition), box-shadow var(--transition); outline: none; }
+  .field input:focus, .field select:focus { border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(77,138,24,0.12); background: var(--white); }
   .field.select-wrap { position: relative; }
-  .field.select-wrap::after {
-    content: '';
-    position: absolute;
-    right: 12px;
-    bottom: 14px;
-    width: 0; height: 0;
-    border-left: 4px solid transparent;
-    border-right: 4px solid transparent;
-    border-top: 5px solid var(--ink-30);
-    pointer-events: none;
-  }
+  .field.select-wrap::after { content: ''; position: absolute; right: 12px; bottom: 14px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--ink-30); pointer-events: none; }
 
-  .search-btn {
-    height: 42px;
-    padding: 0 24px;
-    background: var(--green-600);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 7px;
-    white-space: nowrap;
-    transition: background var(--transition), transform var(--transition);
-  }
+  .search-btn { height: 42px; padding: 0 24px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; transition: background var(--transition), transform var(--transition); }
   .search-btn:hover { background: var(--green-500); }
   .search-btn:active { transform: scale(0.98); }
-  .search-btn.loading { opacity: 0.7; cursor: wait; }
+  .search-btn.loading { opacity: .7; cursor: wait; }
 
-  .filter-tabs {
-    display: flex;
-    gap: 0;
-    border-bottom: 1.5px solid var(--ink-10);
-  }
+  /* CLUB FILTER ROW */
+  .filter-row-clubs { margin-top: 12px; border-top: 1.5px solid var(--ink-10); padding-top: 12px; display: none; }
+  .filter-row-clubs.open { display: block; }
 
-  .filter-tab {
-    padding: 10px 20px;
-    font-size: 13px;
-    font-weight: 500;
-    color: var(--ink-60);
-    cursor: pointer;
-    border-bottom: 2.5px solid transparent;
-    margin-bottom: -1.5px;
-    transition: color var(--transition), border-color var(--transition);
-    user-select: none;
-  }
+  .club-filter-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  .club-filter-title { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); }
+  .club-filter-actions { display: flex; gap: 8px; }
+  .club-filter-action { font-size: 12px; font-weight: 500; color: var(--green-600); background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 0; }
+  .club-filter-action:hover { text-decoration: underline; }
+  .club-filter-sep { color: var(--ink-30); font-size: 12px; }
 
-  .filter-tab:hover { color: var(--ink); }
-  .filter-tab.active {
-    color: var(--green-600);
-    border-color: var(--green-600);
-  }
+  .club-search-input { width: 100%; height: 36px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; margin-bottom: 10px; }
+  .club-search-input:focus { border-color: var(--green-500); background: var(--white); }
 
-  /* ── MAIN LAYOUT ── */
-  .main {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 1.75rem 2rem;
-    display: grid;
-    grid-template-columns: 1fr 320px;
-    gap: 1.5rem;
-    align-items: start;
-  }
+  .club-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
+  .club-checkbox-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; color: var(--ink); transition: background var(--transition); user-select: none; }
+  .club-checkbox-item:hover { background: var(--sand-50); }
+  .club-checkbox-item.selected { background: var(--green-50); color: var(--green-700); font-weight: 500; }
+  .club-checkbox-item input[type="checkbox"] { accent-color: var(--green-600); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+  .club-checkbox-item.hidden { display: none; }
 
-  /* ── RESULTS ── */
-  .results-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-  }
+  /* Club filter toggle button */
+  .club-toggle-btn { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; background: none; border: 1.5px solid var(--ink-10); border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); }
+  .club-toggle-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .club-toggle-btn.active { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
+  .club-toggle-badge { background: var(--green-600); color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
 
-  .results-count {
-    font-size: 14px;
-    color: var(--ink-60);
-  }
+  /* MAIN */
+  .main { max-width: 1100px; margin: 0 auto; padding: 1.75rem 2rem; display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
+  .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
+  .results-count { font-size: 14px; color: var(--ink-60); }
+  .results-count strong { color: var(--ink); font-weight: 600; }
 
-  .results-count strong {
-    color: var(--ink);
-    font-weight: 600;
-  }
-
-  .sort-select {
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--ink);
-    background: var(--white);
-    border: 1.5px solid var(--ink-10);
-    border-radius: var(--radius-sm);
-    padding: 5px 10px;
-    cursor: pointer;
-    outline: none;
-  }
-
-  /* ── TEE TIME CARD ── */
-  .tee-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    border: 1.5px solid var(--ink-10);
-    padding: 1.1rem 1.25rem;
-    margin-bottom: 8px;
-    display: grid;
-    grid-template-columns: 90px 1fr auto;
-    gap: 16px;
-    align-items: center;
-    transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition);
-    animation: slideIn 0.25s ease both;
-  }
-
-  @keyframes slideIn {
-    from { opacity: 0; transform: translateY(8px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-
-  .tee-card:hover {
-    border-color: var(--green-200);
-    box-shadow: var(--shadow-card);
-    transform: translateY(-1px);
-  }
-
-  .tee-card.members-only {
-    opacity: 0.45;
-    background: var(--sand-50);
-  }
-
-  .time-col {
-    text-align: center;
-    border-right: 1.5px solid var(--ink-10);
-    padding-right: 16px;
-  }
-
-  .time-main {
-    font-family: 'DM Serif Display', serif;
-    font-size: 26px;
-    color: var(--ink);
-    line-height: 1;
-    letter-spacing: -0.02em;
-  }
-
-  .time-ampm {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--ink-60);
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    display: block;
-    margin-top: 1px;
-  }
-
+  /* TEE CARD */
+  .tee-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); padding: 1.1rem 1.25rem; margin-bottom: 8px; display: grid; grid-template-columns: 90px 1fr auto; gap: 16px; align-items: center; transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition); animation: slideIn .25s ease both; }
+  @keyframes slideIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
+  .tee-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); transform: translateY(-1px); }
+  .time-col { text-align: center; border-right: 1.5px solid var(--ink-10); padding-right: 16px; }
+  .time-main { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
+  .time-ampm { font-size: 11px; font-weight: 600; color: var(--ink-60); letter-spacing: .06em; text-transform: uppercase; display: block; margin-top: 1px; }
   .info-col { flex: 1; }
-
-  .course-name {
-    font-size: 15px;
-    font-weight: 600;
-    color: var(--ink);
-    margin-bottom: 4px;
-    line-height: 1.3;
-  }
-
-  .course-meta {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 6px;
-    font-size: 12px;
-    color: var(--ink-60);
-  }
-
+  .course-name { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
+  .course-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--ink-60); }
   .meta-sep { color: var(--ink-30); }
-
-  .source-badge {
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.03em;
-  }
-
-  .source-badge.minutegolf {
-    background: var(--sand-100);
-    color: var(--sand-700);
-  }
-
-  .source-badge.chronogolf {
-    background: var(--sky-50);
-    color: var(--sky-600);
-  }
-
-  .tag {
-    padding: 2px 7px;
-    border-radius: 4px;
-    font-size: 11px;
-    font-weight: 600;
-  }
-
-  .tag-amber {
-    background: #fef3d0;
-    color: #996600;
-  }
-
-  .tag-members {
-    background: var(--red-50);
-    color: var(--red-600);
-  }
-
-  .action-col {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 6px;
-    min-width: 110px;
-  }
-
-  .price {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--ink);
-    letter-spacing: -0.02em;
-    line-height: 1;
-  }
-
-  .price-label {
-    font-size: 11px;
-    color: var(--ink-60);
-    text-align: right;
-  }
-
-  .book-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    padding: 8px 14px;
-    background: var(--green-600);
-    color: white;
-    text-decoration: none;
-    border-radius: var(--radius-md);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    font-weight: 500;
-    width: 100%;
-    justify-content: center;
-    transition: background var(--transition);
-  }
+  .source-badge { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: .03em; }
+  .source-badge.minutegolf { background: var(--sand-100); color: var(--sand-700); }
+  .source-badge.chronogolf { background: var(--sky-50); color: var(--sky-600); }
+  .source-badge.foreup { background: var(--green-50); color: var(--green-700); }
+  .tag { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; }
+  .tag-amber { background: #fef3d0; color: #996600; }
+  .action-col { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 110px; }
+  .price { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
+  .price-label { font-size: 11px; color: var(--ink-60); text-align: right; }
+  .book-btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; width: 100%; justify-content: center; transition: background var(--transition); }
   .book-btn:hover { background: var(--green-500); }
-
   .book-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+  .alert-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; width: 100%; justify-content: center; transition: all var(--transition); }
+  .alert-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
 
-  .alert-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 4px;
-    padding: 5px 10px;
-    background: transparent;
-    color: var(--ink-60);
-    border: 1.5px solid var(--ink-10);
-    border-radius: var(--radius-sm);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 12px;
-    cursor: pointer;
-    width: 100%;
-    justify-content: center;
-    transition: all var(--transition);
-  }
-  .alert-btn:hover {
-    border-color: var(--green-400);
-    color: var(--green-600);
-    background: var(--green-50);
-  }
+  .empty-state, .select-prompt { text-align: center; padding: 4rem 2rem; color: var(--ink-60); }
+  .empty-state svg, .select-prompt svg { width: 48px; height: 48px; stroke: var(--ink-30); margin-bottom: 1rem; }
+  .empty-state h3, .select-prompt h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: .5rem; }
+  .empty-state p, .select-prompt p { font-size: 14px; max-width: 300px; margin: 0 auto; }
 
-  /* ── EMPTY STATE ── */
-  .empty-state {
-    text-align: center;
-    padding: 4rem 2rem;
-    color: var(--ink-60);
-  }
-
-  .empty-state svg {
-    width: 48px; height: 48px;
-    stroke: var(--ink-30);
-    margin-bottom: 1rem;
-  }
-
-  .empty-state h3 {
-    font-family: 'DM Serif Display', serif;
-    font-size: 20px;
-    color: var(--ink);
-    margin-bottom: 0.5rem;
-  }
-
-  .empty-state p { font-size: 14px; max-width: 300px; margin: 0 auto; }
-
-  /* ── SKELETON LOADER ── */
-  .skeleton-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    border: 1.5px solid var(--ink-10);
-    padding: 1.1rem 1.25rem;
-    margin-bottom: 8px;
-    display: grid;
-    grid-template-columns: 90px 1fr auto;
-    gap: 16px;
-    align-items: center;
-  }
-
-  .skel {
-    background: linear-gradient(90deg, var(--sand-100) 25%, var(--sand-50) 50%, var(--sand-100) 75%);
-    background-size: 200% 100%;
-    animation: shimmer 1.4s infinite;
-    border-radius: 4px;
-  }
-
-  @keyframes shimmer {
-    0% { background-position: 200% 0; }
-    100% { background-position: -200% 0; }
-  }
-
-  /* ── SIDEBAR ── */
+  /* SIDEBAR */
   .sidebar { position: sticky; top: 80px; }
-
-  .sidebar-card {
-    background: var(--white);
-    border-radius: var(--radius-lg);
-    border: 1.5px solid var(--ink-10);
-    overflow: hidden;
-    margin-bottom: 1rem;
-  }
-
-  .sidebar-header {
-    padding: 1rem 1.25rem 0.75rem;
-    border-bottom: 1.5px solid var(--ink-10);
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
-
-  .sidebar-header h2 {
-    font-size: 14px;
-    font-weight: 600;
-    color: var(--ink);
-  }
-
-  .sidebar-header svg {
-    width: 16px; height: 16px;
-    stroke: var(--green-600);
-  }
-
+  .sidebar-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 1rem; }
+  .sidebar-header { padding: 1rem 1.25rem .75rem; border-bottom: 1.5px solid var(--ink-10); display: flex; align-items: center; gap: 8px; }
+  .sidebar-header h2 { font-size: 14px; font-weight: 600; color: var(--ink); }
+  .sidebar-header svg { width: 16px; height: 16px; stroke: var(--green-600); }
   .sidebar-body { padding: 1.25rem; }
-
-  /* ── ALERT FORM ── */
-  .alert-type-grid {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-    margin-bottom: 1rem;
-  }
-
-  .alert-type-btn {
-    padding: 10px 8px;
-    border: 1.5px solid var(--ink-10);
-    border-radius: var(--radius-md);
-    background: var(--sand-50);
-    cursor: pointer;
-    text-align: center;
-    transition: all var(--transition);
-    font-family: 'DM Sans', sans-serif;
-  }
-
+  .alert-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
+  .alert-type-btn { padding: 10px 8px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); background: var(--sand-50); cursor: pointer; text-align: center; transition: all var(--transition); font-family: 'DM Sans', sans-serif; }
   .alert-type-btn:hover { border-color: var(--green-400); }
-
-  .alert-type-btn.active {
-    border-color: var(--green-500);
-    background: var(--green-50);
-  }
-
-  .alert-type-icon {
-    font-size: 20px;
-    margin-bottom: 4px;
-    display: block;
-  }
-
-  .alert-type-label {
-    font-size: 12px;
-    font-weight: 600;
-    color: var(--ink);
-    display: block;
-    margin-bottom: 2px;
-  }
-
-  .alert-type-sub {
-    font-size: 11px;
-    color: var(--ink-60);
-    line-height: 1.3;
-  }
-
+  .alert-type-btn.active { border-color: var(--green-500); background: var(--green-50); }
+  .alert-type-icon { font-size: 20px; margin-bottom: 4px; display: block; }
+  .alert-type-label { font-size: 12px; font-weight: 600; color: var(--ink); display: block; margin-bottom: 2px; }
+  .alert-type-sub { font-size: 11px; color: var(--ink-60); line-height: 1.3; }
   .form-row { margin-bottom: 10px; }
-  .form-row label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
-  .form-row input, .form-row select {
-    width: 100%;
-    height: 38px;
-    border: 1.5px solid var(--ink-10);
-    border-radius: var(--radius-md);
-    padding: 0 10px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 13px;
-    color: var(--ink);
-    background: var(--sand-50);
-    outline: none;
-    appearance: none;
-    transition: border-color var(--transition), box-shadow var(--transition);
-  }
-  .form-row input:focus, .form-row select:focus {
-    border-color: var(--green-500);
-    box-shadow: 0 0 0 3px rgba(77,138,24,0.12);
-    background: var(--white);
-  }
-
-  .time-range-row {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-
-  .create-alert-btn {
-    width: 100%;
-    height: 40px;
-    background: var(--green-600);
-    color: white;
-    border: none;
-    border-radius: var(--radius-md);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 6px;
-    margin-top: 12px;
-    transition: background var(--transition);
-  }
+  .form-row label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
+  .form-row input, .form-row select { width: 100%; height: 38px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; appearance: none; transition: border-color var(--transition), box-shadow var(--transition); }
+  .form-row input:focus, .form-row select:focus { border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(77,138,24,0.12); background: var(--white); }
+  .time-range-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+  .create-alert-btn { width: 100%; height: 40px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; transition: background var(--transition); }
   .create-alert-btn:hover { background: var(--green-500); }
-
-  /* ── ACTIVE ALERTS LIST ── */
-  .alert-item {
-    display: flex;
-    align-items: flex-start;
-    justify-content: space-between;
-    gap: 8px;
-    padding: 10px 0;
-    border-bottom: 1px solid var(--ink-10);
-    animation: slideIn 0.2s ease both;
-  }
+  .alert-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--ink-10); }
   .alert-item:last-child { border-bottom: none; }
-
   .alert-item-text { font-size: 12px; color: var(--ink); line-height: 1.4; }
   .alert-item-sub { font-size: 11px; color: var(--ink-60); margin-top: 2px; }
-
-  .delete-alert-btn {
-    background: none;
-    border: none;
-    cursor: pointer;
-    color: var(--ink-30);
-    padding: 2px 4px;
-    border-radius: 4px;
-    flex-shrink: 0;
-    transition: color var(--transition);
-  }
+  .delete-alert-btn { background: none; border: none; cursor: pointer; color: var(--ink-30); padding: 2px 4px; border-radius: 4px; flex-shrink: 0; transition: color var(--transition); }
   .delete-alert-btn:hover { color: var(--red-600); }
-
-  /* ── STATS SIDEBAR ── */
-  .stat-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 8px 0;
-    border-bottom: 1px solid var(--ink-10);
-    font-size: 13px;
-  }
+  .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--ink-10); font-size: 13px; }
   .stat-row:last-child { border-bottom: none; }
   .stat-label { color: var(--ink-60); }
   .stat-value { font-weight: 600; color: var(--ink); }
 
-  /* ── TOAST ── */
-  .toast-container {
-    position: fixed;
-    bottom: 1.5rem;
-    right: 1.5rem;
-    z-index: 999;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-    pointer-events: none;
-  }
+  .float-filter-btn { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 500; display: none; align-items: center; gap: 6px; padding: 10px 20px; background: var(--green-900); color: white; border: none; border-radius: 24px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 16px rgba(26,28,24,0.25); transition: background var(--transition), transform var(--transition); }
+  .float-filter-btn:hover { background: var(--green-700); transform: translateX(-50%) translateY(-2px); }
+  .float-filter-btn.visible { display: flex; animation: toastIn .25s ease both; }
+  .toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
+  .toast { background: var(--green-900); color: white; padding: 10px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-float); animation: toastIn .25s ease both, toastOut .3s ease 2.7s both; pointer-events: auto; }
+  @keyframes toastIn { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
+  @keyframes toastOut { to{opacity:0;transform:translateY(8px)} }
 
-  .toast {
-    background: var(--green-900);
-    color: white;
-    padding: 10px 16px;
-    border-radius: var(--radius-md);
-    font-size: 13px;
-    font-weight: 500;
-    box-shadow: var(--shadow-float);
-    animation: toastIn 0.25s ease both, toastOut 0.3s ease 2.7s both;
-    pointer-events: auto;
-  }
-
-  @keyframes toastIn {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
-  }
-  @keyframes toastOut {
-    to { opacity: 0; transform: translateY(8px); }
-  }
-
-  /* ── RESPONSIVE ── */
-  @media (max-width: 860px) {
-    .main { grid-template-columns: 1fr; }
-    .sidebar { position: static; }
-    .filter-grid { grid-template-columns: 1fr 1fr; }
-    .hero { padding: 1.5rem 1rem 0; }
-  }
-
-  @media (max-width: 540px) {
-    header { padding: 0 1rem; }
-    .hero h1 { font-size: 26px; }
-    .filter-grid { grid-template-columns: 1fr; }
-    .main { padding: 1rem; }
-    .tee-card { grid-template-columns: 70px 1fr; }
-    .action-col { display: none; }
-  }
+  @media (max-width: 900px) { .filter-row-main { grid-template-columns: 1fr 1fr 1fr; } .club-grid { grid-template-columns: repeat(2,1fr); } .main { grid-template-columns: 1fr; } .sidebar { position: static; } }
+  @media (max-width: 540px) { header { padding: 0 1rem; } .hero h1 { font-size: 26px; } .filter-row-main { grid-template-columns: 1fr 1fr; } .main { padding: 1rem; } .tee-card { grid-template-columns: 70px 1fr; } .action-col { display: none; } .club-grid { grid-template-columns: 1fr 1fr; } }
 </style>
 </head>
 <body>
 
-<!-- ── HEADER ── -->
 <header>
   <a href="/" class="logo">
     <div class="logo-mark">
-      <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-        <circle cx="12" cy="4.5" r="2.5" fill="white"/>
-        <line x1="12" y1="7" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/>
-        <line x1="8.5" y1="18" x2="15.5" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/>
-      </svg>
+      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.5" r="2.5" fill="white"/><line x1="12" y1="7" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
     </div>
     <span class="logo-text">Tee<em>Find</em></span>
   </a>
   <div class="header-right">
-    <div class="status-pill" id="statusPill">
-      <span class="status-dot"></span>
-      <span id="statusText">Loading...</span>
-    </div>
+    <div class="status-pill"><span class="status-dot"></span><span id="statusText">Loading...</span></div>
     <button class="alerts-btn" onclick="scrollToAlerts()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-        <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-        <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-      </svg>
-      Alerts
-      <span class="alert-count" id="headerAlertCount" style="display:none">0</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+      Alerts <span class="alert-count" id="headerAlertCount" style="display:none">0</span>
     </button>
   </div>
 </header>
 
-<!-- ── HERO + FILTER ── -->
 <div class="hero">
   <div class="hero-inner">
     <h1>Find a tee time,<br><em>instantly.</em></h1>
-    <p class="hero-sub">Searching Minute Golf &amp; Chrono Golf · Greater Montréal</p>
+    <p class="hero-sub">One search. Every tee time in Montreal.</p>
     <div class="filter-card">
-      <div class="filter-grid">
+
+      <!-- Main filter row -->
+      <div class="filter-row-main">
         <div class="field">
           <label>Date</label>
-          <input type="date" id="filterDate" />
-        </div>
-        <div class="field select-wrap">
-          <label>Time of day</label>
-          <select id="filterTime">
-            <option value="">Any time</option>
-            <option value="06:00-09:00">Early bird (6–9 AM)</option>
-            <option value="09:00-12:00">Morning (9 AM–12 PM)</option>
-            <option value="12:00-15:00">Early afternoon (12–3 PM)</option>
-            <option value="15:00-20:00">Late afternoon (3–8 PM)</option>
-          </select>
+          <input type="date" id="filterDate" onchange="applyFiltersAndRender()" />
         </div>
         <div class="field select-wrap">
           <label>Players</label>
-          <select id="filterPlayers">
+          <select id="filterPlayers" onchange="applyFiltersAndRender()">
+            <option value="">Select players</option>
+            <option value="1">1 player</option>
+            <option value="2">2 players</option>
+            <option value="3">3 players</option>
+            <option value="4">4 players</option>
+          </select>
+        </div>
+        <div class="field select-wrap">
+          <label>From</label>
+          <select id="filterTimeFrom" onchange="applyFiltersAndRender()">
             <option value="">Any</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
+            <option value="06:00">6 AM</option>
+            <option value="07:00">7 AM</option>
+            <option value="08:00">8 AM</option>
+            <option value="09:00">9 AM</option>
+            <option value="10:00">10 AM</option>
+            <option value="11:00">11 AM</option>
+            <option value="12:00">12 PM</option>
+            <option value="13:00">1 PM</option>
+            <option value="14:00">2 PM</option>
+            <option value="15:00">3 PM</option>
+            <option value="16:00">4 PM</option>
+            <option value="17:00">5 PM</option>
+          </select>
+        </div>
+        <div class="field select-wrap">
+          <label>To</label>
+          <select id="filterTimeTo" onchange="applyFiltersAndRender()">
+            <option value="">Any</option>
+            <option value="08:00">8 AM</option>
+            <option value="09:00">9 AM</option>
+            <option value="10:00">10 AM</option>
+            <option value="11:00">11 AM</option>
+            <option value="12:00">12 PM</option>
+            <option value="13:00">1 PM</option>
+            <option value="14:00">2 PM</option>
+            <option value="15:00">3 PM</option>
+            <option value="16:00">4 PM</option>
+            <option value="17:00">5 PM</option>
+            <option value="18:00">6 PM</option>
+            <option value="19:00">7 PM</option>
+            <option value="20:00">8 PM</option>
           </select>
         </div>
         <div class="field select-wrap">
           <label>Holes</label>
-          <select id="filterHoles">
+          <select id="filterHoles" onchange="applyFiltersAndRender()">
             <option value="">Any</option>
             <option value="9">9 holes</option>
             <option value="18">18 holes</option>
           </select>
         </div>
         <div class="field select-wrap">
-          <label>Source</label>
-          <select id="filterSource">
-            <option value="">All sources</option>
-            <option value="minutegolf">Minute Golf</option>
-            <option value="chronogolf">Chrono Golf</option>
+          <label>Sort by</label>
+          <select id="sortSelect" onchange="applySortAndRender()">
+            <option value="time">Time</option>
+            <option value="price-asc">Price ↑</option>
+            <option value="price-desc">Price ↓</option>
           </select>
         </div>
-        <button class="search-btn" onclick="doSearch()" id="searchBtn">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
-          </svg>
+        <button class="search-btn" id="searchBtn" onclick="doSearch()">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
           Search
         </button>
       </div>
-      <div class="filter-tabs">
-        <div class="filter-tab active" data-tab="all" onclick="switchTab(this,'all')">All times</div>
-        <div class="filter-tab" data-tab="minutegolf" onclick="switchTab(this,'minutegolf')">Minute Golf</div>
-        <div class="filter-tab" data-tab="chronogolf" onclick="switchTab(this,'chronogolf')">Chrono Golf</div>
-        <div class="filter-tab" data-tab="public" onclick="switchTab(this,'public')">Public only</div>
+
+      <!-- Club filter toggle -->
+      <button class="club-toggle-btn" id="clubToggleBtn" onclick="toggleClubPanel()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
+        Filter by club
+        <span class="club-toggle-badge" id="clubToggleBadge" style="display:none">0</span>
+      </button>
+
+      <!-- Club filter panel -->
+      <div class="filter-row-clubs" id="clubFilterPanel">
+        <div class="club-filter-header">
+          <span class="club-filter-title">Select clubs to include</span>
+          <div class="club-filter-actions">
+            <button class="club-filter-action" onclick="selectAllClubs()">Show all</button>
+            <span class="club-filter-sep">·</span>
+            <button class="club-filter-action" onclick="deselectAllClubs()">Check all</button>
+          </div>
+        </div>
+        <input type="text" class="club-search-input" id="clubSearch" placeholder="Search clubs..." oninput="filterClubGrid()" />
+        <div class="club-grid" id="clubGrid"></div>
       </div>
+
     </div>
   </div>
 </div>
 
-<!-- ── MAIN ── -->
 <div class="main">
-
-  <!-- Results column -->
   <div class="results-col">
     <div class="results-header">
-      <div class="results-count" id="resultsCount">
-        <strong id="countNum">—</strong> tee times found
-      </div>
-      <select class="sort-select" id="sortSelect" onchange="applySortAndRender()">
-        <option value="time">Sort by time</option>
-        <option value="price-asc">Price: low to high</option>
-        <option value="price-desc">Price: high to low</option>
-        <option value="source">By source</option>
-      </select>
+      <div class="results-count"><strong id="countNum">—</strong> tee times found</div>
     </div>
     <div id="resultsList"></div>
   </div>
 
-  <!-- Sidebar -->
   <aside class="sidebar" id="alertsAnchor">
-
-    <!-- Alert creator -->
     <div class="sidebar-card">
       <div class="sidebar-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/>
-          <path d="M13.73 21a2 2 0 0 1-3.46 0"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
         <h2>Cancellation alerts</h2>
       </div>
       <div class="sidebar-body">
-        <p style="font-size:13px; color:var(--ink-60); margin-bottom:1rem; line-height:1.5;">
-          Get notified by email or SMS when a tee time opens up that matches your criteria.
-        </p>
-
+        <p style="font-size:13px;color:var(--ink-60);margin-bottom:1rem;line-height:1.5;">Get notified by email or SMS when a tee time opens up that matches your criteria.</p>
         <div class="alert-type-grid">
           <button class="alert-type-btn active" id="typeDate" onclick="selectAlertType('date-window')">
             <span class="alert-type-icon">📅</span>
@@ -929,222 +338,155 @@
             <span class="alert-type-sub">Any opening at a specific course</span>
           </button>
         </div>
-
         <div id="alertFormDateWindow">
-          <div class="form-row">
-            <label>Date</label>
-            <input type="date" id="alertDate" />
-          </div>
-          <div class="form-row">
-            <label>Time window</label>
-            <div class="time-range-row">
-              <input type="time" id="alertTimeFrom" placeholder="From" value="07:00" />
-              <input type="time" id="alertTimeTo" placeholder="To" value="12:00" />
-            </div>
-          </div>
+          <div class="form-row"><label>Date</label><input type="date" id="alertDate" /></div>
+          <div class="form-row"><label>Time window</label><div class="time-range-row"><input type="time" id="alertTimeFrom" value="07:00"/><input type="time" id="alertTimeTo" value="12:00"/></div></div>
         </div>
-
-        <div id="alertFormCourse" style="display:none;">
-          <div class="form-row">
-            <label>Course</label>
-            <select id="alertCourse">
-              <option value="">Any course</option>
-            </select>
-          </div>
+        <div id="alertFormCourse" style="display:none">
+          <div class="form-row"><label>Course</label><select id="alertCourse"><option value="">Any course</option></select></div>
         </div>
-
-        <div class="form-row">
-          <label>Players needed</label>
-          <select id="alertPlayers">
-            <option value="">Any</option>
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-            <option value="4">4</option>
-          </select>
-        </div>
-
-        <div class="form-row">
-          <label>Notify me at</label>
-          <input type="text" id="alertContact" placeholder="email or +1 555 000 0000" />
-        </div>
-
+        <div class="form-row"><label>Players needed</label><select id="alertPlayers"><option value="">Any</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+        <div class="form-row"><label>Notify me at</label><input type="text" id="alertContact" placeholder="email or +1 555 000 0000"/></div>
         <button class="create-alert-btn" onclick="createAlert()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/>
-          </svg>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Create alert
         </button>
       </div>
     </div>
 
-    <!-- Active alerts -->
-    <div class="sidebar-card" id="activeAlertsCard" style="display:none;">
+    <div class="sidebar-card" id="activeAlertsCard" style="display:none">
       <div class="sidebar-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <polyline points="20 6 9 17 4 12"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
         <h2>Your alerts</h2>
       </div>
       <div class="sidebar-body" id="alertsList"></div>
     </div>
 
-    <!-- Stats card -->
     <div class="sidebar-card">
       <div class="sidebar-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <line x1="18" y1="20" x2="18" y2="10"/>
-          <line x1="12" y1="20" x2="12" y2="4"/>
-          <line x1="6" y1="20" x2="6" y2="14"/>
-        </svg>
+        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
         <h2>At a glance</h2>
       </div>
       <div class="sidebar-body">
         <div class="stat-row"><span class="stat-label">Available times</span><span class="stat-value" id="statTotal">—</span></div>
-        <div class="stat-row"><span class="stat-label">Minute Golf</span><span class="stat-value" id="statMinute">—</span></div>
-        <div class="stat-row"><span class="stat-label">Chrono Golf</span><span class="stat-value" id="statChrono">—</span></div>
         <div class="stat-row"><span class="stat-label">Courses</span><span class="stat-value" id="statCourses">—</span></div>
         <div class="stat-row"><span class="stat-label">Last refreshed</span><span class="stat-value" id="statRefresh">—</span></div>
       </div>
     </div>
-
   </aside>
 </div>
 
-<!-- Toast container -->
+<button class="float-filter-btn" id="floatFilterBtn" onclick="scrollToFilters()">
+  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+  Filters
+</button>
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// ─────────────────────────────────────
-// CONFIG — point to your backend
-// ─────────────────────────────────────
-const API_BASE = 'https://postage-legwarmer-traverse.ngrok-free.dev/api';
+const API_BASE  = 'https://postage-legwarmer-traverse.ngrok-free.dev/api';
+const DEMO_MODE = false;
 
-// For demo/development: use mock data when API is not reachable
-const DEMO_MODE = false; // Set to false when backend is running
-
-// ─────────────────────────────────────
-// STATE
-// ─────────────────────────────────────
-let allTeeTimes = [];
+let allTeeTimes      = [];
 let filteredTeeTimes = [];
-let activeTab = 'all';
-let alertType = 'date-window';
-let localAlerts = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
-let courses = [];
+let alertType        = 'date-window';
+let localAlerts      = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
+let selectedClubs    = new Set(); // empty = show all
+let allClubIds       = [];
 
-// ─────────────────────────────────────
-// INIT
-// ─────────────────────────────────────
+// ── INIT ──
 (async function init() {
-  // Set default date to today
   const today = new Date().toISOString().split('T')[0];
   document.getElementById('filterDate').value = today;
-  document.getElementById('alertDate').value = today;
-
-  if (DEMO_MODE) {
-    allTeeTimes = generateMockData();
-    courses = [...new Set(allTeeTimes.map(t => t.courseId))].map(id => ({
-      id,
-      name: allTeeTimes.find(t => t.courseId === id).courseName,
-    }));
-    updateStatus(new Date(), allTeeTimes.length);
-  } else {
-    await Promise.all([loadTeeTimes(), loadCourses(), loadStatus()]);
-  }
-
-  populateCourseDropdown();
+  document.getElementById('alertDate').value  = today;
+  await Promise.all([loadTeeTimes(), loadStatus(), loadCourses()]);
+  populateAlertCourseDropdown();
   renderLocalAlerts();
-  applyFiltersAndRender();
+  showPrompt();
 })();
 
-// ─────────────────────────────────────
-// API CALLS
-// ─────────────────────────────────────
+// ── API ──
 async function loadTeeTimes() {
   const date = document.getElementById('filterDate').value;
-  const params = new URLSearchParams({ date, membersOnly: 'false' });
   try {
-    const r = await fetch(`${API_BASE}/tee-times?${params}`, {
-  headers: { 'ngrok-skip-browser-warning': 'true' }
-});
+    const r    = await fetch(`${API_BASE}/tee-times?date=${date}&membersOnly=false`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
     const data = await r.json();
-    allTeeTimes = data.teeTimes;
-    updateStatus(data.lastUpdated, data.count);
+    allTeeTimes = data.teeTimes || [];
+    updateStatus(data.lastUpdated);
   } catch (e) {
-    console.warn('API not reachable — using mock data');
-    allTeeTimes = generateMockData();
-    updateStatus(new Date(), allTeeTimes.length);
+    console.warn('API error:', e.message);
+    allTeeTimes = [];
   }
 }
 
 async function loadCourses() {
   try {
-    const r = await fetch(`${API_BASE}/courses`);
-    courses = await r.json();
-  } catch {}
+    const r       = await fetch(`${API_BASE}/courses`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
+    const courses = await r.json();
+    allClubIds    = courses.map(c => c.id);
+    const grid    = document.getElementById('clubGrid');
+    grid.innerHTML = courses
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map(c => `
+        <label class="club-checkbox-item" data-name="${c.name.toLowerCase()}" data-id="${c.id}">
+          <input type="checkbox" onchange="onClubCheck(this, '${c.id}')" />
+          ${c.name}
+        </label>`).join('');
+  } catch (e) {
+    console.warn('Could not load courses:', e.message);
+  }
 }
 
 async function loadStatus() {
   try {
-    const r = await fetch(`${API_BASE}/status`);
+    const r = await fetch(`${API_BASE}/status`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
     const s = await r.json();
-    updateStatus(s.lastScrape, s.cachedTeeTimes);
+    updateStatus(s.lastScrape);
   } catch {}
 }
 
-function updateStatus(lastScrape, count) {
-  if (lastScrape) {
-    const d = new Date(lastScrape);
-    const mins = Math.round((Date.now() - d) / 60000);
-    document.getElementById('statusText').textContent =
-      mins < 2 ? 'Just updated' : `Updated ${mins}m ago`;
-    document.getElementById('statRefresh').textContent =
-      mins < 2 ? 'Just now' : `${mins}m ago`;
-  }
+function updateStatus(lastScrape) {
+  if (!lastScrape) return;
+  const mins = Math.round((Date.now() - new Date(lastScrape)) / 60000);
+  document.getElementById('statusText').textContent  = mins < 2 ? 'Just updated' : `Updated ${mins}m ago`;
+  document.getElementById('statRefresh').textContent = mins < 2 ? 'Just now'     : `${mins}m ago`;
 }
 
-// ─────────────────────────────────────
-// SEARCH & FILTER
-// ─────────────────────────────────────
+// ── SEARCH ──
 async function doSearch() {
   const btn = document.getElementById('searchBtn');
   btn.classList.add('loading');
   btn.textContent = 'Searching...';
-
-  if (!DEMO_MODE) {
-    await loadTeeTimes();
-  } else {
-    await new Promise(r => setTimeout(r, 600)); // simulate network
-    allTeeTimes = generateMockData();
-  }
-
+  await loadTeeTimes();
+  updateStats();
+  populateAlertCourseDropdown();
   btn.classList.remove('loading');
   btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
+  // Collapse club panel on search
+  document.getElementById('clubFilterPanel').classList.remove('open');
   applyFiltersAndRender();
 }
 
+// ── FILTERS ──
 function applyFiltersAndRender() {
-  const timeVal  = document.getElementById('filterTime').value;
   const players  = document.getElementById('filterPlayers').value;
+  const timeFrom = document.getElementById('filterTimeFrom').value;
+  const timeTo   = document.getElementById('filterTimeTo').value;
   const holes    = document.getElementById('filterHoles').value;
-  const source   = document.getElementById('filterSource').value;
+
+  if (!players) { showPrompt(); return; }
 
   let results = [...allTeeTimes];
 
-  // Tab filter
-  if (activeTab === 'minutegolf') results = results.filter(t => t.source === 'minutegolf');
-  else if (activeTab === 'chronogolf') results = results.filter(t => t.source === 'chronogolf');
-  else if (activeTab === 'public') results = results.filter(t => !t.membersOnly);
+  results = results.filter(t =>
+    t.source === 'foreup'
+      ? t.players >= parseInt(players)
+      : t.players === parseInt(players)
+  );
 
-  if (source) results = results.filter(t => t.source === source);
-  if (players) results = results.filter(t => t.players >= parseInt(players));
-  if (holes) results = results.filter(t => t.holes === parseInt(holes));
-
-  if (timeVal) {
-    const [from, to] = timeVal.split('-');
-    results = results.filter(t => t.time >= from && t.time <= to);
-  }
+  if (selectedClubs.size > 0) results = results.filter(t => selectedClubs.has(t.courseId));
+  if (holes)    results = results.filter(t => t.holes === parseInt(holes));
+  if (timeFrom) results = results.filter(t => t.time >= timeFrom);
+  if (timeTo)   results = results.filter(t => t.time <= timeTo);
 
   filteredTeeTimes = results;
   applySortAndRender();
@@ -1152,177 +494,224 @@ function applyFiltersAndRender() {
 }
 
 function applySortAndRender() {
-  const sort = document.getElementById('sortSelect').value;
+  const sort   = document.getElementById('sortSelect').value;
   const sorted = [...filteredTeeTimes];
-
-  if (sort === 'time') sorted.sort((a,b) => a.time.localeCompare(b.time));
-  else if (sort === 'price-asc') sorted.sort((a,b) => (a.pricePerPlayer||999) - (b.pricePerPlayer||999));
-  else if (sort === 'price-desc') sorted.sort((a,b) => (b.pricePerPlayer||0) - (a.pricePerPlayer||0));
-  else if (sort === 'source') sorted.sort((a,b) => a.source.localeCompare(b.source) || a.time.localeCompare(b.time));
-
+  if (sort === 'time')       sorted.sort((a,b) => a.time.localeCompare(b.time));
+  if (sort === 'price-asc')  sorted.sort((a,b) => (a.pricePerPlayer||999)-(b.pricePerPlayer||999));
+  if (sort === 'price-desc') sorted.sort((a,b) => (b.pricePerPlayer||0)-(a.pricePerPlayer||0));
   renderResults(sorted);
 }
 
-function switchTab(el, tab) {
-  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  activeTab = tab;
+// ── CLUB PANEL ──
+function toggleClubPanel() {
+  const panel = document.getElementById('clubFilterPanel');
+  const btn   = document.getElementById('clubToggleBtn');
+  const open  = panel.classList.toggle('open');
+  btn.classList.toggle('active', open);
+  if (open) document.getElementById('clubSearch').focus();
+}
+
+function onClubCheck(cb, id) {
+  if (cb.checked) {
+    selectedClubs.add(id);
+    cb.closest('.club-checkbox-item').classList.add('selected');
+  } else {
+    selectedClubs.delete(id);
+    cb.closest('.club-checkbox-item').classList.remove('selected');
+  }
+  updateClubBadge();
   applyFiltersAndRender();
 }
 
-// ─────────────────────────────────────
-// RENDER TEE TIMES
-// ─────────────────────────────────────
-function renderResults(times) {
-  const list = document.getElementById('resultsList');
-  const countEl = document.getElementById('countNum');
-  countEl.textContent = times.filter(t => !t.membersOnly).length;
+function selectAllClubs() {
+  // Select all = no filter (show everything)
+  document.querySelectorAll('.club-checkbox-item').forEach(label => {
+    label.querySelector('input').checked = false;
+    label.classList.remove('selected');
+  });
+  selectedClubs.clear();
+  updateClubBadge();
+  applyFiltersAndRender();
+}
 
-  if (times.length === 0) {
-    list.innerHTML = `
+function deselectAllClubs() {
+  // Deselect all = check all boxes so user can then uncheck the ones they don't want
+  document.querySelectorAll('.club-checkbox-item').forEach(label => {
+    const id = label.dataset.id;
+    const cb = label.querySelector('input');
+    cb.checked = true;
+    label.classList.add('selected');
+    selectedClubs.add(id);
+  });
+  updateClubBadge();
+  applyFiltersAndRender();
+}
+
+function filterClubGrid() {
+  const q = document.getElementById('clubSearch').value.toLowerCase();
+  document.querySelectorAll('.club-checkbox-item').forEach(item => {
+    item.classList.toggle('hidden', !item.dataset.name.includes(q));
+  });
+}
+
+function updateClubBadge() {
+  const badge = document.getElementById('clubToggleBadge');
+  const btn   = document.getElementById('clubToggleBtn');
+  if (selectedClubs.size > 0) {
+    badge.style.display = '';
+    badge.textContent   = selectedClubs.size;
+    btn.classList.add('active');
+  } else {
+    badge.style.display = 'none';
+    btn.classList.remove('active');
+    if (!document.getElementById('clubFilterPanel').classList.contains('open')) {
+      btn.classList.remove('active');
+    }
+  }
+}
+
+// ── RENDER ──
+function showPrompt() {
+  document.getElementById('countNum').textContent = '—';
+  document.getElementById('resultsList').innerHTML = `
+    <div class="select-prompt">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="1.5"/>
+        <circle cx="9" cy="7" r="4" stroke-width="1.5"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="1.5"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="1.5"/>
+      </svg>
+      <h3>How many players?</h3>
+      <p>Select the number of players above to see available tee times.</p>
+    </div>`;
+}
+
+function renderResults(times) {
+  document.getElementById('countNum').textContent = times.length;
+  if (!times.length) {
+    document.getElementById('resultsList').innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="4.5" r="2.5"/>
-          <line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/>
-          <line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/>
+          <circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/>
         </svg>
         <h3>No tee times found</h3>
-        <p>Try a different date, time range, or player count.</p>
+        <p>Try a different date, time, or club.</p>
       </div>`;
     return;
   }
-
-  list.innerHTML = times.map((t, i) => renderTeeCard(t, i)).join('');
+  document.getElementById('resultsList').innerHTML = times.map((t,i) => renderTeeCard(t,i)).join('');
 }
 
 function renderTeeCard(t, idx) {
-  const { h, m, ampm } = parseTime12h(t.time);
-  const isMember = t.membersOnly;
-  const delay = Math.min(idx * 30, 200);
-
-  const sourceClass = t.source === 'minutegolf' ? 'minutegolf' : 'chronogolf';
-  const sourceLabel = t.source === 'minutegolf' ? 'Minute Golf' : 'Chrono Golf';
-
+  const {h,m,ampm} = parseTime12h(t.time);
+  const delay    = Math.min(idx*30, 200);
+  const srcClass = t.source==='minutegolf'?'minutegolf':t.source==='foreup'?'foreup':'chronogolf';
+  const srcLabel = t.source==='minutegolf'?'Minute Golf':t.source==='foreup'?'Foreup':'Chrono Golf';
   const tags = [
-    `<span class="source-badge ${sourceClass}">${sourceLabel}</span>`,
+    `<span class="source-badge ${srcClass}">${srcLabel}</span>`,
     `${t.holes} holes`,
-    `${t.players} player${t.players !== 1 ? 's' : ''}`,
-    isMember ? '<span class="tag tag-members">Members only</span>' : '',
-    (!isMember && t.pricePerPlayer && t.pricePerPlayer < 40) ? '<span class="tag tag-amber">Great value</span>' : '',
+    `${t.players} player${t.players!==1?'s':''}`,
+    (t.minPlayers && t.players < t.minPlayers) ? `<span class="tag tag-amber">Min. ${t.minPlayers} players</span>` : '',
   ].filter(Boolean).join('<span class="meta-sep">·</span>');
 
-  const bookBtn = isMember
-    ? `<button class="book-btn" style="opacity:0.5;cursor:not-allowed;" disabled>Members only</button>`
-    : `<a class="book-btn" href="${t.bookingUrl}" target="_blank" rel="noopener">
-        Book
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
-          <path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/>
-          <polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/>
-        </svg>
-      </a>`;
-
   return `
-    <div class="tee-card ${isMember ? 'members-only' : ''}" style="animation-delay:${delay}ms">
+    <div class="tee-card" style="animation-delay:${delay}ms">
       <div class="time-col">
         <div class="time-main">${h}:${m}</div>
         <span class="time-ampm">${ampm}</span>
       </div>
       <div class="info-col">
-        <div class="course-name">${t.courseName}</div>
+        <div class="course-name">
+          ${t.courseUrl
+            ? `<a href="${t.courseUrl}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='var(--green-600)'" onmouseout="this.style.color='inherit'">${t.courseName} <span style="font-size:11px;opacity:0.6">↗</span></a>`
+            : t.courseName}
+        </div>
         <div class="course-meta">${tags}</div>
       </div>
       <div class="action-col">
         ${t.pricePerPlayer
-          ? `<div class="price">$${t.pricePerPlayer}</div>
-             <div class="price-label">CAD / player</div>`
+          ? `<div class="price">$${t.pricePerPlayer}</div><div class="price-label">CAD / player</div>`
           : `<div class="price" style="font-size:14px;color:var(--ink-60)">TBD</div>`}
-        ${bookBtn}
-        ${!isMember ? `<button class="alert-btn" onclick="prefillAlert('${t.courseId}','${t.date}','${t.time}')">
+        <a class="book-btn" href="${getBookingUrl(t)}" target="_blank" rel="noopener">
+          Book
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <button class="alert-btn" onclick="prefillAlert('${t.courseId}','${t.date}','${t.time}')">
           <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
           Set alert
-        </button>` : ''}
+        </button>
       </div>
     </div>`;
 }
 
-function parseTime12h(time24) {
-  const [hh, mm] = time24.split(':').map(Number);
-  const ampm = hh >= 12 ? 'PM' : 'AM';
-  const h = hh % 12 || 12;
-  return { h, m: String(mm).padStart(2, '0'), ampm };
+function getBookingUrl(t) {
+  const p = document.getElementById('filterPlayers').value || '1';
+  if (t.source==='chronogolf') return t.bookingUrl.replace(/nb_players=\d+/, 'nb_players='+p);
+  if (t.source==='foreup')     return t.bookingUrl;
+  return t.bookingUrl.replace(/nbplayers=\d+/, 'nbplayers='+p);
+}
+
+function parseTime12h(t) {
+  const [hh,mm] = t.split(':').map(Number);
+  return { h: hh%12||12, m: String(mm).padStart(2,'0'), ampm: hh>=12?'PM':'AM' };
 }
 
 function updateStats() {
   const pub = allTeeTimes.filter(t => !t.membersOnly);
-  document.getElementById('statTotal').textContent = pub.length;
-  document.getElementById('statMinute').textContent = pub.filter(t => t.source === 'minutegolf').length;
-  document.getElementById('statChrono').textContent = pub.filter(t => t.source === 'chronogolf').length;
+  document.getElementById('statTotal').textContent   = pub.length;
   document.getElementById('statCourses').textContent = new Set(pub.map(t => t.courseId)).size;
 }
 
-// ─────────────────────────────────────
-// ALERTS
-// ─────────────────────────────────────
+// ── ALERTS ──
 function selectAlertType(type) {
   alertType = type;
-  document.getElementById('typeDate').classList.toggle('active', type === 'date-window');
-  document.getElementById('typeCourse').classList.toggle('active', type === 'course');
-  document.getElementById('alertFormDateWindow').style.display = type === 'date-window' ? '' : 'none';
-  document.getElementById('alertFormCourse').style.display = type === 'course' ? '' : 'none';
+  document.getElementById('typeDate').classList.toggle('active', type==='date-window');
+  document.getElementById('typeCourse').classList.toggle('active', type==='course');
+  document.getElementById('alertFormDateWindow').style.display = type==='date-window'?'':'none';
+  document.getElementById('alertFormCourse').style.display     = type==='course'?'':'none';
+}
+
+function populateAlertCourseDropdown() {
+  const sel    = document.getElementById('alertCourse');
+  const unique = [...new Map(allTeeTimes.map(t => [t.courseId, t])).values()]
+    .sort((a,b) => a.courseName.localeCompare(b.courseName));
+  sel.innerHTML = '<option value="">Any course</option>' +
+    unique.map(t => `<option value="${t.courseId}">${t.courseName}</option>`).join('');
 }
 
 function prefillAlert(courseId, date, time) {
   scrollToAlerts();
-  // Pre-fill the alert form with this tee time's details
   const [hh] = time.split(':').map(Number);
-  const timeFrom = `${String(Math.max(0, hh - 1)).padStart(2,'0')}:00`;
-  const timeTo   = `${String(Math.min(23, hh + 2)).padStart(2,'0')}:00`;
-
-  if (alertType === 'date-window') {
-    document.getElementById('alertDate').value = date;
-    document.getElementById('alertTimeFrom').value = timeFrom;
-    document.getElementById('alertTimeTo').value = timeTo;
+  if (alertType==='date-window') {
+    document.getElementById('alertDate').value     = date;
+    document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
+    document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
   } else {
     document.getElementById('alertCourse').value = courseId;
   }
-
   document.getElementById('alertContact').focus();
 }
 
 async function createAlert() {
   const contact = document.getElementById('alertContact').value.trim();
   if (!contact) { toast('Please enter an email or phone number.'); return; }
-
   const alert = {
-    id: Date.now(),
-    type: alertType,
-    contact,
-    courseId: alertType === 'course' ? document.getElementById('alertCourse').value : null,
-    date: alertType === 'date-window' ? document.getElementById('alertDate').value : null,
-    timeFrom: alertType === 'date-window' ? document.getElementById('alertTimeFrom').value : null,
-    timeTo: alertType === 'date-window' ? document.getElementById('alertTimeTo').value : null,
-    players: document.getElementById('alertPlayers').value || null,
+    id: Date.now(), type: alertType, contact,
+    courseId: alertType==='course'      ? document.getElementById('alertCourse').value  : null,
+    date:     alertType==='date-window' ? document.getElementById('alertDate').value     : null,
+    timeFrom: alertType==='date-window' ? document.getElementById('alertTimeFrom').value : null,
+    timeTo:   alertType==='date-window' ? document.getElementById('alertTimeTo').value   : null,
+    players:  document.getElementById('alertPlayers').value || null,
     createdAt: new Date().toISOString(),
   };
-
-  // Send to backend
-  if (!DEMO_MODE) {
-    try {
-      await fetch(`${API_BASE}/alerts`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(alert),
-      });
-    } catch {}
-  }
-
-  // Store locally too
+  try {
+    await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'}, body:JSON.stringify(alert) });
+  } catch {}
   localAlerts.push(alert);
   localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
-
   renderLocalAlerts();
   document.getElementById('alertContact').value = '';
-  toast('Alert created! We\'ll notify you when a tee time opens up.');
+  toast("Alert created! We'll notify you when a tee time opens up.");
 }
 
 function deleteAlert(id) {
@@ -1332,116 +721,80 @@ function deleteAlert(id) {
 }
 
 function renderLocalAlerts() {
-  const card = document.getElementById('activeAlertsCard');
-  const list = document.getElementById('alertsList');
+  const card  = document.getElementById('activeAlertsCard');
+  const list  = document.getElementById('alertsList');
   const count = document.getElementById('headerAlertCount');
-
-  if (localAlerts.length === 0) {
-    card.style.display = 'none';
-    count.style.display = 'none';
-    return;
-  }
-
-  card.style.display = '';
-  count.style.display = '';
-  count.textContent = localAlerts.length;
-
+  if (!localAlerts.length) { card.style.display='none'; count.style.display='none'; return; }
+  card.style.display=''; count.style.display=''; count.textContent=localAlerts.length;
   list.innerHTML = localAlerts.map(a => {
-    const desc = a.type === 'date-window'
-      ? `${a.date} · ${formatTime12hShort(a.timeFrom)} – ${formatTime12hShort(a.timeTo)}`
-      : `${courses.find(c => c.id === a.courseId)?.name || 'Any course'}`;
-    return `
-      <div class="alert-item">
-        <div>
-          <div class="alert-item-text">${desc}</div>
-          <div class="alert-item-sub">${a.contact}${a.players ? ` · ${a.players} players` : ''}</div>
-        </div>
-        <button class="delete-alert-btn" onclick="deleteAlert(${a.id})" title="Cancel alert">
-          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-            <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-          </svg>
-        </button>
-      </div>`;
+    const desc = a.type==='date-window'
+      ? `${a.date} · ${fmt12(a.timeFrom)} – ${fmt12(a.timeTo)}`
+      : `${allTeeTimes.find(t=>t.courseId===a.courseId)?.courseName||'Any course'}`;
+    return `<div class="alert-item">
+      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div>
+      <button class="delete-alert-btn" onclick="deleteAlert(${a.id})">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+      </button>
+    </div>`;
   }).join('');
 }
 
-function formatTime12hShort(t) {
+function fmt12(t) {
   if (!t) return '';
-  const { h, m, ampm } = { ...(() => { const [hh,mm] = t.split(':').map(Number); return { h: hh%12||12, m: String(mm).padStart(2,'0'), ampm: hh>=12?'PM':'AM' }; })() };
-  return `${h}:${m} ${ampm}`;
-}
-
-function populateCourseDropdown() {
-  const sel = document.getElementById('alertCourse');
-  sel.innerHTML = '<option value="">Any course</option>' +
-    courses.map(c => `<option value="${c.id}">${c.name}</option>`).join('');
+  const [hh,mm] = t.split(':').map(Number);
+  return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
 }
 
 function scrollToAlerts() {
-  document.getElementById('alertsAnchor').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  document.getElementById('alertsAnchor').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// ─────────────────────────────────────
-// TOAST
-// ─────────────────────────────────────
 function toast(msg) {
   const el = document.createElement('div');
-  el.className = 'toast';
-  el.textContent = msg;
+  el.className='toast'; el.textContent=msg;
   document.getElementById('toastContainer').appendChild(el);
-  setTimeout(() => el.remove(), 3200);
+  setTimeout(()=>el.remove(), 3200);
 }
 
-// ─────────────────────────────────────
-// MOCK DATA (for demo without backend)
-// ─────────────────────────────────────
-function generateMockData() {
-  const today = document.getElementById('filterDate').value || new Date().toISOString().split('T')[0];
-  const courses = [
-    { id: 'golf-dorval', name: 'Golf Dorval', source: 'minutegolf' },
-    { id: 'anjou', name: 'Club de Golf Metropolitain Anjou', source: 'chronogolf' },
-    { id: 'beaconsfield', name: 'Golf Beaconsfield', source: 'chronogolf' },
-    { id: 'laval', name: 'Laval-sur-le-Lac', source: 'minutegolf' },
-    { id: 'islesmere', name: 'Club de Golf Islesmere', source: 'chronogolf' },
-    { id: 'royal-montreal', name: 'Royal Montreal Golf Club', source: 'minutegolf' },
-  ];
+// ── SCROLL BEHAVIOR ──
+let filterCardBottom = 0;
 
-  const times = [];
-  const baseHours = [6,7,7,8,8,8,9,9,10,10,10,11,11,12,13,14,15,16,17];
+function getFilterBottom() {
+  const fc = document.querySelector('.filter-card');
+  if (fc) filterCardBottom = fc.getBoundingClientRect().bottom + window.scrollY + 100;
+}
 
-  for (const course of courses) {
-    const numSlots = 3 + Math.floor(Math.random() * 5);
-    const shuffled = [...baseHours].sort(() => Math.random() - 0.5).slice(0, numSlots);
+let lastScrollY = 0;
+window.addEventListener('scroll', () => {
+  const scrollY  = window.scrollY;
+  const floatBtn = document.getElementById('floatFilterBtn');
 
-    for (const hour of shuffled) {
-      const mins = [0, 8, 16, 24, 32, 40, 48][Math.floor(Math.random() * 7)];
-      const time = `${String(hour).padStart(2,'0')}:${String(mins).padStart(2,'0')}`;
-      const isMember = Math.random() < 0.12;
-      const players = [2, 2, 3, 4][Math.floor(Math.random() * 4)];
-      const price = isMember ? null : Math.round((35 + Math.random() * 55) / 5) * 5;
-
-      times.push({
-        id: `${course.source}-${course.id}-${today}-${time}`,
-        source: course.source,
-        courseId: course.id,
-        courseName: course.name,
-        date: today,
-        time,
-        holes: Math.random() < 0.15 ? 9 : 18,
-        players,
-        pricePerPlayer: price,
-        currency: 'CAD',
-        membersOnly: isMember,
-        bookingUrl: course.source === 'minutegolf'
-          ? `https://www.minutegolf.ca/en/reservations?date=${today}&course=${course.id}`
-          : `https://www.chronogolf.ca/club/${course.id}/teetimes?date=${today}`,
-        scrapedAt: new Date(),
-      });
-    }
+  // Show float button when scrolled past filter card
+  if (scrollY > filterCardBottom) {
+    floatBtn.classList.add('visible');
+  } else {
+    floatBtn.classList.remove('visible');
   }
 
-  return times;
+  // Close club panel only after scrolling 200px past where it opened
+  const panel = document.getElementById('clubFilterPanel');
+  if (panel && panel.classList.contains('open')) {
+    if (scrollY > lastScrollY + 200) {
+      panel.classList.remove('open');
+      document.getElementById('clubToggleBtn').classList.remove('active');
+    }
+  } else {
+    lastScrollY = scrollY;
+  }
+}, { passive: true });
+
+function scrollToFilters() {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
 }
+
+// Calculate filter bottom after load
+window.addEventListener('load', () => setTimeout(getFilterBottom, 500));
+
 </script>
 </body>
 </html>
