@@ -122,6 +122,9 @@
   .source-badge.chronogolf { background: var(--sky-50); color: var(--sky-600); }
   .source-badge.foreup { background: var(--green-50); color: var(--green-700); }
   .holes-badge { font-size: 12px; color: var(--ink-60); }
+  .club-price { font-size: 12px; color: var(--green-700); font-weight: 600; margin-left: 4px; }
+  .club-weather { display: flex; align-items: center; gap: 3px; margin-left: 6px; }
+  .weather-loading { color: var(--ink-30); }
 
   /* TIME BUBBLES */
   .time-bubbles { display: flex; flex-wrap: wrap; gap: 6px; }
@@ -552,12 +555,11 @@ function applyFiltersAndRender() {
   }
 
   document.getElementById('resultsList').innerHTML = clubs.map((club, i) => renderClubCard(club, i)).join('');
+  setTimeout(loadWeatherForCards, 100);
 }
 
 // ── RENDER CLUB CARD ──
 function renderClubCard(club, idx) {
-  const srcClass = club.source === 'minutegolf' ? 'minutegolf' : club.source === 'foreup' ? 'foreup' : 'chronogolf';
-  const srcLabel = club.source === 'minutegolf' ? 'Minute Golf' : club.source === 'foreup' ? 'Foreup' : 'Chrono Golf';
   const cardId   = `club-${club.courseId}-${club.holes}`;
   const delay    = Math.min(idx * 40, 300);
 
@@ -580,14 +582,21 @@ function renderClubCard(club, idx) {
     ? `<a href="${club.courseUrl}" target="_blank" rel="noopener">${club.courseName} ↗</a>`
     : club.courseName;
 
+  // Min price across slots
+  const prices = club.slots.map(s => s.pricePerPlayer).filter(Boolean);
+  const minPrice = prices.length ? Math.min(...prices) : null;
+
   return `
     <div class="club-card" id="${cardId}" style="animation-delay:${delay}ms" data-slots='${JSON.stringify(slots)}'>
       <div class="club-card-header">
         <div class="club-card-left">
           <div class="club-card-name">${nameHtml}</div>
           <div class="club-card-meta">
-            <span class="source-badge ${srcClass}">${srcLabel}</span>
             <span class="holes-badge">${club.holes} holes</span>
+            <span class="club-price" id="price-${cardId}">${minPrice ? `from $${minPrice}` : ''}</span>
+            <span class="club-weather" id="weather-${cardId}">
+              <span class="weather-loading">·</span>
+            </span>
           </div>
         </div>
       </div>
@@ -856,6 +865,68 @@ function fmt12(t) {
   if (!t) return '';
   const [hh, mm] = t.split(':').map(Number);
   return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'PM' : 'AM'}`;
+}
+
+// ── CLUB COORDINATES ──
+const CLUB_COORDS = {
+  // Chrono Golf
+  '152':   { lat: 45.5048, lng: -73.6186 }, // Mystic Pines
+  '21560': { lat: 45.6189, lng: -73.7542 }, // Golf St-Rose
+  '1871':  { lat: 45.4477, lng: -73.7496 }, // Golf Dorval
+  '1584':  { lat: 45.6012, lng: -73.5589 }, // Anjou
+  '1845':  { lat: 45.5698, lng: -73.5673 }, // Golf Municipal
+  '1763':  { lat: 45.4989, lng: -73.5093 }, // Golf St-Lambert
+  '1740':  { lat: 45.5953, lng: -73.4394 }, // Golf des Îles
+  '1704':  { lat: 45.7419, lng: -73.9964 }, // Golf St-Janvier
+  '1589':  { lat: 45.6744, lng: -74.0891 }, // Mirabel Le Boisé
+  '1588':  { lat: 45.6744, lng: -74.0891 }, // Mirabel Le Campagnard
+  '23133': { lat: 45.7823, lng: -73.6234 }, // La Seigneurie
+  // Foreup
+  '8116':  { lat: 45.4050, lng: -73.6580 }, // Caughnawaga
+};
+
+const WMO_CODES = {
+  0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
+  45: '🌫️', 48: '🌫️',
+  51: '🌦️', 53: '🌦️', 55: '🌧️',
+  61: '🌧️', 63: '🌧️', 65: '🌧️',
+  71: '🌨️', 73: '🌨️', 75: '❄️',
+  80: '🌦️', 81: '🌧️', 82: '⛈️',
+  95: '⛈️', 96: '⛈️', 99: '⛈️',
+};
+
+const weatherCache = {};
+
+async function fetchWeather(courseId, lat, lng, date) {
+  const cacheKey = `${courseId}-${date}`;
+  if (weatherCache[cacheKey]) return weatherCache[cacheKey];
+
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&start_date=${date}&end_date=${date}`;
+    const r    = await fetch(url);
+    const data = await r.json();
+    const code = data.daily?.weathercode?.[0];
+    const tmax = Math.round(data.daily?.temperature_2m_max?.[0]);
+    const tmin = Math.round(data.daily?.temperature_2m_min?.[0]);
+    const result = { icon: WMO_CODES[code] || '🌤️', tmax, tmin };
+    weatherCache[cacheKey] = result;
+    return result;
+  } catch { return null; }
+}
+
+async function loadWeatherForCards() {
+  const date = document.getElementById('filterDate').value;
+  const cards = document.querySelectorAll('.club-card');
+  for (const card of cards) {
+    const cardId   = card.id;
+    const courseId = cardId.replace('club-', '').split('-').slice(0,-1).join('-');
+    const coords   = CLUB_COORDS[courseId];
+    if (!coords) continue;
+    const w = await fetchWeather(courseId, coords.lat, coords.lng, date);
+    if (!w) continue;
+    const weatherEl = document.getElementById(`weather-${cardId}`);
+    if (weatherEl) weatherEl.innerHTML = `<span style="font-size:16px">${w.icon}</span> <span style="font-size:12px;color:var(--ink-60)">${w.tmax}°C</span>`;
+  }
 }
 
 function scrollToAlerts() { document.getElementById('alertsAnchor').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
