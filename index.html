@@ -539,9 +539,21 @@ async function loadCourses() {
     const r = await fetch(`${API_BASE}/courses`);
     const courses = await r.json();
     allClubIds = courses.map(c => c.id);
-    document.getElementById('clubGrid').innerHTML = courses
-      .sort((a,b) => a.name.localeCompare(b.name))
-      .map(c => `<label class="club-checkbox-item" data-name="${c.name.toLowerCase()}" data-id="${c.id}"><input type="checkbox" onchange="onClubCheck(this,'${c.id}')"/>${c.name}</label>`)
+
+    // Group courses by parent name for the filter panel
+    const parentGroups = {};
+    for (const c of courses) {
+      const group = CLUB_GROUPS[c.id];
+      const parentName = group ? group.parent : c.name;
+      if (!parentGroups[parentName]) parentGroups[parentName] = [];
+      parentGroups[parentName].push(c.id);
+    }
+
+    document.getElementById('clubGrid').innerHTML = Object.entries(parentGroups)
+      .sort(([a],[b]) => a.localeCompare(b))
+      .map(([name, ids]) => `<label class="club-checkbox-item" data-name="${name.toLowerCase()}" data-ids="${ids.join(',')}">
+        <input type="checkbox" onchange="onClubCheckGroup(this,'${ids.join(',')}')"/>${name}
+      </label>`)
       .join('');
   } catch {}
 }
@@ -857,6 +869,13 @@ function onClubCheck(cb, id) {
   updateClubBadge(); applyFiltersAndRender();
 }
 
+function onClubCheckGroup(cb, idsStr) {
+  const ids = idsStr.split(',');
+  if (cb.checked) { ids.forEach(id => selectedClubs.add(id)); cb.closest('.club-checkbox-item').classList.add('selected'); }
+  else            { ids.forEach(id => selectedClubs.delete(id)); cb.closest('.club-checkbox-item').classList.remove('selected'); }
+  updateClubBadge(); applyFiltersAndRender();
+}
+
 function selectAllClubs() {
   selectedClubs.clear();
   document.querySelectorAll('.club-checkbox-item input').forEach(cb => { cb.checked=false; cb.closest('.club-checkbox-item').classList.remove('selected'); });
@@ -865,8 +884,10 @@ function selectAllClubs() {
 
 function checkAllClubs() {
   document.querySelectorAll('.club-checkbox-item').forEach(label => {
-    const id=label.dataset.id; const cb=label.querySelector('input');
-    cb.checked=true; label.classList.add('selected'); selectedClubs.add(id);
+    const ids = (label.dataset.ids || label.dataset.id || '').split(',');
+    const cb = label.querySelector('input');
+    cb.checked=true; label.classList.add('selected');
+    ids.forEach(id => selectedClubs.add(id));
   });
   updateClubBadge(); applyFiltersAndRender();
 }
