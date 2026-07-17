@@ -99,30 +99,41 @@
   .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .results-count { font-size: 14px; color: var(--ink-60); }
   .results-count strong { color: var(--ink); font-weight: 600; }
-  .sort-select { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--white); border: 1.5px solid var(--ink-10); border-radius: var(--radius-sm); padding: 5px 10px; cursor: pointer; outline: none; }
 
-  /* CLUB CARD */
-  .club-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
+  /* PARENT CLUB CARD */
+  .parent-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
   @keyframes slideIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
-  .club-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); }
+  .parent-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); }
 
-  .club-card-header { padding: 1.1rem 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: var(--white); }
-  .club-card-left { flex: 1; }
-  .club-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 4px; }
-  .club-card-name a { color: inherit; text-decoration: none; transition: color var(--transition); }
-  .club-card-name a:hover { color: var(--green-600); }
-  .club-card-subtitle { font-size: 13px; color: var(--ink-60); margin-bottom: 8px; }
-  .club-weather-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-  .club-weather-icon { font-size: 28px; line-height: 1; }
-  .club-weather-text { font-size: 13px; color: var(--ink-60); }
-  .club-weather-loading { font-size: 13px; color: var(--ink-30); }
+  .parent-card-header { padding: 1.1rem 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; cursor: pointer; user-select: none; }
+  .parent-card-left { flex: 1; }
+  .parent-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .parent-card-name a { color: inherit; text-decoration: none; }
+  .parent-card-name a:hover { color: var(--green-600); }
+  .parent-card-subtitle { font-size: 13px; color: var(--ink-60); margin-bottom: 6px; }
+  .parent-weather-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .parent-weather-icon { font-size: 26px; line-height: 1; }
+  .parent-weather-text { font-size: 13px; color: var(--ink-60); }
 
-  .club-card-right { text-align: right; flex-shrink: 0; }
-  .club-price-range { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--green-600); letter-spacing: -0.02em; line-height: 1; }
-  .club-price-label { font-size: 11px; color: var(--ink-60); margin-top: 2px; }
+  .parent-card-right { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
+  .parent-price-range { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--green-600); letter-spacing: -0.02em; line-height: 1; }
+  .parent-price-label { font-size: 11px; color: var(--ink-60); }
+  .expand-btn { display: flex; align-items: center; gap: 5px; padding: 6px 12px; background: var(--sand-50); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+  .expand-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .expand-btn.open { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
+  .expand-arrow { transition: transform var(--transition); }
+  .expand-btn.open .expand-arrow { transform: rotate(180deg); }
 
-  .club-card-bubbles { padding: 0.75rem 1.25rem 1.1rem; border-top: 1px solid var(--ink-10); background: var(--sand-50); }
+  /* COURSES INSIDE PARENT */
+  .parent-courses { display: none; border-top: 1.5px solid var(--ink-10); }
+  .parent-courses.open { display: block; }
 
+  .course-section { padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--ink-10); }
+  .course-section:last-child { border-bottom: none; }
+  .course-section-header { font-size: 13px; font-weight: 600; color: var(--ink-60); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; }
+  .course-bubbles-wrap { background: var(--sand-50); border-radius: var(--radius-md); padding: 10px 12px; }
+
+  /* TIME BUBBLES */
   .time-bubbles { display: flex; flex-wrap: wrap; gap: 5px; }
   .time-bubble { padding: 5px 11px; border-radius: 16px; border: 1.5px solid var(--ink-10); font-size: 12px; font-weight: 500; color: var(--ink); background: var(--white); cursor: pointer; transition: all var(--transition); user-select: none; }
   .time-bubble:hover { border-color: var(--green-400); background: var(--green-50); color: var(--green-700); }
@@ -134,7 +145,7 @@
   .slot-detail { margin-top: 8px; padding: 11px 14px; background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--green-200); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: slideIn .15s ease both; }
   .slot-detail-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
   .slot-detail-time { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); }
-  .slot-detail-weather { font-size: 14px; color: var(--ink-60); }
+  .slot-detail-weather { font-size: 13px; color: var(--ink-60); }
   .slot-detail-price { font-size: 15px; font-weight: 600; color: var(--ink); }
   .slot-detail-tax { font-size: 11px; color: var(--ink-60); }
   .slot-detail-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
@@ -144,6 +155,15 @@
   .alert-btn-sm { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
   .alert-btn-sm:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
   .min-players-note { font-size: 11px; color: #996600; background: #fef3d0; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+
+  /* STATIC CLUB CARD */
+  .static-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); padding: 1.1rem 1.25rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; animation: slideIn .25s ease both; }
+  .static-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); }
+  .static-card-name a { color: inherit; text-decoration: none; }
+  .static-card-name a:hover { color: var(--green-600); }
+  .static-card-sub { font-size: 13px; color: var(--ink-60); margin-top: 2px; }
+  .visit-btn { display: inline-flex; align-items: center; gap: 5px; padding: 9px 18px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; white-space: nowrap; transition: background var(--transition); }
+  .visit-btn:hover { background: var(--green-500); }
 
   .empty-state, .select-prompt { text-align: center; padding: 4rem 2rem; color: var(--ink-60); }
   .empty-state svg, .select-prompt svg { width: 48px; height: 48px; stroke: var(--ink-30); margin-bottom: 1rem; }
@@ -189,7 +209,7 @@
   @keyframes toastOut { to{opacity:0;transform:translateY(8px)} }
 
   @media (max-width: 900px) { .filter-row-main{grid-template-columns:1fr 1fr 1fr} .club-grid{grid-template-columns:repeat(2,1fr)} .main{grid-template-columns:1fr} .sidebar{position:static} }
-  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:26px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .club-card-name{font-size:18px} .club-price-range{font-size:20px} }
+  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:26px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .parent-card-name{font-size:18px} .parent-price-range{font-size:20px} }
 </style>
 </head>
 <body>
@@ -314,7 +334,6 @@
   <div class="results-col">
     <div class="results-header">
       <div class="results-count"><strong id="countNum">—</strong> clubs with available times</div>
-      <select class="sort-select" id="sortSelectTop" onchange="document.getElementById('sortSelect').value=this.value;applyFiltersAndRender()" style="display:none"></select>
     </div>
     <div id="resultsList"></div>
   </div>
@@ -384,19 +403,40 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-const API_BASE      = 'http://147.182.214.235:3001/api';
-const DEMO_MODE     = false;
-const BUBBLES_INIT  = 6;
-const ROUND_HOURS   = 4.5;
+const API_BASE     = 'http://147.182.214.235:3001/api';
+const BUBBLES_INIT = 6;
+const ROUND_HOURS  = 4.5;
 
-let allTeeTimes  = [];
-let alertType    = 'date-window';
-let localAlerts  = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
+let allTeeTimes   = [];
+let alertType     = 'date-window';
+let localAlerts   = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
 let selectedClubs = new Set();
-let allClubIds   = [];
-let activeSlot   = null;
+let allClubIds    = [];
+let activeSlot    = null; // { sectionId, slotId }
 
-// Weather
+// ── CLUB GROUPING ──
+// Maps courseId → parent club name and URL
+const CLUB_GROUPS = {
+  // Minute Golf
+  '127': { parent: 'Cardinal',        url: null },
+  '64':  { parent: 'Golf St-François', url: null },
+  '73':  { parent: 'Golf UFO',         url: null },
+  // Chrono Golf — Mirabel
+  '1589': { parent: 'Golf Mirabel', url: 'https://www.chronogolf.ca/club/club-de-golf-mirabel' },
+  '1588': { parent: 'Golf Mirabel', url: 'https://www.chronogolf.ca/club/club-de-golf-mirabel' },
+  // Chrono Golf — International 2000
+  '20766': { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
+  '1619':  { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
+  '1618':  { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
+};
+
+// Static clubs (no API)
+const STATIC_CLUBS = [
+  { name: 'Golf de l\'Île de Montréal', url: 'https://secure.gggolf.ca/iledemontreal/index.php?option=com_ggpublic&req=teetimes&lang=fr', holes: '18' },
+  { name: 'Le Versant',                 url: 'https://secure.gggolf.ca/versant/index.php?option=com_ggpublic&req=teetimes&lang=en',       holes: '9 & 18' },
+];
+
+// ── WEATHER ──
 const CLUB_COORDS = {
   '152':   { lat: 45.5048, lng: -73.6186 },
   '21560': { lat: 45.6189, lng: -73.7542 },
@@ -410,66 +450,47 @@ const CLUB_COORDS = {
   '1588':  { lat: 45.6744, lng: -74.0891 },
   '23133': { lat: 45.7823, lng: -73.6234 },
   '8116':  { lat: 45.4050, lng: -73.6580 },
-  // Minute Golf clubs
-  '127':   { lat: 45.5631, lng: -73.8012 }, // Cardinal
-  '64':    { lat: 45.5889, lng: -73.7456 }, // St-François
-  '73':    { lat: 45.5748, lng: -73.8234 }, // UFO (all courses)
+  '22977': { lat: 45.5200, lng: -73.6500 },
+  '20766': { lat: 45.5500, lng: -73.7800 },
+  '1619':  { lat: 45.5500, lng: -73.7800 },
+  '1618':  { lat: 45.5500, lng: -73.7800 },
+  '127':   { lat: 45.5631, lng: -73.8012 },
+  '64':    { lat: 45.5889, lng: -73.7456 },
+  '73':    { lat: 45.5748, lng: -73.8234 },
 };
 
-const WMO = {
-  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
-  51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',
-  71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',
-  95:'⛈️',96:'⛈️',99:'⛈️'
-};
-
-const WMO_DESC = {
-  0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',
-  45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',
-  61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',
-  80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'
-};
+const WMO = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️' };
+const WMO_DESC = { 0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm' };
 
 const weatherCache = {};
 const hourlyCache  = {};
 
 async function fetchDailyWeather(courseId, lat, lng, date) {
-  const key = `daily-${courseId}-${date}`;
+  const key = `d-${courseId}-${date}`;
   if (weatherCache[key]) return weatherCache[key];
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&start_date=${date}&end_date=${date}`;
-    const r    = await fetch(url);
-    const data = await r.json();
-    const code = data.daily?.weathercode?.[0];
-    const result = {
-      icon: WMO[code] || '🌤️',
-      desc: WMO_DESC[code] || '',
-      tmax: Math.round(data.daily?.temperature_2m_max?.[0]),
-      tmin: Math.round(data.daily?.temperature_2m_min?.[0]),
-    };
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&start_date=${date}&end_date=${date}`);
+    const d = await r.json();
+    const code = d.daily?.weathercode?.[0];
+    const result = { icon: WMO[code]||'🌤️', desc: WMO_DESC[code]||'', tmax: Math.round(d.daily?.temperature_2m_max?.[0]), tmin: Math.round(d.daily?.temperature_2m_min?.[0]) };
     weatherCache[key] = result;
     return result;
   } catch { return null; }
 }
 
 async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
-  const key = `hourly-${courseId}-${date}-${hour}`;
+  const key = `h-${courseId}-${date}-${hour}`;
   if (hourlyCache[key]) return hourlyCache[key];
   try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,weathercode&timezone=America%2FToronto&start_date=${date}&end_date=${date}`;
-    const r    = await fetch(url);
-    const data = await r.json();
-    const hours = data.hourly?.time || [];
-    const idx   = hours.findIndex(t => t.includes(`T${String(hour).padStart(2,'0')}:`));
-    const endH  = Math.min(hour + Math.ceil(ROUND_HOURS), 23);
-    const endIdx = hours.findIndex(t => t.includes(`T${String(endH).padStart(2,'0')}:`));
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,weathercode&timezone=America%2FToronto&start_date=${date}&end_date=${date}`);
+    const d = await r.json();
+    const hours = d.hourly?.time || [];
+    const idx = hours.findIndex(t => t.includes(`T${String(hour).padStart(2,'0')}:`));
     if (idx < 0) return null;
-    const temps   = data.hourly.temperature_2m.slice(idx, endIdx > 0 ? endIdx + 1 : idx + 5);
-    const codes   = data.hourly.weathercode.slice(idx, endIdx > 0 ? endIdx + 1 : idx + 5);
-    const tStart  = Math.round(temps[0]);
-    const tEnd    = Math.round(temps[temps.length - 1]);
-    const codeEnd = codes[codes.length - 1];
-    const result  = { tStart, tEnd, icon: WMO[codes[0]] || '🌤️', iconEnd: WMO[codeEnd] || '🌤️' };
+    const endIdx = Math.min(idx + Math.ceil(ROUND_HOURS), hours.length - 1);
+    const temps = d.hourly.temperature_2m.slice(idx, endIdx + 1);
+    const codes = d.hourly.weathercode.slice(idx, endIdx + 1);
+    const result = { tStart: Math.round(temps[0]), tEnd: Math.round(temps[temps.length-1]), icon: WMO[codes[0]]||'🌤️', iconEnd: WMO[codes[codes.length-1]]||'🌤️' };
     hourlyCache[key] = result;
     return result;
   } catch { return null; }
@@ -485,8 +506,7 @@ async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
   renderLocalAlerts();
   showPrompt();
 
-  let filterBottom = 0;
-  let lastScrollY  = 0;
+  let filterBottom = 0, lastScrollY = 0;
   window.addEventListener('load', () => setTimeout(() => {
     const fc = document.querySelector('.filter-card');
     if (fc) filterBottom = fc.getBoundingClientRect().bottom + window.scrollY + 100;
@@ -553,7 +573,7 @@ async function doSearch() {
   applyFiltersAndRender();
 }
 
-// ── FILTERS ──
+// ── FILTERS & GROUPING ──
 function applyFiltersAndRender() {
   const players  = document.getElementById('filterPlayers').value;
   const timeFrom = document.getElementById('filterTimeFrom').value;
@@ -570,31 +590,55 @@ function applyFiltersAndRender() {
   if (timeFrom) results = results.filter(t => t.time >= timeFrom);
   if (timeTo)   results = results.filter(t => t.time <= timeTo);
 
-  // Group by club+holes, deduplicate by time
-  const grouped = {};
+  // Group by courseId+holes (sub-course level)
+  const courseMap = {};
   for (const t of results) {
     const key = `${t.courseId}-${t.holes}`;
-    if (!grouped[key]) grouped[key] = { ...t, slots: [] };
-    grouped[key].slots.push(t);
+    if (!courseMap[key]) courseMap[key] = { ...t, slots: [] };
+    courseMap[key].slots.push(t);
   }
-  for (const key of Object.keys(grouped)) {
+  // Deduplicate slots by time within each sub-course
+  for (const key of Object.keys(courseMap)) {
     const seen = new Set();
-    grouped[key].slots = grouped[key].slots
+    courseMap[key].slots = courseMap[key].slots
       .filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; })
       .sort((a,b) => a.time.localeCompare(b.time));
   }
 
-  let clubs = Object.values(grouped);
-  if (sort === 'time')       clubs.sort((a,b) => a.slots[0].time.localeCompare(b.slots[0].time));
-  if (sort === 'price-asc')  clubs.sort((a,b) => (a.slots[0].pricePerPlayer||999)-(b.slots[0].pricePerPlayer||999));
-  if (sort === 'price-desc') clubs.sort((a,b) => (b.slots[0].pricePerPlayer||0)-(a.slots[0].pricePerPlayer||0));
-  if (sort === 'name')       clubs.sort((a,b) => a.courseName.localeCompare(b.courseName));
+  // Group sub-courses into parent clubs
+  const parentMap = {};
+  for (const course of Object.values(courseMap)) {
+    const group = CLUB_GROUPS[course.courseId];
+    const parentName = group ? group.parent : course.courseName;
+    const parentUrl  = group ? group.url    : course.courseUrl || null;
+    const primaryCoord = CLUB_COORDS[course.courseId];
 
-  document.getElementById('countNum').textContent = clubs.length;
+    if (!parentMap[parentName]) {
+      parentMap[parentName] = {
+        parentName,
+        parentUrl,
+        courseId: course.courseId, // for weather lookup
+        courses: [],
+        allSlots: [],
+      };
+    }
+    parentMap[parentName].courses.push(course);
+    parentMap[parentName].allSlots.push(...course.slots);
+  }
+
+  let parents = Object.values(parentMap);
+
+  // Sort parents
+  if (sort === 'time')       parents.sort((a,b) => a.allSlots[0]?.time.localeCompare(b.allSlots[0]?.time));
+  if (sort === 'price-asc')  parents.sort((a,b) => Math.min(...a.allSlots.map(s=>s.pricePerPlayer||999)) - Math.min(...b.allSlots.map(s=>s.pricePerPlayer||999)));
+  if (sort === 'price-desc') parents.sort((a,b) => Math.max(...b.allSlots.map(s=>s.pricePerPlayer||0))   - Math.max(...a.allSlots.map(s=>s.pricePerPlayer||0)));
+  if (sort === 'name')       parents.sort((a,b) => a.parentName.localeCompare(b.parentName));
+
+  document.getElementById('countNum').textContent = parents.length + STATIC_CLUBS.length;
   updateStats();
   activeSlot = null;
 
-  if (!clubs.length) {
+  if (!parents.length && !STATIC_CLUBS.length) {
     document.getElementById('resultsList').innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/></svg>
@@ -603,138 +647,150 @@ function applyFiltersAndRender() {
     return;
   }
 
-  document.getElementById('resultsList').innerHTML = clubs.map((c,i) => renderClubCard(c,i)).join('');
-  setTimeout(() => loadWeatherForCards(clubs), 100);
+  const dynamicHtml = parents.map((p, i) => renderParentCard(p, i)).join('');
+  const staticHtml  = STATIC_CLUBS.map((c, i) => `
+    <div class="static-card" style="animation-delay:${(parents.length + i) * 40}ms">
+      <div>
+        <div class="static-card-name"><a href="${c.url}" target="_blank" rel="noopener">${c.name} ↗</a></div>
+        <div class="static-card-sub">${c.holes} holes · Book directly on their website</div>
+      </div>
+      <a class="visit-btn" href="${c.url}" target="_blank" rel="noopener">Visit ↗</a>
+    </div>`).join('');
+
+  document.getElementById('resultsList').innerHTML = dynamicHtml + staticHtml;
+  setTimeout(() => loadWeatherForParents(parents), 100);
 }
 
-// ── RENDER CARD ──
-function renderClubCard(club, idx) {
-  const cardId   = `club-${club.courseId}-${club.holes}`;
+// ── RENDER PARENT CARD ──
+function renderParentCard(parent, idx) {
+  const cardId   = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
   const delay    = Math.min(idx * 40, 300);
-  const prices   = club.slots.map(s => s.pricePerPlayer).filter(Boolean);
+  const prices   = parent.allSlots.map(s => s.pricePerPlayer).filter(Boolean);
   const minPrice = prices.length ? Math.min(...prices) : null;
   const maxPrice = prices.length ? Math.max(...prices) : null;
   const priceHtml = minPrice
     ? (minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} – $${maxPrice}`)
     : 'TBD';
+  const nameHtml = parent.parentUrl
+    ? `<a href="${parent.parentUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${parent.parentName} ↗</a>`
+    : parent.parentName;
 
-  const nameHtml = club.courseUrl
-    ? `<a href="${club.courseUrl}" target="_blank" rel="noopener">${club.courseName} ↗</a>`
-    : club.courseName;
-
-  const visible = club.slots.slice(0, BUBBLES_INIT);
-  const hidden  = club.slots.slice(BUBBLES_INIT);
-
-  const bubbles = visible.map(s =>
-    `<button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
-  ).join('');
-
-  const moreBubble = hidden.length > 0
-    ? `<button class="time-bubble show-more" onclick="expandCard('${cardId}')">+${hidden.length} more</button>`
-    : '';
+  const totalSlots = parent.allSlots.length;
+  const coursesLabel = parent.courses.length > 1
+    ? `${parent.courses.length} courses · ${totalSlots} times available`
+    : `${totalSlots} times available`;
 
   return `
-    <div class="club-card" id="${cardId}" style="animation-delay:${delay}ms" data-slots='${JSON.stringify(club.slots)}' data-course-id="${club.courseId}">
-      <div class="club-card-header">
-        <div class="club-card-left">
-          <div class="club-card-name">${nameHtml}</div>
-          <div class="club-card-subtitle">${club.holes} holes</div>
-          <div class="club-weather-row" id="weather-${cardId}">
-            <span class="club-weather-loading">Loading weather...</span>
+    <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent='${JSON.stringify(parent)}'>
+      <div class="parent-card-header" onclick="toggleParentCard('${cardId}')">
+        <div class="parent-card-left">
+          <div class="parent-card-name">${nameHtml}</div>
+          <div class="parent-card-subtitle">${coursesLabel}</div>
+          <div class="parent-weather-row" id="weather-${cardId}">
+            <span style="font-size:13px;color:var(--ink-30)">Loading weather...</span>
           </div>
         </div>
-        <div class="club-card-right">
-          <div class="club-price-range">${priceHtml}</div>
-          <div class="club-price-label">CAD / player</div>
+        <div class="parent-card-right">
+          <div class="parent-price-range">${priceHtml}</div>
+          <div class="parent-price-label">CAD / player</div>
+          <button class="expand-btn" id="expandBtn-${cardId}" onclick="event.stopPropagation();toggleParentCard('${cardId}')">
+            <span>See times</span>
+            <span class="expand-arrow">▾</span>
+          </button>
         </div>
       </div>
-      <div class="club-card-bubbles">
-        <div class="time-bubbles" id="bubbles-${cardId}">${bubbles}${moreBubble}</div>
-        <div id="detail-${cardId}"></div>
+      <div class="parent-courses" id="courses-${cardId}">
+        ${parent.courses.map(c => renderCourseSection(c, cardId)).join('')}
       </div>
     </div>`;
 }
 
-async function loadWeatherForCards(clubs) {
-  const date = document.getElementById('filterDate').value;
-  for (const club of clubs) {
-    const courseId = club.courseId;
-    const coords   = CLUB_COORDS[courseId];
-    const cardId   = `club-${courseId}-${club.holes}`;
-    const el       = document.getElementById(`weather-${cardId}`);
-    if (!el) continue;
+function renderCourseSection(course, parentCardId) {
+  const sectionId = `section-${course.courseId}-${course.holes}`;
+  const visible   = course.slots.slice(0, BUBBLES_INIT);
+  const hidden    = course.slots.slice(BUBBLES_INIT);
 
-    if (!coords) { el.innerHTML = ''; continue; }
+  const bubbles = visible.map(s =>
+    `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
+  ).join('');
+  const moreBubble = hidden.length > 0
+    ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>`
+    : '';
 
-    const w = await fetchDailyWeather(courseId, coords.lat, coords.lng, date);
-    if (!w) { el.innerHTML = ''; continue; }
+  const label = course.courseName !== (CLUB_GROUPS[course.courseId]?.parent || course.courseName)
+    ? course.courseName
+    : `${course.holes} holes`;
 
-    el.innerHTML = `
-      <span class="club-weather-icon">${w.icon}</span>
-      <div>
-        <div style="font-size:15px;font-weight:500;color:var(--ink)">${w.tmax}° / ${w.tmin}°C</div>
-        <div class="club-weather-text">${w.desc}</div>
-      </div>`;
-  }
+  return `
+    <div class="course-section" id="${sectionId}" data-slots='${JSON.stringify(course.slots)}' data-course-id="${course.courseId}">
+      <div class="course-section-header">${label} · ${course.holes}h</div>
+      <div class="course-bubbles-wrap">
+        <div class="time-bubbles" id="bubbles-${sectionId}">${bubbles}${moreBubble}</div>
+        <div id="detail-${sectionId}"></div>
+      </div>
+    </div>`;
 }
 
-function expandCard(cardId) {
-  const card  = document.getElementById(cardId);
-  const slots = JSON.parse(card.dataset.slots);
-  const el    = document.getElementById(`bubbles-${cardId}`);
-  el.innerHTML = slots.map(s =>
-    `<button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
-  ).join('') + `<button class="time-bubble show-more" onclick="collapseCard('${cardId}')">Show less</button>`;
+function toggleParentCard(cardId) {
+  const courses = document.getElementById(`courses-${cardId}`);
+  const btn     = document.getElementById(`expandBtn-${cardId}`);
+  const open    = courses.classList.toggle('open');
+  btn.classList.toggle('open', open);
+  btn.querySelector('span:first-child').textContent = open ? 'Hide times' : 'See times';
+}
+
+function expandSection(sectionId, parentCardId) {
+  const section = document.getElementById(sectionId);
+  const slots   = JSON.parse(section.dataset.slots);
+  const el      = document.getElementById(`bubbles-${sectionId}`);
+  el.innerHTML  = slots.map(s =>
+    `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
+  ).join('') + `<button class="time-bubble show-more" onclick="collapseSection('${sectionId}','${parentCardId}')">Show less</button>`;
   setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
 }
 
-function collapseCard(cardId) {
-  const card   = document.getElementById(cardId);
-  const slots  = JSON.parse(card.dataset.slots);
-  const el     = document.getElementById(`bubbles-${cardId}`);
-  const detail = document.getElementById(`detail-${cardId}`);
+function collapseSection(sectionId, parentCardId) {
+  const section = document.getElementById(sectionId);
+  const slots   = JSON.parse(section.dataset.slots);
+  const el      = document.getElementById(`bubbles-${sectionId}`);
+  const detail  = document.getElementById(`detail-${sectionId}`);
   const visible = slots.slice(0, BUBBLES_INIT);
   const hidden  = slots.slice(BUBBLES_INIT);
-  el.innerHTML = visible.map(s =>
-    `<button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
-  ).join('') + (hidden.length > 0 ? `<button class="time-bubble show-more" onclick="expandCard('${cardId}')">+${hidden.length} more</button>` : '');
+  el.innerHTML  = visible.map(s =>
+    `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
+  ).join('') + (hidden.length > 0 ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>` : '');
   detail.innerHTML = '';
   activeSlot = null;
 }
 
-async function toggleSlot(cardId, slotId) {
-  const card   = document.getElementById(cardId);
-  const slots  = JSON.parse(card.dataset.slots);
-  const slot   = slots.find(s => s.id === slotId);
-  const detail = document.getElementById(`detail-${cardId}`);
-  const courseId = card.dataset.courseId;
+async function toggleSlot(sectionId, slotId, parentCardId) {
+  const section  = document.getElementById(sectionId);
+  const slots    = JSON.parse(section.dataset.slots);
+  const slot     = slots.find(s => s.id === slotId);
+  const detail   = document.getElementById(`detail-${sectionId}`);
+  const courseId = section.dataset.courseId;
 
-  card.querySelectorAll('.time-bubble').forEach(b => b.classList.remove('active'));
+  section.querySelectorAll('.time-bubble').forEach(b => b.classList.remove('active'));
 
-  if (activeSlot && activeSlot.cardId === cardId && activeSlot.slotId === slotId) {
-    detail.innerHTML = '';
-    activeSlot = null;
-    return;
+  if (activeSlot && activeSlot.sectionId === sectionId && activeSlot.slotId === slotId) {
+    detail.innerHTML = ''; activeSlot = null; return;
   }
 
-  const clicked = card.querySelector(`[data-slot-id="${slotId}"]`);
+  const clicked = section.querySelector(`[data-slot-id="${slotId}"]`);
   if (clicked) clicked.classList.add('active');
-  activeSlot = { cardId, slotId };
+  activeSlot = { sectionId, slotId };
 
   const players    = document.getElementById('filterPlayers').value || '1';
   const bookingUrl = getBookingUrl(slot, players);
   const minNote    = (slot.minPlayers && slot.players < slot.minPlayers)
     ? `<span class="min-players-note">Min. ${slot.minPlayers} players</span>` : '';
 
-  // Fetch hourly weather for this slot
   let weatherHtml = '';
   const coords = CLUB_COORDS[courseId];
   if (coords) {
     const hour = parseInt(slot.time.split(':')[0]);
     const w = await fetchHourlyWeather(courseId, coords.lat, coords.lng, slot.date, hour);
-    if (w) {
-      weatherHtml = `<span class="slot-detail-weather">${w.icon} ${w.tStart}° → ${w.iconEnd} ${w.tEnd}°C during round</span>`;
-    }
+    if (w) weatherHtml = `<span class="slot-detail-weather">${w.icon} ${w.tStart}° → ${w.iconEnd} ${w.tEnd}°C during round</span>`;
   }
 
   detail.innerHTML = `
@@ -745,16 +801,35 @@ async function toggleSlot(cardId, slotId) {
         ${minNote}
         ${slot.pricePerPlayer
           ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/player${slot.taxesMode ? ' ' + slot.taxesMode : ''}</span></span>`
-          : `<span class="slot-detail-price" style="color:var(--ink-60);font-size:13px">Price TBD</span>`}
+          : `<span style="font-size:13px;color:var(--ink-60)">Price TBD</span>`}
       </div>
       <div class="slot-detail-actions">
         <a class="book-btn" href="${bookingUrl}" target="_blank" rel="noopener">
-          Book
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          Book <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
         <button class="alert-btn-sm" onclick="prefillAlert('${slot.courseId}','${slot.date}','${slot.time}')">+ Alert</button>
       </div>
     </div>`;
+}
+
+async function loadWeatherForParents(parents) {
+  const date = document.getElementById('filterDate').value;
+  for (const parent of parents) {
+    const courseId = parent.courseId;
+    const coords   = CLUB_COORDS[courseId];
+    const cardId   = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
+    const el       = document.getElementById(`weather-${cardId}`);
+    if (!el) continue;
+    if (!coords) { el.innerHTML = ''; continue; }
+    const w = await fetchDailyWeather(courseId, coords.lat, coords.lng, date);
+    if (!w) { el.innerHTML = ''; continue; }
+    el.innerHTML = `
+      <span class="parent-weather-icon">${w.icon}</span>
+      <div>
+        <div style="font-size:14px;font-weight:500;color:var(--ink)">${w.tmax}° / ${w.tmin}°C</div>
+        <div class="parent-weather-text">${w.desc}</div>
+      </div>`;
+  }
 }
 
 function getBookingUrl(slot, players) {
@@ -764,8 +839,8 @@ function getBookingUrl(slot, players) {
 }
 
 function fmt12(t) {
-  const [hh, mm] = t.split(':').map(Number);
-  return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'PM' : 'AM'}`;
+  const [hh,mm] = t.split(':').map(Number);
+  return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
 }
 
 function showPrompt() {
@@ -801,24 +876,21 @@ function toggleClubPanel() {
 function onClubCheck(cb, id) {
   if (cb.checked) { selectedClubs.add(id); cb.closest('.club-checkbox-item').classList.add('selected'); }
   else            { selectedClubs.delete(id); cb.closest('.club-checkbox-item').classList.remove('selected'); }
-  updateClubBadge();
-  applyFiltersAndRender();
+  updateClubBadge(); applyFiltersAndRender();
 }
 
 function selectAllClubs() {
   selectedClubs.clear();
-  document.querySelectorAll('.club-checkbox-item input').forEach(cb => { cb.checked = false; cb.closest('.club-checkbox-item').classList.remove('selected'); });
-  updateClubBadge();
-  applyFiltersAndRender();
+  document.querySelectorAll('.club-checkbox-item input').forEach(cb => { cb.checked=false; cb.closest('.club-checkbox-item').classList.remove('selected'); });
+  updateClubBadge(); applyFiltersAndRender();
 }
 
 function checkAllClubs() {
   document.querySelectorAll('.club-checkbox-item').forEach(label => {
-    const id = label.dataset.id; const cb = label.querySelector('input');
-    cb.checked = true; label.classList.add('selected'); selectedClubs.add(id);
+    const id=label.dataset.id; const cb=label.querySelector('input');
+    cb.checked=true; label.classList.add('selected'); selectedClubs.add(id);
   });
-  updateClubBadge();
-  applyFiltersAndRender();
+  updateClubBadge(); applyFiltersAndRender();
 }
 
 function filterClubGrid() {
@@ -830,9 +902,9 @@ function updateClubBadge() {
   const badge = document.getElementById('clubToggleBadge');
   const btn   = document.getElementById('clubToggleBtn');
   if (selectedClubs.size > 0 && selectedClubs.size < allClubIds.length) {
-    badge.style.display = ''; badge.textContent = selectedClubs.size; btn.classList.add('active');
+    badge.style.display=''; badge.textContent=selectedClubs.size; btn.classList.add('active');
   } else {
-    badge.style.display = 'none';
+    badge.style.display='none';
     if (!document.getElementById('clubFilterPanel').classList.contains('open')) btn.classList.remove('active');
   }
 }
@@ -840,22 +912,22 @@ function updateClubBadge() {
 // ── ALERTS ──
 function selectAlertType(type) {
   alertType = type;
-  document.getElementById('typeDate').classList.toggle('active', type === 'date-window');
-  document.getElementById('typeCourse').classList.toggle('active', type === 'course');
-  document.getElementById('alertFormDateWindow').style.display = type === 'date-window' ? '' : 'none';
-  document.getElementById('alertFormCourse').style.display     = type === 'course'      ? '' : 'none';
+  document.getElementById('typeDate').classList.toggle('active', type==='date-window');
+  document.getElementById('typeCourse').classList.toggle('active', type==='course');
+  document.getElementById('alertFormDateWindow').style.display = type==='date-window'?'':'none';
+  document.getElementById('alertFormCourse').style.display     = type==='course'?'':'none';
 }
 
 function populateAlertCourseDropdown() {
   const sel    = document.getElementById('alertCourse');
-  const unique = [...new Map(allTeeTimes.map(t => [t.courseId, t])).values()].sort((a,b) => a.courseName.localeCompare(b.courseName));
-  sel.innerHTML = '<option value="">Any course</option>' + unique.map(t => `<option value="${t.courseId}">${t.courseName}</option>`).join('');
+  const unique = [...new Map(allTeeTimes.map(t=>[t.courseId,t])).values()].sort((a,b)=>a.courseName.localeCompare(b.courseName));
+  sel.innerHTML = '<option value="">Any course</option>' + unique.map(t=>`<option value="${t.courseId}">${t.courseName}</option>`).join('');
 }
 
 function prefillAlert(courseId, date, time) {
   scrollToAlerts();
   const [hh] = time.split(':').map(Number);
-  if (alertType === 'date-window') {
+  if (alertType==='date-window') {
     document.getElementById('alertDate').value     = date;
     document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
     document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
@@ -868,10 +940,10 @@ async function createAlert() {
   if (!contact) { toast('Please enter an email or phone number.'); return; }
   const alert = {
     id: Date.now(), type: alertType, contact,
-    courseId: alertType === 'course'      ? document.getElementById('alertCourse').value  : null,
-    date:     alertType === 'date-window' ? document.getElementById('alertDate').value     : null,
-    timeFrom: alertType === 'date-window' ? document.getElementById('alertTimeFrom').value : null,
-    timeTo:   alertType === 'date-window' ? document.getElementById('alertTimeTo').value   : null,
+    courseId: alertType==='course'      ? document.getElementById('alertCourse').value  : null,
+    date:     alertType==='date-window' ? document.getElementById('alertDate').value     : null,
+    timeFrom: alertType==='date-window' ? document.getElementById('alertTimeFrom').value : null,
+    timeTo:   alertType==='date-window' ? document.getElementById('alertTimeTo').value   : null,
     players:  document.getElementById('alertPlayers').value || null,
     createdAt: new Date().toISOString(),
   };
@@ -890,19 +962,14 @@ function deleteAlert(id) {
 }
 
 function renderLocalAlerts() {
-  const card = document.getElementById('activeAlertsCard');
-  const list = document.getElementById('alertsList');
-  const count = document.getElementById('headerAlertCount');
+  const card=document.getElementById('activeAlertsCard'), list=document.getElementById('alertsList'), count=document.getElementById('headerAlertCount');
   if (!localAlerts.length) { card.style.display='none'; count.style.display='none'; return; }
   card.style.display=''; count.style.display=''; count.textContent=localAlerts.length;
   list.innerHTML = localAlerts.map(a => {
     const desc = a.type==='date-window'
       ? `${a.date} · ${fmtTime(a.timeFrom)} – ${fmtTime(a.timeTo)}`
       : `${allTeeTimes.find(t=>t.courseId===a.courseId)?.courseName||'Any course'}`;
-    return `<div class="alert-item">
-      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div>
-      <button class="delete-alert-btn" onclick="deleteAlert(${a.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
-    </div>`;
+    return `<div class="alert-item"><div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div><button class="delete-alert-btn" onclick="deleteAlert(${a.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`;
   }).join('');
 }
 
@@ -914,10 +981,8 @@ function fmtTime(t) {
 
 function scrollToAlerts() { document.getElementById('alertsAnchor').scrollIntoView({behavior:'smooth',block:'start'}); }
 function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
-
 function toast(msg) {
-  const el = document.createElement('div');
-  el.className='toast'; el.textContent=msg;
+  const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
   document.getElementById('toastContainer').appendChild(el);
   setTimeout(()=>el.remove(), 3200);
 }
