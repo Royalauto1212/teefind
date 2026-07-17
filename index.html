@@ -40,7 +40,6 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--sand-50); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
-  /* HEADER */
   header { background: var(--green-900); padding: 0 2rem; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 60px; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
   .logo-mark { width: 32px; height: 32px; background: var(--green-500); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
@@ -55,7 +54,6 @@
   .alerts-btn:hover { background: rgba(255,255,255,0.14); }
   .alert-count { background: #e74c3c; color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; min-width: 16px; text-align: center; }
 
-  /* HERO */
   .hero { background: var(--green-800); padding: 2.5rem 2rem 0; position: relative; }
   .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(255,255,255,0.012) 60px,rgba(255,255,255,0.012) 61px); pointer-events: none; }
   .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
@@ -63,7 +61,6 @@
   .hero h1 em { font-style: italic; color: var(--green-200); }
   .hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 1.75rem; }
 
-  /* FILTER */
   .filter-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 1.5rem 1.75rem; box-shadow: var(--shadow-float); position: sticky; top: 60px; z-index: 90; }
   .filter-row-main { display: grid; grid-template-columns: 150px 130px 110px 110px 120px 120px auto; gap: 12px; align-items: end; }
 
@@ -76,7 +73,6 @@
   .search-btn { height: 42px; padding: 0 24px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; transition: background var(--transition); }
   .search-btn:hover { background: var(--green-500); }
 
-  /* CLUB FILTER PANEL */
   .club-toggle-btn { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; background: none; border: 1.5px solid var(--ink-10); border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); }
   .club-toggle-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
   .club-toggle-btn.active { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
@@ -99,7 +95,6 @@
   .club-checkbox-item input[type="checkbox"] { accent-color: var(--green-600); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
   .club-checkbox-item.hidden { display: none; }
 
-  /* MAIN */
   .main { max-width: 1100px; margin: 0 auto; padding: 1.75rem 2rem; display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
   .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .results-count { font-size: 14px; color: var(--ink-60); }
@@ -107,53 +102,54 @@
   .sort-select { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--white); border: 1.5px solid var(--ink-10); border-radius: var(--radius-sm); padding: 5px 10px; cursor: pointer; outline: none; }
 
   /* CLUB CARD */
-  .club-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); padding: 1.1rem 1.25rem; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
+  .club-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
   @keyframes slideIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
   .club-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); }
 
-  .club-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
-  .club-card-left { display: flex; align-items: center; gap: 10px; }
-  .club-card-name { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .club-card-header { padding: 1.1rem 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; background: var(--white); }
+  .club-card-left { flex: 1; }
+  .club-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 4px; }
   .club-card-name a { color: inherit; text-decoration: none; transition: color var(--transition); }
   .club-card-name a:hover { color: var(--green-600); }
-  .club-card-meta { display: flex; align-items: center; gap: 6px; }
-  .source-badge { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .source-badge.minutegolf { background: var(--sand-100); color: var(--sand-700); }
-  .source-badge.chronogolf { background: var(--sky-50); color: var(--sky-600); }
-  .source-badge.foreup { background: var(--green-50); color: var(--green-700); }
-  .holes-badge { font-size: 12px; color: var(--ink-60); }
-  .club-price { font-size: 12px; color: var(--green-700); font-weight: 600; margin-left: 4px; }
-  .club-weather { display: flex; align-items: center; gap: 3px; margin-left: 6px; }
-  .weather-loading { color: var(--ink-30); }
+  .club-card-subtitle { font-size: 13px; color: var(--ink-60); margin-bottom: 8px; }
+  .club-weather-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
+  .club-weather-icon { font-size: 28px; line-height: 1; }
+  .club-weather-text { font-size: 13px; color: var(--ink-60); }
+  .club-weather-loading { font-size: 13px; color: var(--ink-30); }
 
-  /* TIME BUBBLES */
-  .time-bubbles { display: flex; flex-wrap: wrap; gap: 6px; }
-  .time-bubble { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--ink-10); font-size: 13px; font-weight: 500; color: var(--ink); background: var(--sand-50); cursor: pointer; transition: all var(--transition); user-select: none; }
+  .club-card-right { text-align: right; flex-shrink: 0; }
+  .club-price-range { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--green-600); letter-spacing: -0.02em; line-height: 1; }
+  .club-price-label { font-size: 11px; color: var(--ink-60); margin-top: 2px; }
+
+  .club-card-bubbles { padding: 0.75rem 1.25rem 1.1rem; border-top: 1px solid var(--ink-10); background: var(--sand-50); }
+
+  .time-bubbles { display: flex; flex-wrap: wrap; gap: 5px; }
+  .time-bubble { padding: 5px 11px; border-radius: 16px; border: 1.5px solid var(--ink-10); font-size: 12px; font-weight: 500; color: var(--ink); background: var(--white); cursor: pointer; transition: all var(--transition); user-select: none; }
   .time-bubble:hover { border-color: var(--green-400); background: var(--green-50); color: var(--green-700); }
   .time-bubble.active { border-color: var(--green-600); background: var(--green-600); color: white; }
-  .time-bubble.show-more { border-style: dashed; color: var(--ink-60); }
+  .time-bubble.show-more { border-style: dashed; color: var(--ink-60); font-size: 12px; }
   .time-bubble.show-more:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
 
-  /* EXPANDED SLOT */
-  .slot-detail { margin-top: 10px; padding: 12px 14px; background: var(--sand-50); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; gap: 12px; animation: slideIn .15s ease both; }
-  .slot-detail-info { font-size: 14px; color: var(--ink); }
-  .slot-detail-price { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); }
-  .slot-detail-tax { font-size: 11px; color: var(--ink-60); margin-left: 4px; }
-  .slot-detail-actions { display: flex; align-items: center; gap: 8px; }
+  /* SLOT DETAIL */
+  .slot-detail { margin-top: 8px; padding: 11px 14px; background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--green-200); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: slideIn .15s ease both; }
+  .slot-detail-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .slot-detail-time { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); }
+  .slot-detail-weather { font-size: 14px; color: var(--ink-60); }
+  .slot-detail-price { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .slot-detail-tax { font-size: 11px; color: var(--ink-60); }
+  .slot-detail-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
   .book-btn { display: inline-flex; align-items: center; gap: 5px; padding: 9px 18px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: background var(--transition); }
   .book-btn:hover { background: var(--green-500); }
   .book-btn svg { width: 12px; height: 12px; }
-  .alert-btn-sm { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all var(--transition); }
+  .alert-btn-sm { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
   .alert-btn-sm:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
   .min-players-note { font-size: 11px; color: #996600; background: #fef3d0; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
 
-  /* EMPTY / PROMPT */
   .empty-state, .select-prompt { text-align: center; padding: 4rem 2rem; color: var(--ink-60); }
   .empty-state svg, .select-prompt svg { width: 48px; height: 48px; stroke: var(--ink-30); margin-bottom: 1rem; }
   .empty-state h3, .select-prompt h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: .5rem; }
   .empty-state p, .select-prompt p { font-size: 14px; max-width: 300px; margin: 0 auto; }
 
-  /* SIDEBAR */
   .sidebar { position: sticky; top: 80px; }
   .sidebar-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 1rem; }
   .sidebar-header { padding: 1rem 1.25rem .75rem; border-bottom: 1.5px solid var(--ink-10); display: flex; align-items: center; gap: 8px; }
@@ -185,17 +181,15 @@
   .stat-label { color: var(--ink-60); }
   .stat-value { font-weight: 600; color: var(--ink); }
 
-  .float-filter-btn { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 500; display: none; align-items: center; gap: 6px; padding: 10px 20px; background: var(--green-900); color: white; border: none; border-radius: 24px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 16px rgba(26,28,24,0.25); transition: background var(--transition); }
-  .float-filter-btn:hover { background: var(--green-700); }
+  .float-filter-btn { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 500; display: none; align-items: center; gap: 6px; padding: 10px 20px; background: var(--green-900); color: white; border: none; border-radius: 24px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 16px rgba(26,28,24,0.25); }
   .float-filter-btn.visible { display: flex; }
-
   .toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
   .toast { background: var(--green-900); color: white; padding: 10px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-float); animation: toastIn .25s ease both, toastOut .3s ease 2.7s both; pointer-events: auto; }
   @keyframes toastIn { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
   @keyframes toastOut { to{opacity:0;transform:translateY(8px)} }
 
   @media (max-width: 900px) { .filter-row-main{grid-template-columns:1fr 1fr 1fr} .club-grid{grid-template-columns:repeat(2,1fr)} .main{grid-template-columns:1fr} .sidebar{position:static} }
-  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:26px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .club-grid{grid-template-columns:1fr 1fr} }
+  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:26px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .club-card-name{font-size:18px} .club-price-range{font-size:20px} }
 </style>
 </head>
 <body>
@@ -320,6 +314,7 @@
   <div class="results-col">
     <div class="results-header">
       <div class="results-count"><strong id="countNum">—</strong> clubs with available times</div>
+      <select class="sort-select" id="sortSelectTop" onchange="document.getElementById('sortSelect').value=this.value;applyFiltersAndRender()" style="display:none"></select>
     </div>
     <div id="resultsList"></div>
   </div>
@@ -389,16 +384,92 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-const API_BASE  = 'http://147.182.214.235:3001/api';
-const DEMO_MODE = false;
-const BUBBLES_INITIAL = 6; // How many time bubbles to show before "show more"
+const API_BASE      = 'http://147.182.214.235:3001/api';
+const DEMO_MODE     = false;
+const BUBBLES_INIT  = 6;
+const ROUND_HOURS   = 4.5;
 
-let allTeeTimes      = [];
-let alertType        = 'date-window';
-let localAlerts      = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
-let selectedClubs    = new Set();
-let allClubIds       = [];
-let activeSlot       = null; // currently expanded slot {cardId, slotId}
+let allTeeTimes  = [];
+let alertType    = 'date-window';
+let localAlerts  = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
+let selectedClubs = new Set();
+let allClubIds   = [];
+let activeSlot   = null;
+
+// Weather
+const CLUB_COORDS = {
+  '152':   { lat: 45.5048, lng: -73.6186 },
+  '21560': { lat: 45.6189, lng: -73.7542 },
+  '1871':  { lat: 45.4477, lng: -73.7496 },
+  '1584':  { lat: 45.6012, lng: -73.5589 },
+  '1845':  { lat: 45.5698, lng: -73.5673 },
+  '1763':  { lat: 45.4989, lng: -73.5093 },
+  '1740':  { lat: 45.5953, lng: -73.4394 },
+  '1704':  { lat: 45.7419, lng: -73.9964 },
+  '1589':  { lat: 45.6744, lng: -74.0891 },
+  '1588':  { lat: 45.6744, lng: -74.0891 },
+  '23133': { lat: 45.7823, lng: -73.6234 },
+  '8116':  { lat: 45.4050, lng: -73.6580 },
+};
+
+const WMO = {
+  0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',
+  51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',
+  71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',
+  95:'⛈️',96:'⛈️',99:'⛈️'
+};
+
+const WMO_DESC = {
+  0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',
+  45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',
+  61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',
+  80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm'
+};
+
+const weatherCache = {};
+const hourlyCache  = {};
+
+async function fetchDailyWeather(courseId, lat, lng, date) {
+  const key = `daily-${courseId}-${date}`;
+  if (weatherCache[key]) return weatherCache[key];
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&start_date=${date}&end_date=${date}`;
+    const r    = await fetch(url);
+    const data = await r.json();
+    const code = data.daily?.weathercode?.[0];
+    const result = {
+      icon: WMO[code] || '🌤️',
+      desc: WMO_DESC[code] || '',
+      tmax: Math.round(data.daily?.temperature_2m_max?.[0]),
+      tmin: Math.round(data.daily?.temperature_2m_min?.[0]),
+    };
+    weatherCache[key] = result;
+    return result;
+  } catch { return null; }
+}
+
+async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
+  const key = `hourly-${courseId}-${date}-${hour}`;
+  if (hourlyCache[key]) return hourlyCache[key];
+  try {
+    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,weathercode&timezone=America%2FToronto&start_date=${date}&end_date=${date}`;
+    const r    = await fetch(url);
+    const data = await r.json();
+    const hours = data.hourly?.time || [];
+    const idx   = hours.findIndex(t => t.includes(`T${String(hour).padStart(2,'0')}:`));
+    const endH  = Math.min(hour + Math.ceil(ROUND_HOURS), 23);
+    const endIdx = hours.findIndex(t => t.includes(`T${String(endH).padStart(2,'0')}:`));
+    if (idx < 0) return null;
+    const temps   = data.hourly.temperature_2m.slice(idx, endIdx > 0 ? endIdx + 1 : idx + 5);
+    const codes   = data.hourly.weathercode.slice(idx, endIdx > 0 ? endIdx + 1 : idx + 5);
+    const tStart  = Math.round(temps[0]);
+    const tEnd    = Math.round(temps[temps.length - 1]);
+    const codeEnd = codes[codes.length - 1];
+    const result  = { tStart, tEnd, icon: WMO[codes[0]] || '🌤️', iconEnd: WMO[codeEnd] || '🌤️' };
+    hourlyCache[key] = result;
+    return result;
+  } catch { return null; }
+}
 
 // ── INIT ──
 (async function init() {
@@ -410,24 +481,21 @@ let activeSlot       = null; // currently expanded slot {cardId, slotId}
   renderLocalAlerts();
   showPrompt();
 
-  // Scroll behavior
   let filterBottom = 0;
   let lastScrollY  = 0;
   window.addEventListener('load', () => setTimeout(() => {
     const fc = document.querySelector('.filter-card');
     if (fc) filterBottom = fc.getBoundingClientRect().bottom + window.scrollY + 100;
   }, 500));
-
   window.addEventListener('scroll', () => {
-    const scrollY  = window.scrollY;
-    const floatBtn = document.getElementById('floatFilterBtn');
-    floatBtn.classList.toggle('visible', scrollY > filterBottom);
+    const sy = window.scrollY;
+    document.getElementById('floatFilterBtn').classList.toggle('visible', sy > filterBottom);
     const panel = document.getElementById('clubFilterPanel');
-    if (panel.classList.contains('open') && scrollY > lastScrollY + 200) {
+    if (panel.classList.contains('open') && sy > lastScrollY + 200) {
       panel.classList.remove('open');
       document.getElementById('clubToggleBtn').classList.remove('active');
     }
-    lastScrollY = scrollY;
+    lastScrollY = sy;
   }, { passive: true });
 })();
 
@@ -435,45 +503,38 @@ let activeSlot       = null; // currently expanded slot {cardId, slotId}
 async function loadTeeTimes() {
   const date = document.getElementById('filterDate').value;
   try {
-    const r    = await fetch(`${API_BASE}/tee-times?date=${date}&membersOnly=false`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
-    const data = await r.json();
-    allTeeTimes = data.teeTimes || [];
-    updateStatus(data.lastUpdated);
-  } catch (e) {
-    console.warn('API error:', e.message);
-    allTeeTimes = [];
-  }
+    const r = await fetch(`${API_BASE}/tee-times?date=${date}&membersOnly=false`);
+    const d = await r.json();
+    allTeeTimes = d.teeTimes || [];
+    updateStatus(d.lastUpdated);
+  } catch { allTeeTimes = []; }
 }
 
 async function loadCourses() {
   try {
-    const r       = await fetch(`${API_BASE}/courses`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
+    const r = await fetch(`${API_BASE}/courses`);
     const courses = await r.json();
-    allClubIds    = courses.map(c => c.id);
-    const grid    = document.getElementById('clubGrid');
-    grid.innerHTML = courses
-      .sort((a, b) => a.name.localeCompare(b.name))
-      .map(c => `
-        <label class="club-checkbox-item" data-name="${c.name.toLowerCase()}" data-id="${c.id}">
-          <input type="checkbox" onchange="onClubCheck(this, '${c.id}')" />
-          ${c.name}
-        </label>`).join('');
-  } catch (e) { console.warn('Could not load courses:', e.message); }
+    allClubIds = courses.map(c => c.id);
+    document.getElementById('clubGrid').innerHTML = courses
+      .sort((a,b) => a.name.localeCompare(b.name))
+      .map(c => `<label class="club-checkbox-item" data-name="${c.name.toLowerCase()}" data-id="${c.id}"><input type="checkbox" onchange="onClubCheck(this,'${c.id}')"/>${c.name}</label>`)
+      .join('');
+  } catch {}
 }
 
 async function loadStatus() {
   try {
-    const r = await fetch(`${API_BASE}/status`, { headers: { 'ngrok-skip-browser-warning': 'true' } });
+    const r = await fetch(`${API_BASE}/status`);
     const s = await r.json();
     updateStatus(s.lastScrape);
   } catch {}
 }
 
-function updateStatus(lastScrape) {
-  if (!lastScrape) return;
-  const mins = Math.round((Date.now() - new Date(lastScrape)) / 60000);
-  document.getElementById('statusText').textContent  = mins < 2 ? 'Just updated' : `Updated ${mins}m ago`;
-  document.getElementById('statRefresh').textContent = mins < 2 ? 'Just now'     : `${mins}m ago`;
+function updateStatus(ls) {
+  if (!ls) return;
+  const m = Math.round((Date.now() - new Date(ls)) / 60000);
+  document.getElementById('statusText').textContent  = m < 2 ? 'Just updated' : `Updated ${m}m ago`;
+  document.getElementById('statRefresh').textContent = m < 2 ? 'Just now'     : `${m}m ago`;
 }
 
 // ── SEARCH ──
@@ -499,41 +560,26 @@ function applyFiltersAndRender() {
   if (!players) { showPrompt(); return; }
 
   let results = [...allTeeTimes];
-
-  // Player count filter
-  results = results.filter(t =>
-    t.source === 'foreup'
-      ? t.players >= parseInt(players)
-      : t.players === parseInt(players)
-  );
-
-  // Club filter
+  results = results.filter(t => t.source === 'foreup' ? t.players >= parseInt(players) : t.players === parseInt(players));
   if (selectedClubs.size > 0) results = results.filter(t => selectedClubs.has(t.courseId));
-
-  // Holes
-  if (holes) results = results.filter(t => t.holes === parseInt(holes));
-
-  // Time window
+  if (holes)    results = results.filter(t => t.holes === parseInt(holes));
   if (timeFrom) results = results.filter(t => t.time >= timeFrom);
   if (timeTo)   results = results.filter(t => t.time <= timeTo);
 
-  // Group by club
+  // Group by club+holes, deduplicate by time
   const grouped = {};
   for (const t of results) {
     const key = `${t.courseId}-${t.holes}`;
     if (!grouped[key]) grouped[key] = { ...t, slots: [] };
     grouped[key].slots.push(t);
   }
-
-  // Sort each club's slots by time
   for (const key of Object.keys(grouped)) {
     const seen = new Set();
     grouped[key].slots = grouped[key].slots
       .filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; })
-      .sort((a, b) => a.time.localeCompare(b.time));
+      .sort((a,b) => a.time.localeCompare(b.time));
   }
 
-  // Sort clubs
   let clubs = Object.values(grouped);
   if (sort === 'time')       clubs.sort((a,b) => a.slots[0].time.localeCompare(b.slots[0].time));
   if (sort === 'price-asc')  clubs.sort((a,b) => (a.slots[0].pricePerPlayer||999)-(b.slots[0].pricePerPlayer||999));
@@ -548,129 +594,127 @@ function applyFiltersAndRender() {
     document.getElementById('resultsList').innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/></svg>
-        <h3>No tee times found</h3>
-        <p>Try a different date, time, or club.</p>
+        <h3>No tee times found</h3><p>Try a different date, time, or club.</p>
       </div>`;
     return;
   }
 
-  document.getElementById('resultsList').innerHTML = clubs.map((club, i) => renderClubCard(club, i)).join('');
-  setTimeout(loadWeatherForCards, 100);
+  document.getElementById('resultsList').innerHTML = clubs.map((c,i) => renderClubCard(c,i)).join('');
+  setTimeout(() => loadWeatherForCards(clubs), 100);
 }
 
-// ── RENDER CLUB CARD ──
+// ── RENDER CARD ──
 function renderClubCard(club, idx) {
   const cardId   = `club-${club.courseId}-${club.holes}`;
   const delay    = Math.min(idx * 40, 300);
-
-  const slots      = club.slots;
-  const visible    = slots.slice(0, BUBBLES_INITIAL);
-  const hidden     = slots.slice(BUBBLES_INITIAL);
-  const hasMore    = hidden.length > 0;
-
-  const bubbles = visible.map(s => `
-    <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
-      ${formatTime12h(s.time)}
-    </button>`).join('');
-
-  const moreBubble = hasMore ? `
-    <button class="time-bubble show-more" onclick="expandCard('${cardId}')">
-      +${hidden.length} more
-    </button>` : '';
+  const prices   = club.slots.map(s => s.pricePerPlayer).filter(Boolean);
+  const minPrice = prices.length ? Math.min(...prices) : null;
+  const maxPrice = prices.length ? Math.max(...prices) : null;
+  const priceHtml = minPrice
+    ? (minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} – $${maxPrice}`)
+    : 'TBD';
 
   const nameHtml = club.courseUrl
     ? `<a href="${club.courseUrl}" target="_blank" rel="noopener">${club.courseName} ↗</a>`
     : club.courseName;
 
-  // Min price across slots
-  const prices = club.slots.map(s => s.pricePerPlayer).filter(Boolean);
-  const minPrice = prices.length ? Math.min(...prices) : null;
+  const visible = club.slots.slice(0, BUBBLES_INIT);
+  const hidden  = club.slots.slice(BUBBLES_INIT);
+
+  const bubbles = visible.map(s =>
+    `<button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
+  ).join('');
+
+  const moreBubble = hidden.length > 0
+    ? `<button class="time-bubble show-more" onclick="expandCard('${cardId}')">+${hidden.length} more</button>`
+    : '';
 
   return `
-    <div class="club-card" id="${cardId}" style="animation-delay:${delay}ms" data-slots='${JSON.stringify(slots)}'>
+    <div class="club-card" id="${cardId}" style="animation-delay:${delay}ms" data-slots='${JSON.stringify(club.slots)}' data-course-id="${club.courseId}">
       <div class="club-card-header">
         <div class="club-card-left">
           <div class="club-card-name">${nameHtml}</div>
-          <div class="club-card-meta">
-            <span class="holes-badge">${club.holes} holes</span>
-            <span class="club-price" id="price-${cardId}">${minPrice ? `from $${minPrice}` : ''}</span>
-            <span class="club-weather" id="weather-${cardId}">
-              <span class="weather-loading">·</span>
-            </span>
+          <div class="club-card-subtitle">${club.holes} holes</div>
+          <div class="club-weather-row" id="weather-${cardId}">
+            <span class="club-weather-loading">Loading weather...</span>
           </div>
         </div>
+        <div class="club-card-right">
+          <div class="club-price-range">${priceHtml}</div>
+          <div class="club-price-label">CAD / player</div>
+        </div>
       </div>
-      <div class="time-bubbles" id="bubbles-${cardId}">${bubbles}${moreBubble}</div>
-      <div id="detail-${cardId}"></div>
+      <div class="club-card-bubbles">
+        <div class="time-bubbles" id="bubbles-${cardId}">${bubbles}${moreBubble}</div>
+        <div id="detail-${cardId}"></div>
+      </div>
     </div>`;
 }
 
+async function loadWeatherForCards(clubs) {
+  const date = document.getElementById('filterDate').value;
+  for (const club of clubs) {
+    const courseId = club.courseId;
+    const coords   = CLUB_COORDS[courseId];
+    const cardId   = `club-${courseId}-${club.holes}`;
+    const el       = document.getElementById(`weather-${cardId}`);
+    if (!el) continue;
+
+    if (!coords) { el.innerHTML = ''; continue; }
+
+    const w = await fetchDailyWeather(courseId, coords.lat, coords.lng, date);
+    if (!w) { el.innerHTML = ''; continue; }
+
+    el.innerHTML = `
+      <span class="club-weather-icon">${w.icon}</span>
+      <div>
+        <div style="font-size:15px;font-weight:500;color:var(--ink)">${w.tmax}° / ${w.tmin}°C</div>
+        <div class="club-weather-text">${w.desc}</div>
+      </div>`;
+  }
+}
+
 function expandCard(cardId) {
-  const card      = document.getElementById(cardId);
-  const slots     = JSON.parse(card.dataset.slots);
-  const bubblesEl = document.getElementById(`bubbles-${cardId}`);
-
-  // Deduplicate by time
-  const seen = new Set();
-  const unique = slots.filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; });
-
-  bubblesEl.innerHTML = unique.map(s => `
-    <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
-      ${formatTime12h(s.time)}
-    </button>`).join('') + `
-    <button class="time-bubble show-more" onclick="collapseCard('${cardId}')">Show less</button>`;
-
-  // Scroll so new times are visible
-  setTimeout(() => {
-    bubblesEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }, 50);
+  const card  = document.getElementById(cardId);
+  const slots = JSON.parse(card.dataset.slots);
+  const el    = document.getElementById(`bubbles-${cardId}`);
+  el.innerHTML = slots.map(s =>
+    `<button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
+  ).join('') + `<button class="time-bubble show-more" onclick="collapseCard('${cardId}')">Show less</button>`;
+  setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
 }
 
 function collapseCard(cardId) {
-  const card      = document.getElementById(cardId);
-  const slots     = JSON.parse(card.dataset.slots);
-  const bubblesEl = document.getElementById(`bubbles-${cardId}`);
-  const detail    = document.getElementById(`detail-${cardId}`);
-
-  // Deduplicate
-  const seen = new Set();
-  const unique = slots.filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; });
-
-  const visible = unique.slice(0, BUBBLES_INITIAL);
-  const hidden  = unique.slice(BUBBLES_INITIAL);
-
-  bubblesEl.innerHTML = visible.map(s => `
-    <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
-      ${formatTime12h(s.time)}
-    </button>`).join('') + (hidden.length > 0 ? `
-    <button class="time-bubble show-more" onclick="expandCard('${cardId}')">
-      +${hidden.length} more
-    </button>` : '');
-
+  const card   = document.getElementById(cardId);
+  const slots  = JSON.parse(card.dataset.slots);
+  const el     = document.getElementById(`bubbles-${cardId}`);
+  const detail = document.getElementById(`detail-${cardId}`);
+  const visible = slots.slice(0, BUBBLES_INIT);
+  const hidden  = slots.slice(BUBBLES_INIT);
+  el.innerHTML = visible.map(s =>
+    `<button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
+  ).join('') + (hidden.length > 0 ? `<button class="time-bubble show-more" onclick="expandCard('${cardId}')">+${hidden.length} more</button>` : '');
   detail.innerHTML = '';
   activeSlot = null;
 }
 
-function toggleSlot(cardId, slotId) {
+async function toggleSlot(cardId, slotId) {
   const card   = document.getElementById(cardId);
   const slots  = JSON.parse(card.dataset.slots);
   const slot   = slots.find(s => s.id === slotId);
   const detail = document.getElementById(`detail-${cardId}`);
+  const courseId = card.dataset.courseId;
 
-  // Deactivate all bubbles in this card
   card.querySelectorAll('.time-bubble').forEach(b => b.classList.remove('active'));
 
-  // If same slot clicked again, close it
   if (activeSlot && activeSlot.cardId === cardId && activeSlot.slotId === slotId) {
     detail.innerHTML = '';
     activeSlot = null;
     return;
   }
 
-  // Activate clicked bubble
-  const clickedBubble = card.querySelector(`[data-slot-id="${slotId}"]`);
-  if (clickedBubble) clickedBubble.classList.add('active');
-
+  const clicked = card.querySelector(`[data-slot-id="${slotId}"]`);
+  if (clicked) clicked.classList.add('active');
   activeSlot = { cardId, slotId };
 
   const players    = document.getElementById('filterPlayers').value || '1';
@@ -678,25 +722,33 @@ function toggleSlot(cardId, slotId) {
   const minNote    = (slot.minPlayers && slot.players < slot.minPlayers)
     ? `<span class="min-players-note">Min. ${slot.minPlayers} players</span>` : '';
 
+  // Fetch hourly weather for this slot
+  let weatherHtml = '';
+  const coords = CLUB_COORDS[courseId];
+  if (coords) {
+    const hour = parseInt(slot.time.split(':')[0]);
+    const w = await fetchHourlyWeather(courseId, coords.lat, coords.lng, slot.date, hour);
+    if (w) {
+      weatherHtml = `<span class="slot-detail-weather">${w.icon} ${w.tStart}° → ${w.iconEnd} ${w.tEnd}°C during round</span>`;
+    }
+  }
+
   detail.innerHTML = `
     <div class="slot-detail">
-      <div class="slot-detail-info">
-        <strong>${formatTime12h(slot.time)}</strong>
+      <div class="slot-detail-left">
+        <span class="slot-detail-time">${fmt12(slot.time)}</span>
+        ${weatherHtml}
         ${minNote}
-      </div>
-      <div style="display:flex;align-items:baseline;gap:4px;">
         ${slot.pricePerPlayer
-          ? `<span class="slot-detail-price">$${slot.pricePerPlayer}</span><span class="slot-detail-tax">CAD/player${slot.taxesMode ? ' ' + slot.taxesMode : ''}</span>`
-          : `<span style="font-size:14px;color:var(--ink-60)">Price TBD</span>`}
+          ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/player${slot.taxesMode ? ' ' + slot.taxesMode : ''}</span></span>`
+          : `<span class="slot-detail-price" style="color:var(--ink-60);font-size:13px">Price TBD</span>`}
       </div>
       <div class="slot-detail-actions">
         <a class="book-btn" href="${bookingUrl}" target="_blank" rel="noopener">
           Book
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
-        <button class="alert-btn-sm" onclick="prefillAlert('${slot.courseId}','${slot.date}','${slot.time}')">
-          + Alert
-        </button>
+        <button class="alert-btn-sm" onclick="prefillAlert('${slot.courseId}','${slot.date}','${slot.time}')">+ Alert</button>
       </div>
     </div>`;
 }
@@ -707,7 +759,7 @@ function getBookingUrl(slot, players) {
   return slot.bookingUrl.replace(/nbplayers=\d+/, 'nbplayers=' + players);
 }
 
-function formatTime12h(t) {
+function fmt12(t) {
   const [hh, mm] = t.split(':').map(Number);
   return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'PM' : 'AM'}`;
 }
@@ -758,11 +810,8 @@ function selectAllClubs() {
 
 function checkAllClubs() {
   document.querySelectorAll('.club-checkbox-item').forEach(label => {
-    const id = label.dataset.id;
-    const cb = label.querySelector('input');
-    cb.checked = true;
-    label.classList.add('selected');
-    selectedClubs.add(id);
+    const id = label.dataset.id; const cb = label.querySelector('input');
+    cb.checked = true; label.classList.add('selected'); selectedClubs.add(id);
   });
   updateClubBadge();
   applyFiltersAndRender();
@@ -770,9 +819,7 @@ function checkAllClubs() {
 
 function filterClubGrid() {
   const q = document.getElementById('clubSearch').value.toLowerCase();
-  document.querySelectorAll('.club-checkbox-item').forEach(item => {
-    item.classList.toggle('hidden', !item.dataset.name.includes(q));
-  });
+  document.querySelectorAll('.club-checkbox-item').forEach(item => item.classList.toggle('hidden', !item.dataset.name.includes(q)));
 }
 
 function updateClubBadge() {
@@ -808,9 +855,7 @@ function prefillAlert(courseId, date, time) {
     document.getElementById('alertDate').value     = date;
     document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
     document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
-  } else {
-    document.getElementById('alertCourse').value = courseId;
-  }
+  } else { document.getElementById('alertCourse').value = courseId; }
   document.getElementById('alertContact').focus();
 }
 
@@ -826,9 +871,7 @@ async function createAlert() {
     players:  document.getElementById('alertPlayers').value || null,
     createdAt: new Date().toISOString(),
   };
-  try {
-    await fetch(`${API_BASE}/alerts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(alert) });
-  } catch {}
+  try { await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(alert) }); } catch {}
   localAlerts.push(alert);
   localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
   renderLocalAlerts();
@@ -846,97 +889,33 @@ function renderLocalAlerts() {
   const card = document.getElementById('activeAlertsCard');
   const list = document.getElementById('alertsList');
   const count = document.getElementById('headerAlertCount');
-  if (!localAlerts.length) { card.style.display = 'none'; count.style.display = 'none'; return; }
-  card.style.display = ''; count.style.display = ''; count.textContent = localAlerts.length;
+  if (!localAlerts.length) { card.style.display='none'; count.style.display='none'; return; }
+  card.style.display=''; count.style.display=''; count.textContent=localAlerts.length;
   list.innerHTML = localAlerts.map(a => {
-    const desc = a.type === 'date-window'
-      ? `${a.date} · ${fmt12(a.timeFrom)} – ${fmt12(a.timeTo)}`
-      : `${allTeeTimes.find(t => t.courseId === a.courseId)?.courseName || 'Any course'}`;
+    const desc = a.type==='date-window'
+      ? `${a.date} · ${fmtTime(a.timeFrom)} – ${fmtTime(a.timeTo)}`
+      : `${allTeeTimes.find(t=>t.courseId===a.courseId)?.courseName||'Any course'}`;
     return `<div class="alert-item">
-      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players ? ` · ${a.players} players` : ''}</div></div>
-      <button class="delete-alert-btn" onclick="deleteAlert(${a.id})">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
-      </button>
+      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div>
+      <button class="delete-alert-btn" onclick="deleteAlert(${a.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
     </div>`;
   }).join('');
 }
 
-function fmt12(t) {
+function fmtTime(t) {
   if (!t) return '';
-  const [hh, mm] = t.split(':').map(Number);
-  return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'PM' : 'AM'}`;
+  const [hh,mm] = t.split(':').map(Number);
+  return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
 }
 
-// ── CLUB COORDINATES ──
-const CLUB_COORDS = {
-  // Chrono Golf
-  '152':   { lat: 45.5048, lng: -73.6186 }, // Mystic Pines
-  '21560': { lat: 45.6189, lng: -73.7542 }, // Golf St-Rose
-  '1871':  { lat: 45.4477, lng: -73.7496 }, // Golf Dorval
-  '1584':  { lat: 45.6012, lng: -73.5589 }, // Anjou
-  '1845':  { lat: 45.5698, lng: -73.5673 }, // Golf Municipal
-  '1763':  { lat: 45.4989, lng: -73.5093 }, // Golf St-Lambert
-  '1740':  { lat: 45.5953, lng: -73.4394 }, // Golf des Îles
-  '1704':  { lat: 45.7419, lng: -73.9964 }, // Golf St-Janvier
-  '1589':  { lat: 45.6744, lng: -74.0891 }, // Mirabel Le Boisé
-  '1588':  { lat: 45.6744, lng: -74.0891 }, // Mirabel Le Campagnard
-  '23133': { lat: 45.7823, lng: -73.6234 }, // La Seigneurie
-  // Foreup
-  '8116':  { lat: 45.4050, lng: -73.6580 }, // Caughnawaga
-};
-
-const WMO_CODES = {
-  0: '☀️', 1: '🌤️', 2: '⛅', 3: '☁️',
-  45: '🌫️', 48: '🌫️',
-  51: '🌦️', 53: '🌦️', 55: '🌧️',
-  61: '🌧️', 63: '🌧️', 65: '🌧️',
-  71: '🌨️', 73: '🌨️', 75: '❄️',
-  80: '🌦️', 81: '🌧️', 82: '⛈️',
-  95: '⛈️', 96: '⛈️', 99: '⛈️',
-};
-
-const weatherCache = {};
-
-async function fetchWeather(courseId, lat, lng, date) {
-  const cacheKey = `${courseId}-${date}`;
-  if (weatherCache[cacheKey]) return weatherCache[cacheKey];
-
-  try {
-    const url = `https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&start_date=${date}&end_date=${date}`;
-    const r    = await fetch(url);
-    const data = await r.json();
-    const code = data.daily?.weathercode?.[0];
-    const tmax = Math.round(data.daily?.temperature_2m_max?.[0]);
-    const tmin = Math.round(data.daily?.temperature_2m_min?.[0]);
-    const result = { icon: WMO_CODES[code] || '🌤️', tmax, tmin };
-    weatherCache[cacheKey] = result;
-    return result;
-  } catch { return null; }
-}
-
-async function loadWeatherForCards() {
-  const date = document.getElementById('filterDate').value;
-  const cards = document.querySelectorAll('.club-card');
-  for (const card of cards) {
-    const cardId   = card.id;
-    const courseId = cardId.replace('club-', '').split('-').slice(0,-1).join('-');
-    const coords   = CLUB_COORDS[courseId];
-    if (!coords) continue;
-    const w = await fetchWeather(courseId, coords.lat, coords.lng, date);
-    if (!w) continue;
-    const weatherEl = document.getElementById(`weather-${cardId}`);
-    if (weatherEl) weatherEl.innerHTML = `<span style="font-size:16px">${w.icon}</span> <span style="font-size:12px;color:var(--ink-60)">${w.tmax}°C</span>`;
-  }
-}
-
-function scrollToAlerts() { document.getElementById('alertsAnchor').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
-function scrollToFilters() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
+function scrollToAlerts() { document.getElementById('alertsAnchor').scrollIntoView({behavior:'smooth',block:'start'}); }
+function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
 
 function toast(msg) {
   const el = document.createElement('div');
-  el.className = 'toast'; el.textContent = msg;
+  el.className='toast'; el.textContent=msg;
   document.getElementById('toastContainer').appendChild(el);
-  setTimeout(() => el.remove(), 3200);
+  setTimeout(()=>el.remove(), 3200);
 }
 </script>
 </body>
