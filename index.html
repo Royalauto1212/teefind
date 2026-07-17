@@ -63,7 +63,7 @@
   .hero h1 em { font-style: italic; color: var(--green-200); }
   .hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 1.75rem; }
 
-  /* FILTER CARD */
+  /* FILTER */
   .filter-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 1.5rem 1.75rem; box-shadow: var(--shadow-float); position: sticky; top: 60px; z-index: 90; }
   .filter-row-main { display: grid; grid-template-columns: 150px 130px 110px 110px 120px 120px auto; gap: 12px; align-items: end; }
 
@@ -73,25 +73,25 @@
   .field.select-wrap { position: relative; }
   .field.select-wrap::after { content: ''; position: absolute; right: 12px; bottom: 14px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--ink-30); pointer-events: none; }
 
-  .search-btn { height: 42px; padding: 0 24px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; transition: background var(--transition), transform var(--transition); }
+  .search-btn { height: 42px; padding: 0 24px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; transition: background var(--transition); }
   .search-btn:hover { background: var(--green-500); }
-  .search-btn:active { transform: scale(0.98); }
-  .search-btn.loading { opacity: .7; cursor: wait; }
 
-  /* CLUB FILTER ROW */
+  /* CLUB FILTER PANEL */
+  .club-toggle-btn { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; background: none; border: 1.5px solid var(--ink-10); border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); }
+  .club-toggle-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .club-toggle-btn.active { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
+  .club-toggle-badge { background: var(--green-600); color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
+
   .filter-row-clubs { margin-top: 12px; border-top: 1.5px solid var(--ink-10); padding-top: 12px; display: none; }
   .filter-row-clubs.open { display: block; }
-
   .club-filter-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
   .club-filter-title { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); }
   .club-filter-actions { display: flex; gap: 8px; }
-  .club-filter-action { font-size: 12px; font-weight: 500; color: var(--green-600); background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 0; }
+  .club-filter-action { font-size: 12px; font-weight: 500; color: var(--green-600); background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
   .club-filter-action:hover { text-decoration: underline; }
   .club-filter-sep { color: var(--ink-30); font-size: 12px; }
-
   .club-search-input { width: 100%; height: 36px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; margin-bottom: 10px; }
   .club-search-input:focus { border-color: var(--green-500); background: var(--white); }
-
   .club-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
   .club-checkbox-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; color: var(--ink); transition: background var(--transition); user-select: none; }
   .club-checkbox-item:hover { background: var(--sand-50); }
@@ -99,44 +99,52 @@
   .club-checkbox-item input[type="checkbox"] { accent-color: var(--green-600); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
   .club-checkbox-item.hidden { display: none; }
 
-  /* Club filter toggle button */
-  .club-toggle-btn { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; background: none; border: 1.5px solid var(--ink-10); border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); }
-  .club-toggle-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
-  .club-toggle-btn.active { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
-  .club-toggle-badge { background: var(--green-600); color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
-
   /* MAIN */
   .main { max-width: 1100px; margin: 0 auto; padding: 1.75rem 2rem; display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
   .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .results-count { font-size: 14px; color: var(--ink-60); }
   .results-count strong { color: var(--ink); font-weight: 600; }
+  .sort-select { font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--white); border: 1.5px solid var(--ink-10); border-radius: var(--radius-sm); padding: 5px 10px; cursor: pointer; outline: none; }
 
-  /* TEE CARD */
-  .tee-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); padding: 1.1rem 1.25rem; margin-bottom: 8px; display: grid; grid-template-columns: 90px 1fr auto; gap: 16px; align-items: center; transition: border-color var(--transition), box-shadow var(--transition), transform var(--transition); animation: slideIn .25s ease both; }
+  /* CLUB CARD */
+  .club-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); padding: 1.1rem 1.25rem; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
   @keyframes slideIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
-  .tee-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); transform: translateY(-1px); }
-  .time-col { text-align: center; border-right: 1.5px solid var(--ink-10); padding-right: 16px; }
-  .time-main { font-family: 'DM Serif Display', serif; font-size: 26px; color: var(--ink); line-height: 1; letter-spacing: -0.02em; }
-  .time-ampm { font-size: 11px; font-weight: 600; color: var(--ink-60); letter-spacing: .06em; text-transform: uppercase; display: block; margin-top: 1px; }
-  .info-col { flex: 1; }
-  .course-name { font-size: 15px; font-weight: 600; color: var(--ink); margin-bottom: 4px; line-height: 1.3; }
-  .course-meta { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; font-size: 12px; color: var(--ink-60); }
-  .meta-sep { color: var(--ink-30); }
-  .source-badge { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; letter-spacing: .03em; }
+  .club-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); }
+
+  .club-card-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.75rem; }
+  .club-card-left { display: flex; align-items: center; gap: 10px; }
+  .club-card-name { font-size: 16px; font-weight: 600; color: var(--ink); }
+  .club-card-name a { color: inherit; text-decoration: none; transition: color var(--transition); }
+  .club-card-name a:hover { color: var(--green-600); }
+  .club-card-meta { display: flex; align-items: center; gap: 6px; }
+  .source-badge { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; }
   .source-badge.minutegolf { background: var(--sand-100); color: var(--sand-700); }
   .source-badge.chronogolf { background: var(--sky-50); color: var(--sky-600); }
   .source-badge.foreup { background: var(--green-50); color: var(--green-700); }
-  .tag { padding: 2px 7px; border-radius: 4px; font-size: 11px; font-weight: 600; }
-  .tag-amber { background: #fef3d0; color: #996600; }
-  .action-col { display: flex; flex-direction: column; align-items: flex-end; gap: 6px; min-width: 110px; }
-  .price { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); letter-spacing: -0.02em; line-height: 1; }
-  .price-label { font-size: 11px; color: var(--ink-60); text-align: right; }
-  .book-btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 14px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; width: 100%; justify-content: center; transition: background var(--transition); }
-  .book-btn:hover { background: var(--green-500); }
-  .book-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
-  .alert-btn { display: inline-flex; align-items: center; gap: 4px; padding: 5px 10px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-sm); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; width: 100%; justify-content: center; transition: all var(--transition); }
-  .alert-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .holes-badge { font-size: 12px; color: var(--ink-60); }
 
+  /* TIME BUBBLES */
+  .time-bubbles { display: flex; flex-wrap: wrap; gap: 6px; }
+  .time-bubble { padding: 6px 12px; border-radius: 20px; border: 1.5px solid var(--ink-10); font-size: 13px; font-weight: 500; color: var(--ink); background: var(--sand-50); cursor: pointer; transition: all var(--transition); user-select: none; }
+  .time-bubble:hover { border-color: var(--green-400); background: var(--green-50); color: var(--green-700); }
+  .time-bubble.active { border-color: var(--green-600); background: var(--green-600); color: white; }
+  .time-bubble.show-more { border-style: dashed; color: var(--ink-60); }
+  .time-bubble.show-more:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+
+  /* EXPANDED SLOT */
+  .slot-detail { margin-top: 10px; padding: 12px 14px; background: var(--sand-50); border-radius: var(--radius-md); display: flex; align-items: center; justify-content: space-between; gap: 12px; animation: slideIn .15s ease both; }
+  .slot-detail-info { font-size: 14px; color: var(--ink); }
+  .slot-detail-price { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); }
+  .slot-detail-tax { font-size: 11px; color: var(--ink-60); margin-left: 4px; }
+  .slot-detail-actions { display: flex; align-items: center; gap: 8px; }
+  .book-btn { display: inline-flex; align-items: center; gap: 5px; padding: 9px 18px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: background var(--transition); }
+  .book-btn:hover { background: var(--green-500); }
+  .book-btn svg { width: 12px; height: 12px; }
+  .alert-btn-sm { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all var(--transition); }
+  .alert-btn-sm:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .min-players-note { font-size: 11px; color: #996600; background: #fef3d0; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
+
+  /* EMPTY / PROMPT */
   .empty-state, .select-prompt { text-align: center; padding: 4rem 2rem; color: var(--ink-60); }
   .empty-state svg, .select-prompt svg { width: 48px; height: 48px; stroke: var(--ink-30); margin-bottom: 1rem; }
   .empty-state h3, .select-prompt h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: .5rem; }
@@ -174,25 +182,24 @@
   .stat-label { color: var(--ink-60); }
   .stat-value { font-weight: 600; color: var(--ink); }
 
-  .float-filter-btn { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 500; display: none; align-items: center; gap: 6px; padding: 10px 20px; background: var(--green-900); color: white; border: none; border-radius: 24px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 16px rgba(26,28,24,0.25); transition: background var(--transition), transform var(--transition); }
-  .float-filter-btn:hover { background: var(--green-700); transform: translateX(-50%) translateY(-2px); }
-  .float-filter-btn.visible { display: flex; animation: toastIn .25s ease both; }
+  .float-filter-btn { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 500; display: none; align-items: center; gap: 6px; padding: 10px 20px; background: var(--green-900); color: white; border: none; border-radius: 24px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 16px rgba(26,28,24,0.25); transition: background var(--transition); }
+  .float-filter-btn:hover { background: var(--green-700); }
+  .float-filter-btn.visible { display: flex; }
+
   .toast-container { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 999; display: flex; flex-direction: column; gap: 8px; pointer-events: none; }
   .toast { background: var(--green-900); color: white; padding: 10px 16px; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; box-shadow: var(--shadow-float); animation: toastIn .25s ease both, toastOut .3s ease 2.7s both; pointer-events: auto; }
   @keyframes toastIn { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
   @keyframes toastOut { to{opacity:0;transform:translateY(8px)} }
 
-  @media (max-width: 900px) { .filter-row-main { grid-template-columns: 1fr 1fr 1fr; } .club-grid { grid-template-columns: repeat(2,1fr); } .main { grid-template-columns: 1fr; } .sidebar { position: static; } }
-  @media (max-width: 540px) { header { padding: 0 1rem; } .hero h1 { font-size: 26px; } .filter-row-main { grid-template-columns: 1fr 1fr; } .main { padding: 1rem; } .tee-card { grid-template-columns: 70px 1fr; } .action-col { display: none; } .club-grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 900px) { .filter-row-main{grid-template-columns:1fr 1fr 1fr} .club-grid{grid-template-columns:repeat(2,1fr)} .main{grid-template-columns:1fr} .sidebar{position:static} }
+  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:26px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .club-grid{grid-template-columns:1fr 1fr} }
 </style>
 </head>
 <body>
 
 <header>
   <a href="/" class="logo">
-    <div class="logo-mark">
-      <svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.5" r="2.5" fill="white"/><line x1="12" y1="7" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg>
-    </div>
+    <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.5" r="2.5" fill="white"/><line x1="12" y1="7" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
     <span class="logo-text">Tee<em>Find</em></span>
   </a>
   <div class="header-right">
@@ -209,8 +216,6 @@
     <h1>Find a tee time,<br><em>instantly.</em></h1>
     <p class="hero-sub">One search. Every tee time in Montreal.</p>
     <div class="filter-card">
-
-      <!-- Main filter row -->
       <div class="filter-row-main">
         <div class="field">
           <label>Date</label>
@@ -273,10 +278,11 @@
         </div>
         <div class="field select-wrap">
           <label>Sort by</label>
-          <select id="sortSelect" onchange="applySortAndRender()">
-            <option value="time">Time</option>
+          <select id="sortSelect" onchange="applyFiltersAndRender()">
+            <option value="time">Earliest time</option>
             <option value="price-asc">Price ↑</option>
             <option value="price-desc">Price ↓</option>
+            <option value="name">Club name</option>
           </select>
         </div>
         <button class="search-btn" id="searchBtn" onclick="doSearch()">
@@ -285,27 +291,24 @@
         </button>
       </div>
 
-      <!-- Club filter toggle -->
       <button class="club-toggle-btn" id="clubToggleBtn" onclick="toggleClubPanel()">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
         Filter by club
         <span class="club-toggle-badge" id="clubToggleBadge" style="display:none">0</span>
       </button>
 
-      <!-- Club filter panel -->
       <div class="filter-row-clubs" id="clubFilterPanel">
         <div class="club-filter-header">
           <span class="club-filter-title">Select clubs to include</span>
           <div class="club-filter-actions">
             <button class="club-filter-action" onclick="selectAllClubs()">Show all</button>
             <span class="club-filter-sep">·</span>
-            <button class="club-filter-action" onclick="deselectAllClubs()">Check all</button>
+            <button class="club-filter-action" onclick="checkAllClubs()">Check all</button>
           </div>
         </div>
         <input type="text" class="club-search-input" id="clubSearch" placeholder="Search clubs..." oninput="filterClubGrid()" />
         <div class="club-grid" id="clubGrid"></div>
       </div>
-
     </div>
   </div>
 </div>
@@ -313,7 +316,7 @@
 <div class="main">
   <div class="results-col">
     <div class="results-header">
-      <div class="results-count"><strong id="countNum">—</strong> tee times found</div>
+      <div class="results-count"><strong id="countNum">—</strong> clubs with available times</div>
     </div>
     <div id="resultsList"></div>
   </div>
@@ -383,15 +386,16 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-const API_BASE  = 'https://postage-legwarmer-traverse.ngrok-free.dev/api';
+const API_BASE  = 'http://147.182.214.235:3001/api';
 const DEMO_MODE = false;
+const BUBBLES_INITIAL = 6; // How many time bubbles to show before "show more"
 
 let allTeeTimes      = [];
-let filteredTeeTimes = [];
 let alertType        = 'date-window';
 let localAlerts      = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
-let selectedClubs    = new Set(); // empty = show all
+let selectedClubs    = new Set();
 let allClubIds       = [];
+let activeSlot       = null; // currently expanded slot {cardId, slotId}
 
 // ── INIT ──
 (async function init() {
@@ -402,6 +406,26 @@ let allClubIds       = [];
   populateAlertCourseDropdown();
   renderLocalAlerts();
   showPrompt();
+
+  // Scroll behavior
+  let filterBottom = 0;
+  let lastScrollY  = 0;
+  window.addEventListener('load', () => setTimeout(() => {
+    const fc = document.querySelector('.filter-card');
+    if (fc) filterBottom = fc.getBoundingClientRect().bottom + window.scrollY + 100;
+  }, 500));
+
+  window.addEventListener('scroll', () => {
+    const scrollY  = window.scrollY;
+    const floatBtn = document.getElementById('floatFilterBtn');
+    floatBtn.classList.toggle('visible', scrollY > filterBottom);
+    const panel = document.getElementById('clubFilterPanel');
+    if (panel.classList.contains('open') && scrollY > lastScrollY + 200) {
+      panel.classList.remove('open');
+      document.getElementById('clubToggleBtn').classList.remove('active');
+    }
+    lastScrollY = scrollY;
+  }, { passive: true });
 })();
 
 // ── API ──
@@ -431,9 +455,7 @@ async function loadCourses() {
           <input type="checkbox" onchange="onClubCheck(this, '${c.id}')" />
           ${c.name}
         </label>`).join('');
-  } catch (e) {
-    console.warn('Could not load courses:', e.message);
-  }
+  } catch (e) { console.warn('Could not load courses:', e.message); }
 }
 
 async function loadStatus() {
@@ -454,15 +476,12 @@ function updateStatus(lastScrape) {
 // ── SEARCH ──
 async function doSearch() {
   const btn = document.getElementById('searchBtn');
-  btn.classList.add('loading');
   btn.textContent = 'Searching...';
+  document.getElementById('clubFilterPanel').classList.remove('open');
   await loadTeeTimes();
   updateStats();
   populateAlertCourseDropdown();
-  btn.classList.remove('loading');
   btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
-  // Collapse club panel on search
-  document.getElementById('clubFilterPanel').classList.remove('open');
   applyFiltersAndRender();
 }
 
@@ -472,34 +491,199 @@ function applyFiltersAndRender() {
   const timeFrom = document.getElementById('filterTimeFrom').value;
   const timeTo   = document.getElementById('filterTimeTo').value;
   const holes    = document.getElementById('filterHoles').value;
+  const sort     = document.getElementById('sortSelect').value;
 
   if (!players) { showPrompt(); return; }
 
   let results = [...allTeeTimes];
 
+  // Player count filter
   results = results.filter(t =>
     t.source === 'foreup'
       ? t.players >= parseInt(players)
       : t.players === parseInt(players)
   );
 
+  // Club filter
   if (selectedClubs.size > 0) results = results.filter(t => selectedClubs.has(t.courseId));
-  if (holes)    results = results.filter(t => t.holes === parseInt(holes));
+
+  // Holes
+  if (holes) results = results.filter(t => t.holes === parseInt(holes));
+
+  // Time window
   if (timeFrom) results = results.filter(t => t.time >= timeFrom);
   if (timeTo)   results = results.filter(t => t.time <= timeTo);
 
-  filteredTeeTimes = results;
-  applySortAndRender();
+  // Group by club
+  const grouped = {};
+  for (const t of results) {
+    const key = `${t.courseId}-${t.holes}`;
+    if (!grouped[key]) grouped[key] = { ...t, slots: [] };
+    grouped[key].slots.push(t);
+  }
+
+  // Sort each club's slots by time
+  for (const key of Object.keys(grouped)) {
+    grouped[key].slots.sort((a, b) => a.time.localeCompare(b.time));
+  }
+
+  // Sort clubs
+  let clubs = Object.values(grouped);
+  if (sort === 'time')       clubs.sort((a,b) => a.slots[0].time.localeCompare(b.slots[0].time));
+  if (sort === 'price-asc')  clubs.sort((a,b) => (a.slots[0].pricePerPlayer||999)-(b.slots[0].pricePerPlayer||999));
+  if (sort === 'price-desc') clubs.sort((a,b) => (b.slots[0].pricePerPlayer||0)-(a.slots[0].pricePerPlayer||0));
+  if (sort === 'name')       clubs.sort((a,b) => a.courseName.localeCompare(b.courseName));
+
+  document.getElementById('countNum').textContent = clubs.length;
   updateStats();
+  activeSlot = null;
+
+  if (!clubs.length) {
+    document.getElementById('resultsList').innerHTML = `
+      <div class="empty-state">
+        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/></svg>
+        <h3>No tee times found</h3>
+        <p>Try a different date, time, or club.</p>
+      </div>`;
+    return;
+  }
+
+  document.getElementById('resultsList').innerHTML = clubs.map((club, i) => renderClubCard(club, i)).join('');
 }
 
-function applySortAndRender() {
-  const sort   = document.getElementById('sortSelect').value;
-  const sorted = [...filteredTeeTimes];
-  if (sort === 'time')       sorted.sort((a,b) => a.time.localeCompare(b.time));
-  if (sort === 'price-asc')  sorted.sort((a,b) => (a.pricePerPlayer||999)-(b.pricePerPlayer||999));
-  if (sort === 'price-desc') sorted.sort((a,b) => (b.pricePerPlayer||0)-(a.pricePerPlayer||0));
-  renderResults(sorted);
+// ── RENDER CLUB CARD ──
+function renderClubCard(club, idx) {
+  const srcClass = club.source === 'minutegolf' ? 'minutegolf' : club.source === 'foreup' ? 'foreup' : 'chronogolf';
+  const srcLabel = club.source === 'minutegolf' ? 'Minute Golf' : club.source === 'foreup' ? 'Foreup' : 'Chrono Golf';
+  const cardId   = `club-${club.courseId}-${club.holes}`;
+  const delay    = Math.min(idx * 40, 300);
+
+  const slots      = club.slots;
+  const visible    = slots.slice(0, BUBBLES_INITIAL);
+  const hidden     = slots.slice(BUBBLES_INITIAL);
+  const hasMore    = hidden.length > 0;
+
+  const bubbles = visible.map(s => `
+    <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
+      ${formatTime12h(s.time)}
+    </button>`).join('');
+
+  const moreBubble = hasMore ? `
+    <button class="time-bubble show-more" onclick="expandCard('${cardId}')">
+      +${hidden.length} more
+    </button>` : '';
+
+  const nameHtml = club.courseUrl
+    ? `<a href="${club.courseUrl}" target="_blank" rel="noopener">${club.courseName} ↗</a>`
+    : club.courseName;
+
+  return `
+    <div class="club-card" id="${cardId}" style="animation-delay:${delay}ms" data-slots='${JSON.stringify(slots)}'>
+      <div class="club-card-header">
+        <div class="club-card-left">
+          <div class="club-card-name">${nameHtml}</div>
+          <div class="club-card-meta">
+            <span class="source-badge ${srcClass}">${srcLabel}</span>
+            <span class="holes-badge">${club.holes} holes</span>
+          </div>
+        </div>
+      </div>
+      <div class="time-bubbles" id="bubbles-${cardId}">${bubbles}${moreBubble}</div>
+      <div id="detail-${cardId}"></div>
+    </div>`;
+}
+
+function expandCard(cardId) {
+  const card     = document.getElementById(cardId);
+  const slots    = JSON.parse(card.dataset.slots);
+  const bubblesEl = document.getElementById(`bubbles-${cardId}`);
+
+  bubblesEl.innerHTML = slots.map(s => `
+    <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
+      ${formatTime12h(s.time)}
+    </button>`).join('');
+}
+
+function toggleSlot(cardId, slotId) {
+  const card   = document.getElementById(cardId);
+  const slots  = JSON.parse(card.dataset.slots);
+  const slot   = slots.find(s => s.id === slotId);
+  const detail = document.getElementById(`detail-${cardId}`);
+
+  // Deactivate all bubbles in this card
+  card.querySelectorAll('.time-bubble').forEach(b => b.classList.remove('active'));
+
+  // If same slot clicked again, close it
+  if (activeSlot && activeSlot.cardId === cardId && activeSlot.slotId === slotId) {
+    detail.innerHTML = '';
+    activeSlot = null;
+    return;
+  }
+
+  // Activate clicked bubble
+  const clickedBubble = card.querySelector(`[data-slot-id="${slotId}"]`);
+  if (clickedBubble) clickedBubble.classList.add('active');
+
+  activeSlot = { cardId, slotId };
+
+  const players    = document.getElementById('filterPlayers').value || '1';
+  const bookingUrl = getBookingUrl(slot, players);
+  const minNote    = (slot.minPlayers && slot.players < slot.minPlayers)
+    ? `<span class="min-players-note">Min. ${slot.minPlayers} players</span>` : '';
+
+  detail.innerHTML = `
+    <div class="slot-detail">
+      <div class="slot-detail-info">
+        <strong>${formatTime12h(slot.time)}</strong>
+        ${minNote}
+      </div>
+      <div style="display:flex;align-items:baseline;gap:4px;">
+        ${slot.pricePerPlayer
+          ? `<span class="slot-detail-price">$${slot.pricePerPlayer}</span><span class="slot-detail-tax">CAD/player${slot.taxesMode ? ' ' + slot.taxesMode : ''}</span>`
+          : `<span style="font-size:14px;color:var(--ink-60)">Price TBD</span>`}
+      </div>
+      <div class="slot-detail-actions">
+        <a class="book-btn" href="${bookingUrl}" target="_blank" rel="noopener">
+          Book
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+        </a>
+        <button class="alert-btn-sm" onclick="prefillAlert('${slot.courseId}','${slot.date}','${slot.time}')">
+          + Alert
+        </button>
+      </div>
+    </div>`;
+}
+
+function getBookingUrl(slot, players) {
+  if (slot.source === 'chronogolf') return slot.bookingUrl.replace(/nb_players=\d+/, 'nb_players=' + players);
+  if (slot.source === 'foreup')     return slot.bookingUrl;
+  return slot.bookingUrl.replace(/nbplayers=\d+/, 'nbplayers=' + players);
+}
+
+function formatTime12h(t) {
+  const [hh, mm] = t.split(':').map(Number);
+  return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'PM' : 'AM'}`;
+}
+
+function showPrompt() {
+  document.getElementById('countNum').textContent = '—';
+  document.getElementById('resultsList').innerHTML = `
+    <div class="select-prompt">
+      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
+        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="1.5"/>
+        <circle cx="9" cy="7" r="4" stroke-width="1.5"/>
+        <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="1.5"/>
+        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="1.5"/>
+      </svg>
+      <h3>How many players?</h3>
+      <p>Select the number of players above to see available tee times.</p>
+    </div>`;
+}
+
+function updateStats() {
+  const pub = allTeeTimes.filter(t => !t.membersOnly);
+  document.getElementById('statTotal').textContent   = pub.length;
+  document.getElementById('statCourses').textContent = new Set(pub.map(t => t.courseId)).size;
 }
 
 // ── CLUB PANEL ──
@@ -512,30 +696,20 @@ function toggleClubPanel() {
 }
 
 function onClubCheck(cb, id) {
-  if (cb.checked) {
-    selectedClubs.add(id);
-    cb.closest('.club-checkbox-item').classList.add('selected');
-  } else {
-    selectedClubs.delete(id);
-    cb.closest('.club-checkbox-item').classList.remove('selected');
-  }
+  if (cb.checked) { selectedClubs.add(id); cb.closest('.club-checkbox-item').classList.add('selected'); }
+  else            { selectedClubs.delete(id); cb.closest('.club-checkbox-item').classList.remove('selected'); }
   updateClubBadge();
   applyFiltersAndRender();
 }
 
 function selectAllClubs() {
-  // Select all = no filter (show everything)
-  document.querySelectorAll('.club-checkbox-item').forEach(label => {
-    label.querySelector('input').checked = false;
-    label.classList.remove('selected');
-  });
   selectedClubs.clear();
+  document.querySelectorAll('.club-checkbox-item input').forEach(cb => { cb.checked = false; cb.closest('.club-checkbox-item').classList.remove('selected'); });
   updateClubBadge();
   applyFiltersAndRender();
 }
 
-function deselectAllClubs() {
-  // Deselect all = check all boxes so user can then uncheck the ones they don't want
+function checkAllClubs() {
   document.querySelectorAll('.club-checkbox-item').forEach(label => {
     const id = label.dataset.id;
     const cb = label.querySelector('input');
@@ -557,132 +731,33 @@ function filterClubGrid() {
 function updateClubBadge() {
   const badge = document.getElementById('clubToggleBadge');
   const btn   = document.getElementById('clubToggleBtn');
-  if (selectedClubs.size > 0) {
-    badge.style.display = '';
-    badge.textContent   = selectedClubs.size;
-    btn.classList.add('active');
+  if (selectedClubs.size > 0 && selectedClubs.size < allClubIds.length) {
+    badge.style.display = ''; badge.textContent = selectedClubs.size; btn.classList.add('active');
   } else {
     badge.style.display = 'none';
-    btn.classList.remove('active');
-    if (!document.getElementById('clubFilterPanel').classList.contains('open')) {
-      btn.classList.remove('active');
-    }
+    if (!document.getElementById('clubFilterPanel').classList.contains('open')) btn.classList.remove('active');
   }
-}
-
-// ── RENDER ──
-function showPrompt() {
-  document.getElementById('countNum').textContent = '—';
-  document.getElementById('resultsList').innerHTML = `
-    <div class="select-prompt">
-      <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" stroke-width="1.5"/>
-        <circle cx="9" cy="7" r="4" stroke-width="1.5"/>
-        <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="1.5"/>
-        <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="1.5"/>
-      </svg>
-      <h3>How many players?</h3>
-      <p>Select the number of players above to see available tee times.</p>
-    </div>`;
-}
-
-function renderResults(times) {
-  document.getElementById('countNum').textContent = times.length;
-  if (!times.length) {
-    document.getElementById('resultsList').innerHTML = `
-      <div class="empty-state">
-        <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round">
-          <circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/>
-        </svg>
-        <h3>No tee times found</h3>
-        <p>Try a different date, time, or club.</p>
-      </div>`;
-    return;
-  }
-  document.getElementById('resultsList').innerHTML = times.map((t,i) => renderTeeCard(t,i)).join('');
-}
-
-function renderTeeCard(t, idx) {
-  const {h,m,ampm} = parseTime12h(t.time);
-  const delay    = Math.min(idx*30, 200);
-  const srcClass = t.source==='minutegolf'?'minutegolf':t.source==='foreup'?'foreup':'chronogolf';
-  const srcLabel = t.source==='minutegolf'?'Minute Golf':t.source==='foreup'?'Foreup':'Chrono Golf';
-  const tags = [
-    `<span class="source-badge ${srcClass}">${srcLabel}</span>`,
-    `${t.holes} holes`,
-    `${t.players} player${t.players!==1?'s':''}`,
-    (t.minPlayers && t.players < t.minPlayers) ? `<span class="tag tag-amber">Min. ${t.minPlayers} players</span>` : '',
-  ].filter(Boolean).join('<span class="meta-sep">·</span>');
-
-  return `
-    <div class="tee-card" style="animation-delay:${delay}ms">
-      <div class="time-col">
-        <div class="time-main">${h}:${m}</div>
-        <span class="time-ampm">${ampm}</span>
-      </div>
-      <div class="info-col">
-        <div class="course-name">
-          ${t.courseUrl
-            ? `<a href="${t.courseUrl}" target="_blank" rel="noopener" style="color:inherit;text-decoration:none;" onmouseover="this.style.color='var(--green-600)'" onmouseout="this.style.color='inherit'">${t.courseName} <span style="font-size:11px;opacity:0.6">↗</span></a>`
-            : t.courseName}
-        </div>
-        <div class="course-meta">${tags}</div>
-      </div>
-      <div class="action-col">
-        ${t.pricePerPlayer
-          ? `<div class="price">$${t.pricePerPlayer}</div><div class="price-label">CAD / player</div>`
-          : `<div class="price" style="font-size:14px;color:var(--ink-60)">TBD</div>`}
-        <a class="book-btn" href="${getBookingUrl(t)}" target="_blank" rel="noopener">
-          Book
-          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
-        </a>
-        <button class="alert-btn" onclick="prefillAlert('${t.courseId}','${t.date}','${t.time}')">
-          <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Set alert
-        </button>
-      </div>
-    </div>`;
-}
-
-function getBookingUrl(t) {
-  const p = document.getElementById('filterPlayers').value || '1';
-  if (t.source==='chronogolf') return t.bookingUrl.replace(/nb_players=\d+/, 'nb_players='+p);
-  if (t.source==='foreup')     return t.bookingUrl;
-  return t.bookingUrl.replace(/nbplayers=\d+/, 'nbplayers='+p);
-}
-
-function parseTime12h(t) {
-  const [hh,mm] = t.split(':').map(Number);
-  return { h: hh%12||12, m: String(mm).padStart(2,'0'), ampm: hh>=12?'PM':'AM' };
-}
-
-function updateStats() {
-  const pub = allTeeTimes.filter(t => !t.membersOnly);
-  document.getElementById('statTotal').textContent   = pub.length;
-  document.getElementById('statCourses').textContent = new Set(pub.map(t => t.courseId)).size;
 }
 
 // ── ALERTS ──
 function selectAlertType(type) {
   alertType = type;
-  document.getElementById('typeDate').classList.toggle('active', type==='date-window');
-  document.getElementById('typeCourse').classList.toggle('active', type==='course');
-  document.getElementById('alertFormDateWindow').style.display = type==='date-window'?'':'none';
-  document.getElementById('alertFormCourse').style.display     = type==='course'?'':'none';
+  document.getElementById('typeDate').classList.toggle('active', type === 'date-window');
+  document.getElementById('typeCourse').classList.toggle('active', type === 'course');
+  document.getElementById('alertFormDateWindow').style.display = type === 'date-window' ? '' : 'none';
+  document.getElementById('alertFormCourse').style.display     = type === 'course'      ? '' : 'none';
 }
 
 function populateAlertCourseDropdown() {
   const sel    = document.getElementById('alertCourse');
-  const unique = [...new Map(allTeeTimes.map(t => [t.courseId, t])).values()]
-    .sort((a,b) => a.courseName.localeCompare(b.courseName));
-  sel.innerHTML = '<option value="">Any course</option>' +
-    unique.map(t => `<option value="${t.courseId}">${t.courseName}</option>`).join('');
+  const unique = [...new Map(allTeeTimes.map(t => [t.courseId, t])).values()].sort((a,b) => a.courseName.localeCompare(b.courseName));
+  sel.innerHTML = '<option value="">Any course</option>' + unique.map(t => `<option value="${t.courseId}">${t.courseName}</option>`).join('');
 }
 
 function prefillAlert(courseId, date, time) {
   scrollToAlerts();
   const [hh] = time.split(':').map(Number);
-  if (alertType==='date-window') {
+  if (alertType === 'date-window') {
     document.getElementById('alertDate').value     = date;
     document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
     document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
@@ -697,15 +772,15 @@ async function createAlert() {
   if (!contact) { toast('Please enter an email or phone number.'); return; }
   const alert = {
     id: Date.now(), type: alertType, contact,
-    courseId: alertType==='course'      ? document.getElementById('alertCourse').value  : null,
-    date:     alertType==='date-window' ? document.getElementById('alertDate').value     : null,
-    timeFrom: alertType==='date-window' ? document.getElementById('alertTimeFrom').value : null,
-    timeTo:   alertType==='date-window' ? document.getElementById('alertTimeTo').value   : null,
+    courseId: alertType === 'course'      ? document.getElementById('alertCourse').value  : null,
+    date:     alertType === 'date-window' ? document.getElementById('alertDate').value     : null,
+    timeFrom: alertType === 'date-window' ? document.getElementById('alertTimeFrom').value : null,
+    timeTo:   alertType === 'date-window' ? document.getElementById('alertTimeTo').value   : null,
     players:  document.getElementById('alertPlayers').value || null,
     createdAt: new Date().toISOString(),
   };
   try {
-    await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json','ngrok-skip-browser-warning':'true'}, body:JSON.stringify(alert) });
+    await fetch(`${API_BASE}/alerts`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(alert) });
   } catch {}
   localAlerts.push(alert);
   localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
@@ -721,17 +796,17 @@ function deleteAlert(id) {
 }
 
 function renderLocalAlerts() {
-  const card  = document.getElementById('activeAlertsCard');
-  const list  = document.getElementById('alertsList');
+  const card = document.getElementById('activeAlertsCard');
+  const list = document.getElementById('alertsList');
   const count = document.getElementById('headerAlertCount');
-  if (!localAlerts.length) { card.style.display='none'; count.style.display='none'; return; }
-  card.style.display=''; count.style.display=''; count.textContent=localAlerts.length;
+  if (!localAlerts.length) { card.style.display = 'none'; count.style.display = 'none'; return; }
+  card.style.display = ''; count.style.display = ''; count.textContent = localAlerts.length;
   list.innerHTML = localAlerts.map(a => {
-    const desc = a.type==='date-window'
+    const desc = a.type === 'date-window'
       ? `${a.date} · ${fmt12(a.timeFrom)} – ${fmt12(a.timeTo)}`
-      : `${allTeeTimes.find(t=>t.courseId===a.courseId)?.courseName||'Any course'}`;
+      : `${allTeeTimes.find(t => t.courseId === a.courseId)?.courseName || 'Any course'}`;
     return `<div class="alert-item">
-      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div>
+      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players ? ` · ${a.players} players` : ''}</div></div>
       <button class="delete-alert-btn" onclick="deleteAlert(${a.id})">
         <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
       </button>
@@ -741,60 +816,19 @@ function renderLocalAlerts() {
 
 function fmt12(t) {
   if (!t) return '';
-  const [hh,mm] = t.split(':').map(Number);
-  return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
+  const [hh, mm] = t.split(':').map(Number);
+  return `${hh % 12 || 12}:${String(mm).padStart(2, '0')} ${hh >= 12 ? 'PM' : 'AM'}`;
 }
 
-function scrollToAlerts() {
-  document.getElementById('alertsAnchor').scrollIntoView({behavior:'smooth',block:'start'});
-}
+function scrollToAlerts() { document.getElementById('alertsAnchor').scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+function scrollToFilters() { window.scrollTo({ top: 0, behavior: 'smooth' }); }
 
 function toast(msg) {
   const el = document.createElement('div');
-  el.className='toast'; el.textContent=msg;
+  el.className = 'toast'; el.textContent = msg;
   document.getElementById('toastContainer').appendChild(el);
-  setTimeout(()=>el.remove(), 3200);
+  setTimeout(() => el.remove(), 3200);
 }
-
-// ── SCROLL BEHAVIOR ──
-let filterCardBottom = 0;
-
-function getFilterBottom() {
-  const fc = document.querySelector('.filter-card');
-  if (fc) filterCardBottom = fc.getBoundingClientRect().bottom + window.scrollY + 100;
-}
-
-let lastScrollY = 0;
-window.addEventListener('scroll', () => {
-  const scrollY  = window.scrollY;
-  const floatBtn = document.getElementById('floatFilterBtn');
-
-  // Show float button when scrolled past filter card
-  if (scrollY > filterCardBottom) {
-    floatBtn.classList.add('visible');
-  } else {
-    floatBtn.classList.remove('visible');
-  }
-
-  // Close club panel only after scrolling 200px past where it opened
-  const panel = document.getElementById('clubFilterPanel');
-  if (panel && panel.classList.contains('open')) {
-    if (scrollY > lastScrollY + 200) {
-      panel.classList.remove('open');
-      document.getElementById('clubToggleBtn').classList.remove('active');
-    }
-  } else {
-    lastScrollY = scrollY;
-  }
-}, { passive: true });
-
-function scrollToFilters() {
-  window.scrollTo({ top: 0, behavior: 'smooth' });
-}
-
-// Calculate filter bottom after load
-window.addEventListener('load', () => setTimeout(getFilterBottom, 500));
-
 </script>
 </body>
 </html>
