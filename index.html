@@ -100,6 +100,11 @@
   .results-count { font-size: 14px; color: var(--ink-60); }
   .results-count strong { color: var(--ink); font-weight: 600; }
 
+  /* PREVIEW TIMES */
+  .preview-times { display: flex; flex-wrap: wrap; align-items: center; gap: 5px; margin-top: 8px; }
+  .preview-time { font-size: 12px; font-weight: 500; color: var(--ink-60); background: var(--sand-50); border: 1px solid var(--ink-10); border-radius: 12px; padding: 3px 9px; }
+  .preview-more { font-size: 12px; color: var(--ink-30); padding: 3px 4px; }
+
   /* PARENT CLUB CARD */
   .parent-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
   @keyframes slideIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
@@ -660,7 +665,7 @@ function applyFiltersAndRender() {
   if (sort === 'price-desc') parents.sort((a,b) => Math.max(...b.allSlots.map(s=>s.pricePerPlayer||0))   - Math.max(...a.allSlots.map(s=>s.pricePerPlayer||0)));
   if (sort === 'name')       parents.sort((a,b) => a.parentName.localeCompare(b.parentName));
 
-  document.getElementById('countNum').textContent = parents.length + STATIC_CLUBS.length;
+  document.getElementById('countNum').textContent = parents.length;
   updateStats();
   activeSlot = null;
 
@@ -673,17 +678,7 @@ function applyFiltersAndRender() {
     return;
   }
 
-  const dynamicHtml = parents.map((p, i) => renderParentCard(p, i)).join('');
-  const staticHtml  = STATIC_CLUBS.map((c, i) => `
-    <div class="static-card" style="animation-delay:${(parents.length + i) * 40}ms">
-      <div>
-        <div class="static-card-name"><a href="${c.url}" target="_blank" rel="noopener">${c.name} ↗</a></div>
-        <div class="static-card-sub">${c.holes} holes · Book directly on their website</div>
-      </div>
-      <a class="visit-btn" href="${c.url}" target="_blank" rel="noopener">Visit ↗</a>
-    </div>`).join('');
-
-  document.getElementById('resultsList').innerHTML = dynamicHtml + staticHtml;
+  document.getElementById('resultsList').innerHTML = parents.map((p, i) => renderParentCard(p, i)).join('');
   setTimeout(() => loadWeatherForParents(parents), 100);
 }
 
@@ -703,8 +698,19 @@ function renderParentCard(parent, idx) {
 
   const totalSlots = parent.allSlots.length;
   const coursesLabel = parent.courses.length > 1
-    ? `${parent.courses.length} courses · ${totalSlots} times available`
-    : `${totalSlots} times available`;
+    ? `${parent.courses.length} courses`
+    : ``;
+
+  // Preview: first 5 unique times across all courses
+  const previewSeen = new Set();
+  const previewTimes = parent.allSlots
+    .sort((a,b) => a.time.localeCompare(b.time))
+    .filter(s => { if (previewSeen.has(s.time)) return false; previewSeen.add(s.time); return true; })
+    .slice(0, 5);
+
+  const previewHtml = previewTimes.map(s =>
+    `<span class="preview-time">${fmt12(s.time)}</span>`
+  ).join('') + (totalSlots > 5 ? `<span class="preview-more">+${totalSlots - 5} more</span>` : '');
 
   return `
     <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent='${JSON.stringify(parent)}'>
@@ -715,6 +721,7 @@ function renderParentCard(parent, idx) {
           <div class="parent-weather-row" id="weather-${cardId}">
             <span style="font-size:13px;color:var(--ink-30)">Loading weather...</span>
           </div>
+          <div class="preview-times">${previewHtml}</div>
         </div>
         <div class="parent-card-right">
           <div class="parent-price-range">${priceHtml}</div>
