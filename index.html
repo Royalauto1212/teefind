@@ -216,7 +216,29 @@
 
 <header>
   <a href="/" class="logo">
-    <div class="logo-mark"><svg viewBox="0 0 24 24" fill="none"><circle cx="12" cy="4.5" r="2.5" fill="white"/><line x1="12" y1="7" x2="12" y2="18" stroke="white" stroke-width="2" stroke-linecap="round"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke="white" stroke-width="1.5" stroke-linecap="round"/></svg></div>
+    <svg width="36" height="36" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Rounded square background -->
+      <rect width="36" height="36" rx="8" fill="#4d8a18"/>
+      <!-- Golf ball -->
+      <circle cx="18" cy="14" r="9.5" fill="white"/>
+      <!-- Golf ball dimples (arc lines) -->
+      <path d="M10.5 11 Q14 9 18 11" stroke="#4d8a18" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M18 11 Q22 9 25.5 11" stroke="#4d8a18" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M9 15 Q13 13.5 17 15" stroke="#4d8a18" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M19 15 Q23 13.5 27 15" stroke="#4d8a18" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M10.5 19 Q14 17.5 18 19" stroke="#4d8a18" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <path d="M18 19 Q22 17.5 25.5 19" stroke="#4d8a18" stroke-width="0.9" fill="none" stroke-linecap="round" opacity="0.5"/>
+      <!-- Clock hands -->
+      <line x1="18" y1="14" x2="18" y2="8.5" stroke="#3B6D11" stroke-width="1.8" stroke-linecap="round"/>
+      <line x1="18" y1="14" x2="22.5" y2="14" stroke="#3B6D11" stroke-width="1.8" stroke-linecap="round"/>
+      <circle cx="18" cy="14" r="1.2" fill="#3B6D11"/>
+      <!-- Tee top (T shape) -->
+      <rect x="13" y="23.5" width="10" height="2" rx="1" fill="white"/>
+      <!-- Tee stem -->
+      <rect x="16.5" y="25.5" width="3" height="5.5" rx="1.5" fill="white"/>
+      <!-- Shadow -->
+      <ellipse cx="18" cy="31.5" rx="4" ry="1.2" fill="rgba(0,0,0,0.2)"/>
+    </svg>
     <span class="logo-text">Tee<em>Find</em></span>
   </a>
   <div class="header-right">
@@ -457,6 +479,10 @@ const CLUB_COORDS = {
   '127':   { lat: 45.5631, lng: -73.8012 },
   '64':    { lat: 45.5889, lng: -73.7456 },
   '73':    { lat: 45.5748, lng: -73.8234 },
+  '22977': { lat: 45.4600, lng: -74.1756 }, // Falcon Golf Course (Hudson)
+  '20766': { lat: 45.0133, lng: -73.4208 }, // International 2000
+  '1619':  { lat: 45.0133, lng: -73.4208 },
+  '1618':  { lat: 45.0133, lng: -73.4208 },
 };
 
 const WMO = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️' };
