@@ -524,7 +524,10 @@ function applyFiltersAndRender() {
 
   // Sort each club's slots by time
   for (const key of Object.keys(grouped)) {
-    grouped[key].slots.sort((a, b) => a.time.localeCompare(b.time));
+    const seen = new Set();
+    grouped[key].slots = grouped[key].slots
+      .filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; })
+      .sort((a, b) => a.time.localeCompare(b.time));
   }
 
   // Sort clubs
@@ -594,14 +597,49 @@ function renderClubCard(club, idx) {
 }
 
 function expandCard(cardId) {
-  const card     = document.getElementById(cardId);
-  const slots    = JSON.parse(card.dataset.slots);
+  const card      = document.getElementById(cardId);
+  const slots     = JSON.parse(card.dataset.slots);
   const bubblesEl = document.getElementById(`bubbles-${cardId}`);
 
-  bubblesEl.innerHTML = slots.map(s => `
+  // Deduplicate by time
+  const seen = new Set();
+  const unique = slots.filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; });
+
+  bubblesEl.innerHTML = unique.map(s => `
     <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
       ${formatTime12h(s.time)}
-    </button>`).join('');
+    </button>`).join('') + `
+    <button class="time-bubble show-more" onclick="collapseCard('${cardId}')">Show less</button>`;
+
+  // Scroll so new times are visible
+  setTimeout(() => {
+    bubblesEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }, 50);
+}
+
+function collapseCard(cardId) {
+  const card      = document.getElementById(cardId);
+  const slots     = JSON.parse(card.dataset.slots);
+  const bubblesEl = document.getElementById(`bubbles-${cardId}`);
+  const detail    = document.getElementById(`detail-${cardId}`);
+
+  // Deduplicate
+  const seen = new Set();
+  const unique = slots.filter(s => { if (seen.has(s.time)) return false; seen.add(s.time); return true; });
+
+  const visible = unique.slice(0, BUBBLES_INITIAL);
+  const hidden  = unique.slice(BUBBLES_INITIAL);
+
+  bubblesEl.innerHTML = visible.map(s => `
+    <button class="time-bubble" onclick="toggleSlot('${cardId}','${s.id}')" data-slot-id="${s.id}">
+      ${formatTime12h(s.time)}
+    </button>`).join('') + (hidden.length > 0 ? `
+    <button class="time-bubble show-more" onclick="expandCard('${cardId}')">
+      +${hidden.length} more
+    </button>` : '');
+
+  detail.innerHTML = '';
+  activeSlot = null;
 }
 
 function toggleSlot(cardId, slotId) {
