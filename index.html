@@ -244,7 +244,7 @@
   <div class="hero">
     <div class="hero-inner">
       <h1>Find a tee time,<br><em>instantly.</em></h1>
-      <p class="hero-sub">One search. Every tee time in Montreal.</p>
+      <p class="hero-sub">All your favourite courses, one search.</p>
       <div class="filter-card">
         <div class="filter-row-main">
           <div class="field">
@@ -772,8 +772,14 @@ function applyFiltersAndRender() {
     document.getElementById('resultsList').innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/></svg>
-        <h3>No tee times found</h3><p>Try adjusting your filters.</p>
-      </div>`;
+        <h3>No tee times found</h3>
+        <p>Try adjusting your filters.</p>
+        <p style="margin-top:1rem;">
+          <button onclick="switchTab('alerts')" style="background:none;border:none;color:var(--green-600);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;text-decoration:underline;">
+            Can't find what you're looking for? Set a cancellation alert →
+          </button>
+        </p>
+      </div>\`; 
     return;
   }
 
