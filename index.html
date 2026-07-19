@@ -38,7 +38,8 @@
   }
 
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  body { font-family: 'DM Sans', sans-serif; background: var(--sand-50); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
+  body { font-family: 'DM Sans', sans-serif; background: var(--sand-50); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; cursor: pointer; }
+  button { cursor: pointer; }
 
   /* HEADER */
   header { background: var(--green-900); padding: 0 2rem; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 60px; border-bottom: 1px solid rgba(255,255,255,0.06); }
@@ -51,8 +52,8 @@
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
 
   /* TABS */
-  .tabs { background: var(--green-800); padding: 0 2rem; display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
-  .tab-btn { padding: 12px 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.5); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--transition); display: flex; align-items: center; gap: 6px; }
+  .tabs { background: var(--green-800); padding: 0 1rem; display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); overflow-x: auto; }
+  .tab-btn { padding: 12px 16px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.5); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--transition); display: flex; align-items: center; gap: 6px; white-space: nowrap; flex-shrink: 0; }
   .tab-btn:hover { color: rgba(255,255,255,0.8); }
   .tab-btn.active { color: var(--white); border-bottom-color: var(--green-400); }
 
@@ -548,7 +549,7 @@ function haversineKm(lat1, lng1, lat2, lng2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
 }
 
-async function geocodeAndFilter() {
+window.geocodeAndFilter = async function geocodeAndFilter() {
   const input = document.getElementById('locationInput').value.trim();
   if (!input) return;
   try {
@@ -567,7 +568,7 @@ async function geocodeAndFilter() {
   } catch { toast('Could not geocode location.'); }
 }
 
-function clearDistance() {
+window.clearDistance = function clearDistance() {
   userLocation = null;
   document.getElementById('locationInput').value = '';
   document.getElementById('distanceBadge').style.display = 'none';
@@ -575,7 +576,7 @@ function clearDistance() {
   applyFiltersAndRender();
 }
 
-function clearPrice() {
+window.clearPrice = function clearPrice() {
   document.getElementById('priceMin').value = '';
   document.getElementById('priceMax').value = '';
   document.getElementById('priceBadge').style.display = 'none';
@@ -584,7 +585,7 @@ function clearPrice() {
 }
 
 // ── TABS ──
-function switchTab(tab) {
+window.switchTab = function switchTab(tab) {
   currentTab = tab;
   document.getElementById('findTab').style.display    = tab === 'find'   ? '' : 'none';
   document.getElementById('alertsTab').classList.toggle('active', tab === 'alerts');
@@ -594,7 +595,7 @@ function switchTab(tab) {
 }
 
 // ── PANEL TOGGLE ──
-function togglePanel(panelId, btnId) {
+window.togglePanel = function togglePanel(panelId, btnId) {
   const panel = document.getElementById(panelId);
   const btn   = document.getElementById(btnId);
   const open  = panel.classList.toggle('open');
@@ -672,7 +673,7 @@ function updateStatus(ls) {
 }
 
 // ── SEARCH ──
-async function doSearch() {
+window.doSearch = async function doSearch() {
   const btn = document.getElementById('searchBtn');
   btn.textContent = 'Searching...';
   await loadTeeTimes();
@@ -682,7 +683,7 @@ async function doSearch() {
 }
 
 // ── FILTERS ──
-function applyFiltersAndRender() {
+window.applyFiltersAndRender = function applyFiltersAndRender() {
   const players  = document.getElementById('filterPlayers').value;
   const timeFrom = document.getElementById('filterTimeFrom').value;
   const timeTo   = document.getElementById('filterTimeTo').value;
@@ -780,7 +781,7 @@ function applyFiltersAndRender() {
             Can't find what you're looking for? Set a cancellation alert →
           </button>
         </p>
-      </div>\`; 
+      </div>`;
     return;
   }
 
@@ -789,21 +790,21 @@ function applyFiltersAndRender() {
 }
 
 // ── RENDER ──
-function renderParentCard(parent, idx) {
-  const cardId   = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
+function renderParentCard(pclub, idx) {
+  const cardId   = `parent-${pclub.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
   const delay    = Math.min(idx * 40, 300);
-  const prices   = parent.allSlots.map(s => s.pricePerPlayer).filter(Boolean);
+  const prices   = pclub.allSlots.map(s => s.pricePerPlayer).filter(Boolean);
   const minPrice = prices.length ? Math.min(...prices) : null;
   const maxPrice = prices.length ? Math.max(...prices) : null;
   const priceHtml = minPrice ? (minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} – $${maxPrice}`) : 'TBD';
-  const nameHtml = parent.parentUrl
-    ? `<a href="${parent.parentUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${parent.parentName} ↗</a>`
-    : parent.parentName;
-  const coursesLabel = parent.courses.length > 1 ? `${parent.courses.length} courses` : '';
+  const nameHtml = pclub.parentUrl
+    ? `<a href="${pclub.parentUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${pclub.parentName} ↗</a>`
+    : pclub.parentName;
+  const coursesLabel = pclub.courses.length > 1 ? `${pclub.courses.length} courses` : '';
 
   let distHtml = '';
   if (userLocation) {
-    const coords = CLUB_COORDS[parent.courseId];
+    const coords = CLUB_COORDS[pclub.courseId];
     if (coords) {
       const km = haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng);
       distHtml = `<div class="distance-badge">📍 ${km.toFixed(1)} km away</div>`;
@@ -827,7 +828,7 @@ function renderParentCard(parent, idx) {
         </div>
       </div>
       <div class="parent-courses">
-        ${parent.courses.map(c => renderCourseSection(c, cardId)).join('')}
+        ${pclub.courses.map(c => renderCourseSection(c, cardId)).join('')}
       </div>
     </div>`;
 }
@@ -855,7 +856,7 @@ function renderCourseSection(course, parentCardId) {
     </div>`;
 }
 
-function expandSection(sectionId, parentCardId) {
+window.expandSection = function expandSection(sectionId, parentCardId) {
   const section = document.getElementById(sectionId);
   const slots   = JSON.parse(section.dataset.slots);
   const el      = document.getElementById(`bubbles-${sectionId}`);
@@ -865,7 +866,7 @@ function expandSection(sectionId, parentCardId) {
   setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
 }
 
-function collapseSection(sectionId, parentCardId) {
+window.collapseSection = function collapseSection(sectionId, parentCardId) {
   const section = document.getElementById(sectionId);
   const slots   = JSON.parse(section.dataset.slots);
   const el      = document.getElementById(`bubbles-${sectionId}`);
@@ -879,7 +880,7 @@ function collapseSection(sectionId, parentCardId) {
   activeSlot = null;
 }
 
-async function toggleSlot(sectionId, slotId, parentCardId) {
+window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
   const section  = document.getElementById(sectionId);
   const slots    = JSON.parse(section.dataset.slots);
   const slot     = slots.find(s => s.id === slotId);
@@ -930,7 +931,7 @@ async function toggleSlot(sectionId, slotId, parentCardId) {
 async function loadWeatherForParents(parents) {
   const date = document.getElementById('filterDate').value;
   for (const parent of parents) {
-    const coords = CLUB_COORDS[parent.courseId];
+    const coords = CLUB_COORDS[pclub.courseId];
     const cardId = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
     const el     = document.getElementById(`weather-${cardId}`);
     if (!el || !coords) { if(el) el.innerHTML=''; continue; }
@@ -974,13 +975,13 @@ function onClubCheckGroup(cb, idsStr) {
   updateClubBadge(); applyFiltersAndRender();
 }
 
-function selectAllClubs() {
+window.selectAllClubs = function selectAllClubs() {
   selectedClubs.clear();
   document.querySelectorAll('.club-checkbox-item input').forEach(cb => { cb.checked=false; cb.closest('.club-checkbox-item').classList.remove('selected'); });
   updateClubBadge(); applyFiltersAndRender();
 }
 
-function checkAllClubs() {
+window.checkAllClubs = function checkAllClubs() {
   document.querySelectorAll('.club-checkbox-item').forEach(label => {
     const ids = (label.dataset.ids||'').split(',');
     const cb = label.querySelector('input');
@@ -989,7 +990,7 @@ function checkAllClubs() {
   updateClubBadge(); applyFiltersAndRender();
 }
 
-function filterClubGrid() {
+window.filterClubGrid = function filterClubGrid() {
   const q = document.getElementById('clubSearch').value.toLowerCase();
   document.querySelectorAll('.club-checkbox-item').forEach(item => item.classList.toggle('hidden', !item.dataset.name.includes(q)));
 }
@@ -1009,7 +1010,7 @@ function populateAlertCourseDropdown() {
   sel.innerHTML = '<option value="">Any course</option>' + unique.map(t=>`<option value="${t.courseId}">${t.courseName}</option>`).join('');
 }
 
-function prefillAlert(courseId, date, time) {
+window.prefillAlert = function prefillAlert(courseId, date, time) {
   switchTab('alerts');
   const [hh] = time.split(':').map(Number);
   document.getElementById('alertCourse').value   = courseId;
@@ -1019,7 +1020,7 @@ function prefillAlert(courseId, date, time) {
   document.getElementById('alertContact').focus();
 }
 
-async function createAlert() {
+window.createAlert = async function createAlert() {
   const contact = document.getElementById('alertContact').value.trim();
   if (!contact) { toast('Please enter an email or phone number.'); return; }
   const alert = {
@@ -1039,7 +1040,7 @@ async function createAlert() {
   toast("Alert created! We'll notify you when a tee time opens up.");
 }
 
-function deleteAlert(id) {
+window.deleteAlert = function deleteAlert(id) {
   localAlerts = localAlerts.filter(a => a.id !== id);
   localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
   renderLocalAlerts();
@@ -1072,7 +1073,7 @@ function fmtTime(t) {
   return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
 }
 
-function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
+window.scrollToFilters = function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
 
 function toast(msg) {
   const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
