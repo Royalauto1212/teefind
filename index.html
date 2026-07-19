@@ -412,27 +412,25 @@
       <p>Get notified by email or SMS the moment a tee time opens up that matches what you're looking for.</p>
     </div>
     <div class="alerts-page-body">
-      <div class="alert-type-grid">
-        <button class="alert-type-btn active" id="typeDate" onclick="selectAlertType('date-window')">
-          <span class="alert-type-icon">📅</span>
-          <span class="alert-type-label">Date &amp; time</span>
-          <span class="alert-type-sub">Alert for a specific date &amp; window</span>
-        </button>
-        <button class="alert-type-btn" id="typeCourse" onclick="selectAlertType('course')">
-          <span class="alert-type-icon">⛳</span>
-          <span class="alert-type-label">Course</span>
-          <span class="alert-type-sub">Any opening at a specific course</span>
-        </button>
+      <div class="form-row">
+        <label>Club</label>
+        <select id="alertCourse"><option value="">Any club</option></select>
       </div>
-      <div id="alertFormDateWindow">
-        <div class="form-row"><label>Date</label><input type="date" id="alertDate" /></div>
-        <div class="form-row"><label>Time window</label><div class="time-range-row"><input type="time" id="alertTimeFrom" value="07:00"/><input type="time" id="alertTimeTo" value="12:00"/></div></div>
+      <div class="form-row">
+        <label>Date</label>
+        <input type="date" id="alertDate" />
       </div>
-      <div id="alertFormCourse" style="display:none">
-        <div class="form-row"><label>Course</label><select id="alertCourse"><option value="">Any course</option></select></div>
+      <div class="form-row">
+        <label>Time range</label>
+        <div class="time-range-row">
+          <input type="time" id="alertTimeFrom" value="07:00"/>
+          <input type="time" id="alertTimeTo" value="12:00"/>
+        </div>
       </div>
-      <div class="form-row"><label>Players needed</label><select id="alertPlayers"><option value="">Any</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-      <div class="form-row"><label>Notify me at</label><input type="text" id="alertContact" placeholder="email or +1 555 000 0000"/></div>
+      <div class="form-row">
+        <label>Notify me at</label>
+        <input type="text" id="alertContact" placeholder="email or +1 555 000 0000"/>
+      </div>
       <button class="create-alert-btn" onclick="createAlert()">
         <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
         Create alert
@@ -998,14 +996,6 @@ function updateClubBadge() {
 }
 
 // ── ALERTS ──
-function selectAlertType(type) {
-  alertType = type;
-  document.getElementById('typeDate').classList.toggle('active', type==='date-window');
-  document.getElementById('typeCourse').classList.toggle('active', type==='course');
-  document.getElementById('alertFormDateWindow').style.display = type==='date-window'?'':'none';
-  document.getElementById('alertFormCourse').style.display     = type==='course'?'':'none';
-}
-
 function populateAlertCourseDropdown() {
   const sel    = document.getElementById('alertCourse');
   const unique = [...new Map(allTeeTimes.map(t=>[t.courseId,t])).values()].sort((a,b)=>a.courseName.localeCompare(b.courseName));
@@ -1015,11 +1005,10 @@ function populateAlertCourseDropdown() {
 function prefillAlert(courseId, date, time) {
   switchTab('alerts');
   const [hh] = time.split(':').map(Number);
-  if (alertType==='date-window') {
-    document.getElementById('alertDate').value     = date;
-    document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
-    document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
-  } else { document.getElementById('alertCourse').value = courseId; }
+  document.getElementById('alertCourse').value   = courseId;
+  document.getElementById('alertDate').value     = date;
+  document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
+  document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
   document.getElementById('alertContact').focus();
 }
 
@@ -1027,12 +1016,12 @@ async function createAlert() {
   const contact = document.getElementById('alertContact').value.trim();
   if (!contact) { toast('Please enter an email or phone number.'); return; }
   const alert = {
-    id: Date.now(), type: alertType, contact,
-    courseId: alertType==='course'      ? document.getElementById('alertCourse').value  : null,
-    date:     alertType==='date-window' ? document.getElementById('alertDate').value     : null,
-    timeFrom: alertType==='date-window' ? document.getElementById('alertTimeFrom').value : null,
-    timeTo:   alertType==='date-window' ? document.getElementById('alertTimeTo').value   : null,
-    players:  document.getElementById('alertPlayers').value || null,
+    id: Date.now(), type: 'date-window', contact,
+    courseId: document.getElementById('alertCourse').value || null,
+    date:     document.getElementById('alertDate').value || null,
+    timeFrom: document.getElementById('alertTimeFrom').value || null,
+    timeTo:   document.getElementById('alertTimeTo').value || null,
+    players:  null,
     createdAt: new Date().toISOString(),
   };
   try { await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(alert) }); } catch {}
