@@ -40,138 +40,148 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: 'DM Sans', sans-serif; background: var(--sand-50); color: var(--ink); min-height: 100vh; font-size: 15px; line-height: 1.5; -webkit-font-smoothing: antialiased; }
 
+  /* HEADER */
   header { background: var(--green-900); padding: 0 2rem; position: sticky; top: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; height: 60px; border-bottom: 1px solid rgba(255,255,255,0.06); }
   .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .logo-mark { width: 32px; height: 32px; background: var(--green-500); border-radius: var(--radius-sm); display: flex; align-items: center; justify-content: center; }
-  .logo-mark svg { width: 18px; height: 18px; }
   .logo-text { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--white); letter-spacing: -0.02em; }
   .logo-text em { color: var(--green-400); font-style: normal; }
   .header-right { display: flex; align-items: center; gap: 12px; }
   .status-pill { display: flex; align-items: center; gap: 6px; font-size: 12px; color: rgba(255,255,255,0.5); padding: 4px 10px; border: 1px solid rgba(255,255,255,0.1); border-radius: 20px; }
   .status-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green-400); animation: pulse 2s infinite; }
   @keyframes pulse { 0%,100%{opacity:1}50%{opacity:.4} }
-  .alerts-btn { display: flex; align-items: center; gap: 6px; padding: 6px 14px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12); border-radius: var(--radius-md); color: rgba(255,255,255,0.85); font-family: 'DM Sans', sans-serif; font-size: 13px; cursor: pointer; transition: background var(--transition); }
-  .alerts-btn:hover { background: rgba(255,255,255,0.14); }
-  .alert-count { background: #e74c3c; color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; min-width: 16px; text-align: center; }
 
-  .hero { background: var(--green-800); padding: 2.5rem 2rem 0; position: relative; }
+  /* TABS */
+  .tabs { background: var(--green-800); padding: 0 2rem; display: flex; gap: 0; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .tab-btn { padding: 12px 20px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.5); background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all var(--transition); display: flex; align-items: center; gap: 6px; }
+  .tab-btn:hover { color: rgba(255,255,255,0.8); }
+  .tab-btn.active { color: var(--white); border-bottom-color: var(--green-400); }
+
+  /* HERO */
+  .hero { background: var(--green-800); padding: 2rem 2rem 0; position: relative; }
   .hero::before { content: ''; position: absolute; inset: 0; background: repeating-linear-gradient(45deg,transparent,transparent 60px,rgba(255,255,255,0.012) 60px,rgba(255,255,255,0.012) 61px); pointer-events: none; }
   .hero-inner { max-width: 1100px; margin: 0 auto; position: relative; }
-  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(28px,4vw,44px); color: var(--white); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.4rem; }
+  .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(26px,3.5vw,40px); color: var(--white); line-height: 1.1; letter-spacing: -0.02em; margin-bottom: 0.3rem; }
   .hero h1 em { font-style: italic; color: var(--green-200); }
-  .hero-sub { font-size: 15px; color: rgba(255,255,255,0.55); margin-bottom: 1.75rem; }
+  .hero-sub { font-size: 14px; color: rgba(255,255,255,0.55); margin-bottom: 1.5rem; }
 
-  .filter-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 1.5rem 1.75rem; box-shadow: var(--shadow-float); position: sticky; top: 60px; z-index: 90; }
-  .filter-row-main { display: grid; grid-template-columns: 150px 130px 110px 110px 120px 120px auto; gap: 12px; align-items: end; }
+  /* FILTER CARD */
+  .filter-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 1.25rem 1.75rem; box-shadow: var(--shadow-float); position: sticky; top: 60px; z-index: 90; }
+  .filter-row-main { display: grid; grid-template-columns: 140px 120px 100px 100px 110px 110px auto; gap: 10px; align-items: end; }
+  .filter-row-extra { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
 
-  .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 6px; }
-  .field input, .field select { width: 100%; height: 42px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 12px; font-family: 'DM Sans', sans-serif; font-size: 14px; color: var(--ink); background: var(--sand-50); appearance: none; transition: border-color var(--transition), box-shadow var(--transition); outline: none; }
+  .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
+  .field input, .field select { width: 100%; height: 40px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); appearance: none; transition: border-color var(--transition), box-shadow var(--transition); outline: none; }
   .field input:focus, .field select:focus { border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(77,138,24,0.12); background: var(--white); }
   .field.select-wrap { position: relative; }
-  .field.select-wrap::after { content: ''; position: absolute; right: 12px; bottom: 14px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--ink-30); pointer-events: none; }
+  .field.select-wrap::after { content: ''; position: absolute; right: 10px; bottom: 13px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--ink-30); pointer-events: none; }
 
-  .search-btn { height: 42px; padding: 0 24px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 7px; white-space: nowrap; transition: background var(--transition); }
+  .search-btn { height: 40px; padding: 0 20px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; display: flex; align-items: center; gap: 6px; white-space: nowrap; transition: background var(--transition); }
   .search-btn:hover { background: var(--green-500); }
 
-  .club-toggle-btn { display: flex; align-items: center; gap: 6px; margin-top: 10px; padding: 6px 12px; background: none; border: 1.5px solid var(--ink-10); border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); }
-  .club-toggle-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
-  .club-toggle-btn.active { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
-  .club-toggle-badge { background: var(--green-600); color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
+  /* EXTRA FILTERS */
+  .filter-pill-btn { display: flex; align-items: center; gap: 5px; padding: 6px 12px; background: none; border: 1.5px solid var(--ink-10); border-radius: 20px; font-family: 'DM Sans', sans-serif; font-size: 12px; font-weight: 500; color: var(--ink-60); cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+  .filter-pill-btn:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
+  .filter-pill-btn.active { border-color: var(--green-500); color: var(--green-600); background: var(--green-50); }
+  .filter-pill-badge { background: var(--green-600); color: white; font-size: 10px; font-weight: 600; padding: 1px 5px; border-radius: 8px; }
 
-  .filter-row-clubs { margin-top: 12px; border-top: 1.5px solid var(--ink-10); padding-top: 12px; display: none; }
-  .filter-row-clubs.open { display: block; }
-  .club-filter-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+  /* EXPANDABLE FILTER PANELS */
+  .filter-panel { display: none; margin-top: 10px; border-top: 1.5px solid var(--ink-10); padding-top: 10px; }
+  .filter-panel.open { display: block; }
+
+  /* Distance filter */
+  .distance-row { display: flex; align-items: flex-end; gap: 10px; flex-wrap: wrap; }
+  .distance-row .field { flex: 1; min-width: 180px; }
+  .distance-select-wrap { position: relative; min-width: 120px; }
+  .distance-select-wrap select { height: 40px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); appearance: none; outline: none; width: 100%; }
+  .distance-select-wrap::after { content: ''; position: absolute; right: 10px; top: 14px; width: 0; height: 0; border-left: 4px solid transparent; border-right: 4px solid transparent; border-top: 5px solid var(--ink-30); pointer-events: none; }
+
+  /* Price range filter */
+  .price-range-row { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .price-input { width: 90px; height: 40px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; }
+  .price-input:focus { border-color: var(--green-500); background: var(--white); }
+  .price-range-sep { font-size: 13px; color: var(--ink-60); }
+  .price-range-label { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; display: block; }
+
+  /* Club filter */
+  .club-filter-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px; }
   .club-filter-title { font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); }
   .club-filter-actions { display: flex; gap: 8px; }
   .club-filter-action { font-size: 12px; font-weight: 500; color: var(--green-600); background: none; border: none; cursor: pointer; font-family: 'DM Sans', sans-serif; }
   .club-filter-action:hover { text-decoration: underline; }
   .club-filter-sep { color: var(--ink-30); font-size: 12px; }
-  .club-search-input { width: 100%; height: 36px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 12px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; margin-bottom: 10px; }
+  .club-search-input { width: 100%; height: 34px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; margin-bottom: 8px; }
   .club-search-input:focus { border-color: var(--green-500); background: var(--white); }
-  .club-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 4px; }
-  .club-checkbox-item { display: flex; align-items: center; gap: 8px; padding: 7px 10px; border-radius: var(--radius-sm); cursor: pointer; font-size: 13px; color: var(--ink); transition: background var(--transition); user-select: none; }
+  .club-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+  .club-checkbox-item { display: flex; align-items: center; gap: 7px; padding: 6px 9px; border-radius: var(--radius-sm); cursor: pointer; font-size: 12px; color: var(--ink); transition: background var(--transition); user-select: none; }
   .club-checkbox-item:hover { background: var(--sand-50); }
   .club-checkbox-item.selected { background: var(--green-50); color: var(--green-700); font-weight: 500; }
-  .club-checkbox-item input[type="checkbox"] { accent-color: var(--green-600); width: 14px; height: 14px; flex-shrink: 0; cursor: pointer; }
+  .club-checkbox-item input[type="checkbox"] { accent-color: var(--green-600); width: 13px; height: 13px; flex-shrink: 0; cursor: pointer; }
   .club-checkbox-item.hidden { display: none; }
 
-  .main { max-width: 1100px; margin: 0 auto; padding: 1.75rem 2rem; display: grid; grid-template-columns: 1fr 320px; gap: 1.5rem; align-items: start; }
+  /* MAIN */
+  .main { max-width: 1100px; margin: 0 auto; padding: 1.5rem 2rem; }
   .results-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1rem; }
   .results-count { font-size: 14px; color: var(--ink-60); }
   .results-count strong { color: var(--ink); font-weight: 600; }
 
-  /* PARENT CLUB CARD */
+  /* PARENT CARD */
   .parent-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 12px; transition: border-color var(--transition), box-shadow var(--transition); animation: slideIn .25s ease both; }
   @keyframes slideIn { from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)} }
   .parent-card:hover { border-color: var(--green-200); box-shadow: var(--shadow-card); }
-
-  .parent-card-header { padding: 1.1rem 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
+  .parent-card-header { padding: 1rem 1.25rem; display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; }
   .parent-card-left { flex: 1; }
-  .parent-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 4px; }
+  .parent-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); line-height: 1.2; letter-spacing: -0.01em; margin-bottom: 2px; }
   .parent-card-name a { color: inherit; text-decoration: none; }
   .parent-card-name a:hover { color: var(--green-600); }
-  .parent-card-subtitle { font-size: 13px; color: var(--ink-60); margin-bottom: 6px; }
+  .parent-card-subtitle { font-size: 12px; color: var(--ink-60); margin-bottom: 6px; }
   .parent-weather-row { display: flex; align-items: center; gap: 8px; margin-top: 4px; }
-  .parent-weather-icon { font-size: 26px; line-height: 1; }
-  .parent-weather-text { font-size: 13px; color: var(--ink-60); }
+  .parent-weather-icon { font-size: 24px; line-height: 1; }
+  .parent-weather-text { font-size: 12px; color: var(--ink-60); }
+  .parent-card-right { text-align: right; flex-shrink: 0; }
+  .parent-price-range { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--green-600); letter-spacing: -0.02em; line-height: 1; }
+  .parent-price-label { font-size: 11px; color: var(--ink-60); margin-top: 2px; }
+  .distance-badge { font-size: 11px; color: var(--ink-60); margin-top: 4px; }
 
-  .parent-card-right { text-align: right; flex-shrink: 0; display: flex; flex-direction: column; align-items: flex-end; gap: 8px; }
-  .parent-price-range { font-family: 'DM Serif Display', serif; font-size: 24px; color: var(--green-600); letter-spacing: -0.02em; line-height: 1; }
-  .parent-price-label { font-size: 11px; color: var(--ink-60); }
-
-
-  /* COURSES INSIDE PARENT */
-  .parent-courses { display: none; border-top: 1.5px solid var(--ink-10); }
-  .parent-courses.open { display: block; }
-
-  .course-section { padding: 0.85rem 1.25rem; border-bottom: 1px solid var(--ink-10); }
+  .parent-courses { border-top: 1px solid var(--ink-10); }
+  .course-section { padding: 0.75rem 1.25rem; border-bottom: 1px solid var(--ink-10); }
   .course-section:last-child { border-bottom: none; }
-  .course-section-header { font-size: 13px; font-weight: 600; color: var(--ink-60); margin-bottom: 8px; text-transform: uppercase; letter-spacing: 0.04em; font-size: 11px; }
-  .course-bubbles-wrap { background: var(--sand-50); border-radius: var(--radius-md); padding: 10px 12px; }
+  .course-section-header { font-size: 11px; font-weight: 600; color: var(--ink-60); margin-bottom: 7px; text-transform: uppercase; letter-spacing: 0.04em; }
+  .course-bubbles-wrap { background: var(--sand-50); border-radius: var(--radius-md); padding: 9px 11px; }
 
-  /* TIME BUBBLES */
   .time-bubbles { display: flex; flex-wrap: wrap; gap: 5px; }
   .time-bubble { padding: 5px 11px; border-radius: 16px; border: 1.5px solid var(--ink-10); font-size: 12px; font-weight: 500; color: var(--ink); background: var(--white); cursor: pointer; transition: all var(--transition); user-select: none; }
   .time-bubble:hover { border-color: var(--green-400); background: var(--green-50); color: var(--green-700); }
   .time-bubble.active { border-color: var(--green-600); background: var(--green-600); color: white; }
-  .time-bubble.show-more { border-style: dashed; color: var(--ink-60); font-size: 12px; }
+  .time-bubble.show-more { border-style: dashed; color: var(--ink-60); }
   .time-bubble.show-more:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
 
-  /* SLOT DETAIL */
-  .slot-detail { margin-top: 8px; padding: 11px 14px; background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--green-200); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: slideIn .15s ease both; }
-  .slot-detail-left { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .slot-detail-time { font-family: 'DM Serif Display', serif; font-size: 18px; color: var(--ink); }
+  .slot-detail { margin-top: 8px; padding: 10px 13px; background: var(--white); border-radius: var(--radius-md); border: 1.5px solid var(--green-200); display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; animation: slideIn .15s ease both; }
+  .slot-detail-left { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+  .slot-detail-time { font-family: 'DM Serif Display', serif; font-size: 17px; color: var(--ink); }
   .slot-detail-weather { font-size: 13px; color: var(--ink-60); }
-  .slot-detail-price { font-size: 15px; font-weight: 600; color: var(--ink); }
+  .slot-detail-price { font-size: 14px; font-weight: 600; color: var(--ink); }
   .slot-detail-tax { font-size: 11px; color: var(--ink-60); }
   .slot-detail-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
-  .book-btn { display: inline-flex; align-items: center; gap: 5px; padding: 9px 18px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: background var(--transition); }
+  .book-btn { display: inline-flex; align-items: center; gap: 5px; padding: 8px 16px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; transition: background var(--transition); }
   .book-btn:hover { background: var(--green-500); }
-  .book-btn svg { width: 12px; height: 12px; }
-  .alert-btn-sm { display: inline-flex; align-items: center; gap: 4px; padding: 8px 12px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
+  .book-btn svg { width: 11px; height: 11px; }
+  .alert-btn-sm { display: inline-flex; align-items: center; gap: 4px; padding: 7px 11px; background: transparent; color: var(--ink-60); border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 12px; cursor: pointer; transition: all var(--transition); white-space: nowrap; }
   .alert-btn-sm:hover { border-color: var(--green-400); color: var(--green-600); background: var(--green-50); }
   .min-players-note { font-size: 11px; color: #996600; background: #fef3d0; padding: 2px 7px; border-radius: 4px; font-weight: 600; }
-
-  /* STATIC CLUB CARD */
-  .static-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); padding: 1.1rem 1.25rem; margin-bottom: 12px; display: flex; align-items: center; justify-content: space-between; animation: slideIn .25s ease both; }
-  .static-card-name { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); }
-  .static-card-name a { color: inherit; text-decoration: none; }
-  .static-card-name a:hover { color: var(--green-600); }
-  .static-card-sub { font-size: 13px; color: var(--ink-60); margin-top: 2px; }
-  .visit-btn { display: inline-flex; align-items: center; gap: 5px; padding: 9px 18px; background: var(--green-600); color: white; text-decoration: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; white-space: nowrap; transition: background var(--transition); }
-  .visit-btn:hover { background: var(--green-500); }
 
   .empty-state, .select-prompt { text-align: center; padding: 4rem 2rem; color: var(--ink-60); }
   .empty-state svg, .select-prompt svg { width: 48px; height: 48px; stroke: var(--ink-30); margin-bottom: 1rem; }
   .empty-state h3, .select-prompt h3 { font-family: 'DM Serif Display', serif; font-size: 20px; color: var(--ink); margin-bottom: .5rem; }
   .empty-state p, .select-prompt p { font-size: 14px; max-width: 300px; margin: 0 auto; }
 
-  .sidebar { position: sticky; top: 80px; }
-  .sidebar-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 1rem; }
-  .sidebar-header { padding: 1rem 1.25rem .75rem; border-bottom: 1.5px solid var(--ink-10); display: flex; align-items: center; gap: 8px; }
-  .sidebar-header h2 { font-size: 14px; font-weight: 600; color: var(--ink); }
-  .sidebar-header svg { width: 16px; height: 16px; stroke: var(--green-600); }
-  .sidebar-body { padding: 1.25rem; }
+  /* ALERTS TAB */
+  .alerts-page { max-width: 700px; margin: 2rem auto; padding: 0 2rem; display: none; }
+  .alerts-page.active { display: block; }
+  .alerts-page-card { background: var(--white); border-radius: var(--radius-lg); border: 1.5px solid var(--ink-10); overflow: hidden; margin-bottom: 1rem; }
+  .alerts-page-header { padding: 1.25rem 1.5rem; border-bottom: 1.5px solid var(--ink-10); }
+  .alerts-page-header h2 { font-family: 'DM Serif Display', serif; font-size: 22px; color: var(--ink); margin-bottom: 4px; }
+  .alerts-page-header p { font-size: 13px; color: var(--ink-60); line-height: 1.5; }
+  .alerts-page-body { padding: 1.5rem; }
   .alert-type-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 1rem; }
   .alert-type-btn { padding: 10px 8px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); background: var(--sand-50); cursor: pointer; text-align: center; transition: all var(--transition); font-family: 'DM Sans', sans-serif; }
   .alert-type-btn:hover { border-color: var(--green-400); }
@@ -181,21 +191,18 @@
   .alert-type-sub { font-size: 11px; color: var(--ink-60); line-height: 1.3; }
   .form-row { margin-bottom: 10px; }
   .form-row label { display: block; font-size: 11px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
-  .form-row input, .form-row select { width: 100%; height: 38px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; appearance: none; transition: border-color var(--transition), box-shadow var(--transition); }
+  .form-row input, .form-row select { width: 100%; height: 40px; border: 1.5px solid var(--ink-10); border-radius: var(--radius-md); padding: 0 10px; font-family: 'DM Sans', sans-serif; font-size: 13px; color: var(--ink); background: var(--sand-50); outline: none; appearance: none; transition: border-color var(--transition), box-shadow var(--transition); }
   .form-row input:focus, .form-row select:focus { border-color: var(--green-500); box-shadow: 0 0 0 3px rgba(77,138,24,0.12); background: var(--white); }
   .time-range-row { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
-  .create-alert-btn { width: 100%; height: 40px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; transition: background var(--transition); }
+  .create-alert-btn { width: 100%; height: 42px; background: var(--green-600); color: white; border: none; border-radius: var(--radius-md); font-family: 'DM Sans', sans-serif; font-size: 14px; font-weight: 500; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; margin-top: 12px; transition: background var(--transition); }
   .create-alert-btn:hover { background: var(--green-500); }
   .alert-item { display: flex; align-items: flex-start; justify-content: space-between; gap: 8px; padding: 10px 0; border-bottom: 1px solid var(--ink-10); }
   .alert-item:last-child { border-bottom: none; }
-  .alert-item-text { font-size: 12px; color: var(--ink); line-height: 1.4; }
+  .alert-item-text { font-size: 13px; color: var(--ink); line-height: 1.4; }
   .alert-item-sub { font-size: 11px; color: var(--ink-60); margin-top: 2px; }
   .delete-alert-btn { background: none; border: none; cursor: pointer; color: var(--ink-30); padding: 2px 4px; border-radius: 4px; flex-shrink: 0; transition: color var(--transition); }
   .delete-alert-btn:hover { color: var(--red-600); }
-  .stat-row { display: flex; align-items: center; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid var(--ink-10); font-size: 13px; }
-  .stat-row:last-child { border-bottom: none; }
-  .stat-label { color: var(--ink-60); }
-  .stat-value { font-weight: 600; color: var(--ink); }
+  .no-alerts-msg { text-align: center; padding: 2rem; color: var(--ink-60); font-size: 14px; }
 
   .float-filter-btn { position: fixed; bottom: 1.5rem; left: 50%; transform: translateX(-50%); z-index: 500; display: none; align-items: center; gap: 6px; padding: 10px 20px; background: var(--green-900); color: white; border: none; border-radius: 24px; font-family: 'DM Sans', sans-serif; font-size: 13px; font-weight: 500; cursor: pointer; box-shadow: 0 4px 16px rgba(26,28,24,0.25); }
   .float-filter-btn.visible { display: flex; }
@@ -204,192 +211,241 @@
   @keyframes toastIn { from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)} }
   @keyframes toastOut { to{opacity:0;transform:translateY(8px)} }
 
-  @media (max-width: 900px) { .filter-row-main{grid-template-columns:1fr 1fr 1fr} .club-grid{grid-template-columns:repeat(2,1fr)} .main{grid-template-columns:1fr} .sidebar{position:static} }
-  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:26px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .parent-card-name{font-size:18px} .parent-price-range{font-size:20px} }
+  @media (max-width: 900px) { .filter-row-main{grid-template-columns:1fr 1fr 1fr} .club-grid{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width: 540px) { header{padding:0 1rem} .hero h1{font-size:24px} .filter-row-main{grid-template-columns:1fr 1fr} .main{padding:1rem} .parent-card-name{font-size:18px} .parent-price-range{font-size:18px} .tabs{padding:0 1rem} }
 </style>
 </head>
 <body>
 
 <header>
   <a href="/" class="logo">
-    <img src="data:image/png;base64,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" width="36" height="36" style="border-radius:8px;display:block;" alt="TeeFind logo" />
-        <span class="logo-text">Tee<em>Find</em></span>
+    <span class="logo-text">Tee<em>Find</em></span>
   </a>
   <div class="header-right">
     <div class="status-pill"><span class="status-dot"></span><span id="statusText">Loading...</span></div>
-    <button class="alerts-btn" onclick="scrollToAlerts()">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-      Alerts <span class="alert-count" id="headerAlertCount" style="display:none">0</span>
-    </button>
   </div>
 </header>
 
-<div class="hero">
-  <div class="hero-inner">
-    <h1>Find a tee time,<br><em>instantly.</em></h1>
-    <p class="hero-sub">One search. Every tee time in Montreal.</p>
-    <div class="filter-card">
-      <div class="filter-row-main">
-        <div class="field">
-          <label>Date</label>
-          <input type="date" id="filterDate" onchange="doSearch()" />
-        </div>
-        <div class="field select-wrap">
-          <label>Players</label>
-          <select id="filterPlayers" onchange="applyFiltersAndRender()">
-            <option value="">Select players</option>
-            <option value="1">1 player</option>
-            <option value="2">2 players</option>
-            <option value="3">3 players</option>
-            <option value="4">4 players</option>
-          </select>
-        </div>
-        <div class="field select-wrap">
-          <label>From</label>
-          <select id="filterTimeFrom" onchange="applyFiltersAndRender()">
-            <option value="">Any</option>
-            <option value="06:00">6 AM</option>
-            <option value="07:00">7 AM</option>
-            <option value="08:00">8 AM</option>
-            <option value="09:00">9 AM</option>
-            <option value="10:00">10 AM</option>
-            <option value="11:00">11 AM</option>
-            <option value="12:00">12 PM</option>
-            <option value="13:00">1 PM</option>
-            <option value="14:00">2 PM</option>
-            <option value="15:00">3 PM</option>
-            <option value="16:00">4 PM</option>
-            <option value="17:00">5 PM</option>
-          </select>
-        </div>
-        <div class="field select-wrap">
-          <label>To</label>
-          <select id="filterTimeTo" onchange="applyFiltersAndRender()">
-            <option value="">Any</option>
-            <option value="08:00">8 AM</option>
-            <option value="09:00">9 AM</option>
-            <option value="10:00">10 AM</option>
-            <option value="11:00">11 AM</option>
-            <option value="12:00">12 PM</option>
-            <option value="13:00">1 PM</option>
-            <option value="14:00">2 PM</option>
-            <option value="15:00">3 PM</option>
-            <option value="16:00">4 PM</option>
-            <option value="17:00">5 PM</option>
-            <option value="18:00">6 PM</option>
-            <option value="19:00">7 PM</option>
-            <option value="20:00">8 PM</option>
-          </select>
-        </div>
-        <div class="field select-wrap">
-          <label>Holes</label>
-          <select id="filterHoles" onchange="applyFiltersAndRender()">
-            <option value="">Any</option>
-            <option value="9">9 holes</option>
-            <option value="18">18 holes</option>
-          </select>
-        </div>
-        <div class="field select-wrap">
-          <label>Sort by</label>
-          <select id="sortSelect" onchange="applyFiltersAndRender()">
-            <option value="time">Earliest time</option>
-            <option value="price-asc">Price ↑</option>
-            <option value="price-desc">Price ↓</option>
-            <option value="name">Club name</option>
-          </select>
-        </div>
-        <button class="search-btn" id="searchBtn" onclick="doSearch()">
-          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
-          Search
-        </button>
-      </div>
+<!-- TABS -->
+<div class="tabs">
+  <button class="tab-btn active" id="tabFind" onclick="switchTab('find')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+    Find a tee time
+  </button>
+  <button class="tab-btn" id="tabAlerts" onclick="switchTab('alerts')">
+    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
+    Cancellation alerts
+    <span id="alertTabBadge" style="display:none" class="filter-pill-badge">0</span>
+  </button>
+</div>
 
-      <button class="club-toggle-btn" id="clubToggleBtn" onclick="toggleClubPanel()">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/><path d="M4.93 4.93a10 10 0 0 0 0 14.14"/></svg>
-        Filter by club
-        <span class="club-toggle-badge" id="clubToggleBadge" style="display:none">0</span>
-      </button>
+<!-- FIND TAB -->
+<div id="findTab">
+  <div class="hero">
+    <div class="hero-inner">
+      <h1>Find a tee time,<br><em>instantly.</em></h1>
+      <p class="hero-sub">One search. Every tee time in Montreal.</p>
+      <div class="filter-card">
+        <div class="filter-row-main">
+          <div class="field">
+            <label>Date</label>
+            <input type="date" id="filterDate" onchange="doSearch()" />
+          </div>
+          <div class="field select-wrap">
+            <label>Players</label>
+            <select id="filterPlayers" onchange="applyFiltersAndRender()">
+              <option value="">Players</option>
+              <option value="1">1 player</option>
+              <option value="2">2 players</option>
+              <option value="3">3 players</option>
+              <option value="4">4 players</option>
+            </select>
+          </div>
+          <div class="field select-wrap">
+            <label>From</label>
+            <select id="filterTimeFrom" onchange="applyFiltersAndRender()">
+              <option value="">Any</option>
+              <option value="06:00">6 AM</option>
+              <option value="07:00">7 AM</option>
+              <option value="08:00">8 AM</option>
+              <option value="09:00">9 AM</option>
+              <option value="10:00">10 AM</option>
+              <option value="11:00">11 AM</option>
+              <option value="12:00">12 PM</option>
+              <option value="13:00">1 PM</option>
+              <option value="14:00">2 PM</option>
+              <option value="15:00">3 PM</option>
+              <option value="16:00">4 PM</option>
+              <option value="17:00">5 PM</option>
+            </select>
+          </div>
+          <div class="field select-wrap">
+            <label>To</label>
+            <select id="filterTimeTo" onchange="applyFiltersAndRender()">
+              <option value="">Any</option>
+              <option value="08:00">8 AM</option>
+              <option value="09:00">9 AM</option>
+              <option value="10:00">10 AM</option>
+              <option value="11:00">11 AM</option>
+              <option value="12:00">12 PM</option>
+              <option value="13:00">1 PM</option>
+              <option value="14:00">2 PM</option>
+              <option value="15:00">3 PM</option>
+              <option value="16:00">4 PM</option>
+              <option value="17:00">5 PM</option>
+              <option value="18:00">6 PM</option>
+              <option value="19:00">7 PM</option>
+              <option value="20:00">8 PM</option>
+            </select>
+          </div>
+          <div class="field select-wrap">
+            <label>Holes</label>
+            <select id="filterHoles" onchange="applyFiltersAndRender()">
+              <option value="">Any</option>
+              <option value="9">9 holes</option>
+              <option value="18">18 holes</option>
+            </select>
+          </div>
+          <div class="field select-wrap">
+            <label>Sort by</label>
+            <select id="sortSelect" onchange="applyFiltersAndRender()">
+              <option value="time">Earliest</option>
+              <option value="price-asc">Price ↑</option>
+              <option value="price-desc">Price ↓</option>
+              <option value="distance">Distance</option>
+              <option value="name">Name</option>
+            </select>
+          </div>
+          <button class="search-btn" id="searchBtn" onclick="doSearch()">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+            Search
+          </button>
+        </div>
 
-      <div class="filter-row-clubs" id="clubFilterPanel">
-        <div class="club-filter-header">
-          <span class="club-filter-title">Select clubs to include</span>
-          <div class="club-filter-actions">
-            <button class="club-filter-action" onclick="selectAllClubs()">Show all</button>
-            <span class="club-filter-sep">·</span>
-            <button class="club-filter-action" onclick="checkAllClubs()">Check all</button>
+        <!-- Extra filter pills -->
+        <div class="filter-row-extra">
+          <button class="filter-pill-btn" id="pillClub" onclick="togglePanel('clubPanel','pillClub')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+            Filter by club
+            <span class="filter-pill-badge" id="clubBadge" style="display:none">0</span>
+          </button>
+          <button class="filter-pill-btn" id="pillDistance" onclick="togglePanel('distancePanel','pillDistance')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg>
+            Near me
+            <span class="filter-pill-badge" id="distanceBadge" style="display:none">✓</span>
+          </button>
+          <button class="filter-pill-btn" id="pillPrice" onclick="togglePanel('pricePanel','pillPrice')">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            Price range
+            <span class="filter-pill-badge" id="priceBadge" style="display:none">✓</span>
+          </button>
+        </div>
+
+        <!-- Club filter panel -->
+        <div class="filter-panel" id="clubPanel">
+          <div class="club-filter-header">
+            <span class="club-filter-title">Select clubs</span>
+            <div class="club-filter-actions">
+              <button class="club-filter-action" onclick="selectAllClubs()">Show all</button>
+              <span class="club-filter-sep">·</span>
+              <button class="club-filter-action" onclick="checkAllClubs()">Check all</button>
+            </div>
+          </div>
+          <input type="text" class="club-search-input" id="clubSearch" placeholder="Search clubs..." oninput="filterClubGrid()" />
+          <div class="club-grid" id="clubGrid"></div>
+        </div>
+
+        <!-- Distance filter panel -->
+        <div class="filter-panel" id="distancePanel">
+          <div class="distance-row">
+            <div class="field">
+              <label>Address or postal code</label>
+              <input type="text" id="locationInput" placeholder="e.g. H3H 1G6 or 123 Rue Principale" />
+            </div>
+            <div class="distance-select-wrap">
+              <label style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-60);margin-bottom:5px;display:block;">Within</label>
+              <select id="distanceKm" onchange="applyFiltersAndRender()">
+                <option value="10">10 km</option>
+                <option value="20" selected>20 km</option>
+                <option value="30">30 km</option>
+                <option value="50">50 km</option>
+                <option value="100">100 km</option>
+              </select>
+            </div>
+            <button class="search-btn" onclick="geocodeAndFilter()" style="margin-bottom:0">
+              Apply
+            </button>
+            <button class="filter-pill-btn" onclick="clearDistance()" style="margin-bottom:0">Clear</button>
           </div>
         </div>
-        <input type="text" class="club-search-input" id="clubSearch" placeholder="Search clubs..." oninput="filterClubGrid()" />
-        <div class="club-grid" id="clubGrid"></div>
+
+        <!-- Price range panel -->
+        <div class="filter-panel" id="pricePanel">
+          <label class="price-range-label">Price per player (CAD)</label>
+          <div class="price-range-row">
+            <span class="price-range-sep">$</span>
+            <input type="number" class="price-input" id="priceMin" placeholder="Min" min="0" max="500" oninput="applyFiltersAndRender()" />
+            <span class="price-range-sep">to</span>
+            <span class="price-range-sep">$</span>
+            <input type="number" class="price-input" id="priceMax" placeholder="Max" min="0" max="500" oninput="applyFiltersAndRender()" />
+            <button class="filter-pill-btn" onclick="clearPrice()">Clear</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
-</div>
 
-<div class="main">
-  <div class="results-col">
+  <div class="main" id="findMain">
     <div class="results-header">
       <div class="results-count"><strong id="countNum">—</strong> clubs with available times</div>
     </div>
     <div id="resultsList"></div>
   </div>
+</div>
 
-  <aside class="sidebar" id="alertsAnchor">
-    <div class="sidebar-card">
-      <div class="sidebar-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"/><path d="M13.73 21a2 2 0 0 1-3.46 0"/></svg>
-        <h2>Cancellation alerts</h2>
-      </div>
-      <div class="sidebar-body">
-        <p style="font-size:13px;color:var(--ink-60);margin-bottom:1rem;line-height:1.5;">Get notified by email or SMS when a tee time opens up that matches your criteria.</p>
-        <div class="alert-type-grid">
-          <button class="alert-type-btn active" id="typeDate" onclick="selectAlertType('date-window')">
-            <span class="alert-type-icon">📅</span>
-            <span class="alert-type-label">Date &amp; time</span>
-            <span class="alert-type-sub">Alert for a specific date &amp; window</span>
-          </button>
-          <button class="alert-type-btn" id="typeCourse" onclick="selectAlertType('course')">
-            <span class="alert-type-icon">⛳</span>
-            <span class="alert-type-label">Course</span>
-            <span class="alert-type-sub">Any opening at a specific course</span>
-          </button>
-        </div>
-        <div id="alertFormDateWindow">
-          <div class="form-row"><label>Date</label><input type="date" id="alertDate" /></div>
-          <div class="form-row"><label>Time window</label><div class="time-range-row"><input type="time" id="alertTimeFrom" value="07:00"/><input type="time" id="alertTimeTo" value="12:00"/></div></div>
-        </div>
-        <div id="alertFormCourse" style="display:none">
-          <div class="form-row"><label>Course</label><select id="alertCourse"><option value="">Any course</option></select></div>
-        </div>
-        <div class="form-row"><label>Players needed</label><select id="alertPlayers"><option value="">Any</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-        <div class="form-row"><label>Notify me at</label><input type="text" id="alertContact" placeholder="email or +1 555 000 0000"/></div>
-        <button class="create-alert-btn" onclick="createAlert()">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
-          Create alert
+<!-- ALERTS TAB -->
+<div class="alerts-page" id="alertsTab">
+  <div class="alerts-page-card">
+    <div class="alerts-page-header">
+      <h2>Cancellation alerts</h2>
+      <p>Get notified by email or SMS the moment a tee time opens up that matches what you're looking for.</p>
+    </div>
+    <div class="alerts-page-body">
+      <div class="alert-type-grid">
+        <button class="alert-type-btn active" id="typeDate" onclick="selectAlertType('date-window')">
+          <span class="alert-type-icon">📅</span>
+          <span class="alert-type-label">Date &amp; time</span>
+          <span class="alert-type-sub">Alert for a specific date &amp; window</span>
+        </button>
+        <button class="alert-type-btn" id="typeCourse" onclick="selectAlertType('course')">
+          <span class="alert-type-icon">⛳</span>
+          <span class="alert-type-label">Course</span>
+          <span class="alert-type-sub">Any opening at a specific course</span>
         </button>
       </div>
+      <div id="alertFormDateWindow">
+        <div class="form-row"><label>Date</label><input type="date" id="alertDate" /></div>
+        <div class="form-row"><label>Time window</label><div class="time-range-row"><input type="time" id="alertTimeFrom" value="07:00"/><input type="time" id="alertTimeTo" value="12:00"/></div></div>
+      </div>
+      <div id="alertFormCourse" style="display:none">
+        <div class="form-row"><label>Course</label><select id="alertCourse"><option value="">Any course</option></select></div>
+      </div>
+      <div class="form-row"><label>Players needed</label><select id="alertPlayers"><option value="">Any</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+      <div class="form-row"><label>Notify me at</label><input type="text" id="alertContact" placeholder="email or +1 555 000 0000"/></div>
+      <button class="create-alert-btn" onclick="createAlert()">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Create alert
+      </button>
     </div>
+  </div>
 
-    <div class="sidebar-card" id="activeAlertsCard" style="display:none">
-      <div class="sidebar-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
-        <h2>Your alerts</h2>
-      </div>
-      <div class="sidebar-body" id="alertsList"></div>
+  <div class="alerts-page-card" id="activeAlertsCard2" style="display:none">
+    <div class="alerts-page-header">
+      <h2>Your active alerts</h2>
     </div>
-
-    <div class="sidebar-card">
-      <div class="sidebar-header">
-        <svg viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
-        <h2>At a glance</h2>
-      </div>
-      <div class="sidebar-body">
-        <div class="stat-row"><span class="stat-label">Available times</span><span class="stat-value" id="statTotal">—</span></div>
-        <div class="stat-row"><span class="stat-label">Courses</span><span class="stat-value" id="statCourses">—</span></div>
-        <div class="stat-row"><span class="stat-label">Last refreshed</span><span class="stat-value" id="statRefresh">—</span></div>
-      </div>
-    </div>
-  </aside>
+    <div class="alerts-page-body" id="alertsList2"></div>
+  </div>
 </div>
 
 <button class="float-filter-btn" id="floatFilterBtn" onclick="scrollToFilters()">
@@ -408,31 +464,23 @@ let alertType     = 'date-window';
 let localAlerts   = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
 let selectedClubs = new Set();
 let allClubIds    = [];
-let activeSlot    = null; // { sectionId, slotId }
+let activeSlot    = null;
+let userLocation  = null; // { lat, lng } after geocoding
+let currentTab    = 'find';
 
 // ── CLUB GROUPING ──
-// Maps courseId → parent club name and URL
 const CLUB_GROUPS = {
-  // Minute Golf
-  '127': { parent: 'Cardinal',        url: null },
-  '64':  { parent: 'Golf St-François', url: null },
-  '73':  { parent: 'Golf UFO',         url: null },
-  // Chrono Golf — Mirabel
-  '1589': { parent: 'Golf Mirabel', url: 'https://www.chronogolf.ca/club/club-de-golf-mirabel' },
-  '1588': { parent: 'Golf Mirabel', url: 'https://www.chronogolf.ca/club/club-de-golf-mirabel' },
-  // Chrono Golf — International 2000
+  '127':   { parent: 'Cardinal',               url: null },
+  '64':    { parent: 'Golf St-François',        url: null },
+  '73':    { parent: 'Golf UFO',                url: null },
+  '1589':  { parent: 'Golf Mirabel',            url: 'https://www.chronogolf.ca/club/club-de-golf-mirabel' },
+  '1588':  { parent: 'Golf Mirabel',            url: 'https://www.chronogolf.ca/club/club-de-golf-mirabel' },
   '20766': { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
   '1619':  { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
   '1618':  { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
 };
 
-// Static clubs (no API)
-const STATIC_CLUBS = [
-  { name: 'Golf de l\'Île de Montréal', url: 'https://secure.gggolf.ca/iledemontreal/index.php?option=com_ggpublic&req=teetimes&lang=fr', holes: '18' },
-  { name: 'Le Versant',                 url: 'https://secure.gggolf.ca/versant/index.php?option=com_ggpublic&req=teetimes&lang=en',       holes: '9 & 18' },
-];
-
-// ── WEATHER ──
+// ── CLUB COORDS ──
 const CLUB_COORDS = {
   '152':   { lat: 45.5048, lng: -73.6186 },
   '21560': { lat: 45.6189, lng: -73.7542 },
@@ -446,22 +494,18 @@ const CLUB_COORDS = {
   '1588':  { lat: 45.6744, lng: -74.0891 },
   '23133': { lat: 45.7823, lng: -73.6234 },
   '8116':  { lat: 45.4050, lng: -73.6580 },
-  '22977': { lat: 45.5200, lng: -73.6500 },
-  '20766': { lat: 45.5500, lng: -73.7800 },
-  '1619':  { lat: 45.5500, lng: -73.7800 },
-  '1618':  { lat: 45.5500, lng: -73.7800 },
+  '22977': { lat: 45.4600, lng: -74.1756 },
+  '20766': { lat: 45.0133, lng: -73.4208 },
+  '1619':  { lat: 45.0133, lng: -73.4208 },
+  '1618':  { lat: 45.0133, lng: -73.4208 },
   '127':   { lat: 45.5631, lng: -73.8012 },
   '64':    { lat: 45.5889, lng: -73.7456 },
   '73':    { lat: 45.5748, lng: -73.8234 },
-  '22977': { lat: 45.4600, lng: -74.1756 }, // Falcon Golf Course (Hudson)
-  '20766': { lat: 45.0133, lng: -73.4208 }, // International 2000
-  '1619':  { lat: 45.0133, lng: -73.4208 },
-  '1618':  { lat: 45.0133, lng: -73.4208 },
 };
 
+// ── WEATHER ──
 const WMO = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️' };
 const WMO_DESC = { 0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm' };
-
 const weatherCache = {};
 const hourlyCache  = {};
 
@@ -496,6 +540,67 @@ async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
   } catch { return null; }
 }
 
+// ── DISTANCE ──
+function haversineKm(lat1, lng1, lat2, lng2) {
+  const R = 6371;
+  const dLat = (lat2 - lat1) * Math.PI / 180;
+  const dLng = (lng2 - lng1) * Math.PI / 180;
+  const a = Math.sin(dLat/2)**2 + Math.cos(lat1*Math.PI/180) * Math.cos(lat2*Math.PI/180) * Math.sin(dLng/2)**2;
+  return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+}
+
+async function geocodeAndFilter() {
+  const input = document.getElementById('locationInput').value.trim();
+  if (!input) return;
+  try {
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(input + ', Quebec, Canada')}&format=json&limit=1`);
+    const d = await r.json();
+    if (d.length > 0) {
+      userLocation = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
+      document.getElementById('distanceBadge').style.display = '';
+      document.getElementById('pillDistance').classList.add('active');
+      applyFiltersAndRender();
+    } else {
+      toast('Location not found. Try a postal code like H3H 2J8.');
+    }
+  } catch { toast('Could not geocode location.'); }
+}
+
+function clearDistance() {
+  userLocation = null;
+  document.getElementById('locationInput').value = '';
+  document.getElementById('distanceBadge').style.display = 'none';
+  document.getElementById('pillDistance').classList.remove('active');
+  applyFiltersAndRender();
+}
+
+function clearPrice() {
+  document.getElementById('priceMin').value = '';
+  document.getElementById('priceMax').value = '';
+  document.getElementById('priceBadge').style.display = 'none';
+  document.getElementById('pillPrice').classList.remove('active');
+  applyFiltersAndRender();
+}
+
+// ── TABS ──
+function switchTab(tab) {
+  currentTab = tab;
+  document.getElementById('findTab').style.display    = tab === 'find'   ? '' : 'none';
+  document.getElementById('alertsTab').classList.toggle('active', tab === 'alerts');
+  document.getElementById('tabFind').classList.toggle('active', tab === 'find');
+  document.getElementById('tabAlerts').classList.toggle('active', tab === 'alerts');
+  document.getElementById('floatFilterBtn').style.display = tab === 'find' ? '' : 'none';
+}
+
+// ── PANEL TOGGLE ──
+function togglePanel(panelId, btnId) {
+  const panel = document.getElementById(panelId);
+  const btn   = document.getElementById(btnId);
+  const open  = panel.classList.toggle('open');
+  btn.classList.toggle('active', open || btn.querySelector('.filter-pill-badge')?.style.display !== 'none');
+  if (panelId === 'clubPanel' && open) document.getElementById('clubSearch').focus();
+}
+
 // ── INIT ──
 (async function init() {
   const today = new Date().toISOString().split('T')[0];
@@ -513,12 +618,7 @@ async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
   }, 500));
   window.addEventListener('scroll', () => {
     const sy = window.scrollY;
-    document.getElementById('floatFilterBtn').classList.toggle('visible', sy > filterBottom);
-    const panel = document.getElementById('clubFilterPanel');
-    if (panel.classList.contains('open') && sy > lastScrollY + 200) {
-      panel.classList.remove('open');
-      document.getElementById('clubToggleBtn').classList.remove('active');
-    }
+    if (currentTab === 'find') document.getElementById('floatFilterBtn').classList.toggle('visible', sy > filterBottom);
     lastScrollY = sy;
   }, { passive: true });
 })();
@@ -540,7 +640,6 @@ async function loadCourses() {
     const courses = await r.json();
     allClubIds = courses.map(c => c.id);
 
-    // Group courses by parent name for the filter panel
     const parentGroups = {};
     for (const c of courses) {
       const group = CLUB_GROUPS[c.id];
@@ -553,8 +652,7 @@ async function loadCourses() {
       .sort(([a],[b]) => a.localeCompare(b))
       .map(([name, ids]) => `<label class="club-checkbox-item" data-name="${name.toLowerCase()}" data-ids="${ids.join(',')}">
         <input type="checkbox" onchange="onClubCheckGroup(this,'${ids.join(',')}')"/>${name}
-      </label>`)
-      .join('');
+      </label>`).join('');
   } catch {}
 }
 
@@ -569,29 +667,34 @@ async function loadStatus() {
 function updateStatus(ls) {
   if (!ls) return;
   const m = Math.round((Date.now() - new Date(ls)) / 60000);
-  document.getElementById('statusText').textContent  = m < 2 ? 'Just updated' : `Updated ${m}m ago`;
-  document.getElementById('statRefresh').textContent = m < 2 ? 'Just now'     : `${m}m ago`;
+  document.getElementById('statusText').textContent = m < 2 ? 'Just updated' : `Updated ${m}m ago`;
 }
 
 // ── SEARCH ──
 async function doSearch() {
   const btn = document.getElementById('searchBtn');
   btn.textContent = 'Searching...';
-  document.getElementById('clubFilterPanel').classList.remove('open');
   await loadTeeTimes();
-  updateStats();
   populateAlertCourseDropdown();
-  btn.innerHTML = `<svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
   applyFiltersAndRender();
 }
 
-// ── FILTERS & GROUPING ──
+// ── FILTERS ──
 function applyFiltersAndRender() {
   const players  = document.getElementById('filterPlayers').value;
   const timeFrom = document.getElementById('filterTimeFrom').value;
   const timeTo   = document.getElementById('filterTimeTo').value;
   const holes    = document.getElementById('filterHoles').value;
   const sort     = document.getElementById('sortSelect').value;
+  const priceMin = parseFloat(document.getElementById('priceMin').value) || 0;
+  const priceMax = parseFloat(document.getElementById('priceMax').value) || Infinity;
+  const distKm   = parseInt(document.getElementById('distanceKm').value) || 20;
+
+  // Update price badge
+  const hasPriceFilter = document.getElementById('priceMin').value || document.getElementById('priceMax').value;
+  document.getElementById('priceBadge').style.display = hasPriceFilter ? '' : 'none';
+  document.getElementById('pillPrice').classList.toggle('active', !!hasPriceFilter);
 
   if (!players) { showPrompt(); return; }
 
@@ -602,14 +705,21 @@ function applyFiltersAndRender() {
   if (timeFrom) results = results.filter(t => t.time >= timeFrom);
   if (timeTo)   results = results.filter(t => t.time <= timeTo);
 
-  // Group by courseId+holes (sub-course level)
+  // Price filter
+  if (hasPriceFilter) {
+    results = results.filter(t => {
+      if (!t.pricePerPlayer) return true; // keep TBD
+      return t.pricePerPlayer >= priceMin && t.pricePerPlayer <= priceMax;
+    });
+  }
+
+  // Group by courseId+holes
   const courseMap = {};
   for (const t of results) {
     const key = `${t.courseId}-${t.holes}`;
     if (!courseMap[key]) courseMap[key] = { ...t, slots: [] };
     courseMap[key].slots.push(t);
   }
-  // Deduplicate slots by time within each sub-course
   for (const key of Object.keys(courseMap)) {
     const seen = new Set();
     courseMap[key].slots = courseMap[key].slots
@@ -617,22 +727,14 @@ function applyFiltersAndRender() {
       .sort((a,b) => a.time.localeCompare(b.time));
   }
 
-  // Group sub-courses into parent clubs
+  // Group into parents
   const parentMap = {};
   for (const course of Object.values(courseMap)) {
     const group = CLUB_GROUPS[course.courseId];
     const parentName = group ? group.parent : course.courseName;
     const parentUrl  = group ? group.url    : course.courseUrl || null;
-    const primaryCoord = CLUB_COORDS[course.courseId];
-
     if (!parentMap[parentName]) {
-      parentMap[parentName] = {
-        parentName,
-        parentUrl,
-        courseId: course.courseId, // for weather lookup
-        courses: [],
-        allSlots: [],
-      };
+      parentMap[parentName] = { parentName, parentUrl, courseId: course.courseId, courses: [], allSlots: [] };
     }
     parentMap[parentName].courses.push(course);
     parentMap[parentName].allSlots.push(...course.slots);
@@ -640,64 +742,84 @@ function applyFiltersAndRender() {
 
   let parents = Object.values(parentMap);
 
-  // Sort parents
-  if (sort === 'time')       parents.sort((a,b) => a.allSlots[0]?.time.localeCompare(b.allSlots[0]?.time));
+  // Distance filter
+  if (userLocation) {
+    parents = parents.filter(p => {
+      const coords = CLUB_COORDS[p.courseId];
+      if (!coords) return true;
+      return haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng) <= distKm;
+    });
+  }
+
+  // Sort
+  if (sort === 'time')       parents.sort((a,b) => (a.allSlots[0]?.time||'').localeCompare(b.allSlots[0]?.time||''));
   if (sort === 'price-asc')  parents.sort((a,b) => Math.min(...a.allSlots.map(s=>s.pricePerPlayer||999)) - Math.min(...b.allSlots.map(s=>s.pricePerPlayer||999)));
-  if (sort === 'price-desc') parents.sort((a,b) => Math.max(...b.allSlots.map(s=>s.pricePerPlayer||0))   - Math.max(...a.allSlots.map(s=>s.pricePerPlayer||0)));
+  if (sort === 'price-desc') parents.sort((a,b) => Math.max(...b.allSlots.map(s=>s.pricePerPlayer||0)) - Math.max(...a.allSlots.map(s=>s.pricePerPlayer||0)));
   if (sort === 'name')       parents.sort((a,b) => a.parentName.localeCompare(b.parentName));
+  if (sort === 'distance' && userLocation) {
+    parents.sort((a,b) => {
+      const ca = CLUB_COORDS[a.courseId], cb = CLUB_COORDS[b.courseId];
+      const da = ca ? haversineKm(userLocation.lat, userLocation.lng, ca.lat, ca.lng) : 999;
+      const db = cb ? haversineKm(userLocation.lat, userLocation.lng, cb.lat, cb.lng) : 999;
+      return da - db;
+    });
+  }
 
   document.getElementById('countNum').textContent = parents.length;
-  updateStats();
   activeSlot = null;
 
-  if (!parents.length && !STATIC_CLUBS.length) {
+  if (!parents.length) {
     document.getElementById('resultsList').innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/></svg>
-        <h3>No tee times found</h3><p>Try a different date, time, or club.</p>
+        <h3>No tee times found</h3><p>Try adjusting your filters.</p>
       </div>`;
     return;
   }
 
-  document.getElementById('resultsList').innerHTML = parents.map((p, i) => renderParentCard(p, i)).join('');
+  document.getElementById('resultsList').innerHTML = parents.map((p,i) => renderParentCard(p,i)).join('');
   setTimeout(() => loadWeatherForParents(parents), 100);
 }
 
-// ── RENDER PARENT CARD ──
+// ── RENDER ──
 function renderParentCard(parent, idx) {
   const cardId   = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
   const delay    = Math.min(idx * 40, 300);
   const prices   = parent.allSlots.map(s => s.pricePerPlayer).filter(Boolean);
   const minPrice = prices.length ? Math.min(...prices) : null;
   const maxPrice = prices.length ? Math.max(...prices) : null;
-  const priceHtml = minPrice
-    ? (minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} – $${maxPrice}`)
-    : 'TBD';
+  const priceHtml = minPrice ? (minPrice === maxPrice ? `$${minPrice}` : `$${minPrice} – $${maxPrice}`) : 'TBD';
   const nameHtml = parent.parentUrl
     ? `<a href="${parent.parentUrl}" target="_blank" rel="noopener" onclick="event.stopPropagation()">${parent.parentName} ↗</a>`
     : parent.parentName;
+  const coursesLabel = parent.courses.length > 1 ? `${parent.courses.length} courses` : '';
 
-  const totalSlots = parent.allSlots.length;
-  const coursesLabel = parent.courses.length > 1
-    ? `${parent.courses.length} courses`
-    : ``;
+  let distHtml = '';
+  if (userLocation) {
+    const coords = CLUB_COORDS[parent.courseId];
+    if (coords) {
+      const km = haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng);
+      distHtml = `<div class="distance-badge">📍 ${km.toFixed(1)} km away</div>`;
+    }
+  }
 
   return `
     <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent='${JSON.stringify(parent)}'>
       <div class="parent-card-header">
         <div class="parent-card-left">
           <div class="parent-card-name">${nameHtml}</div>
-          <div class="parent-card-subtitle">${coursesLabel}</div>
+          ${coursesLabel ? `<div class="parent-card-subtitle">${coursesLabel}</div>` : ''}
           <div class="parent-weather-row" id="weather-${cardId}">
-            <span style="font-size:13px;color:var(--ink-30)">Loading weather...</span>
+            <span style="font-size:12px;color:var(--ink-30)">Loading weather...</span>
           </div>
+          ${distHtml}
         </div>
         <div class="parent-card-right">
           <div class="parent-price-range">${priceHtml}</div>
           <div class="parent-price-label">CAD / player</div>
         </div>
       </div>
-      <div class="parent-courses open" id="courses-${cardId}">
+      <div class="parent-courses">
         ${parent.courses.map(c => renderCourseSection(c, cardId)).join('')}
       </div>
     </div>`;
@@ -707,17 +829,14 @@ function renderCourseSection(course, parentCardId) {
   const sectionId = `section-${course.courseId}-${course.holes}`;
   const visible   = course.slots.slice(0, BUBBLES_INIT);
   const hidden    = course.slots.slice(BUBBLES_INIT);
-
-  const bubbles = visible.map(s =>
+  const bubbles   = visible.map(s =>
     `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
   ).join('');
   const moreBubble = hidden.length > 0
-    ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>`
-    : '';
+    ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>` : '';
 
-  const label = course.courseName !== (CLUB_GROUPS[course.courseId]?.parent || course.courseName)
-    ? course.courseName
-    : `${course.holes} holes`;
+  const parentName = CLUB_GROUPS[course.courseId]?.parent || course.courseName;
+  const label = course.courseName !== parentName ? course.courseName : `${course.holes} holes`;
 
   return `
     <div class="course-section" id="${sectionId}" data-slots='${JSON.stringify(course.slots)}' data-course-id="${course.courseId}">
@@ -780,17 +899,16 @@ async function toggleSlot(sectionId, slotId, parentCardId) {
   if (coords) {
     const hour = parseInt(slot.time.split(':')[0]);
     const w = await fetchHourlyWeather(courseId, coords.lat, coords.lng, slot.date, hour);
-    if (w) weatherHtml = `<span class="slot-detail-weather">${w.icon} ${w.tStart}° → ${w.iconEnd} ${w.tEnd}°C during round</span>`;
+    if (w) weatherHtml = `<span class="slot-detail-weather">${w.icon} ${w.tStart}° → ${w.iconEnd} ${w.tEnd}°C</span>`;
   }
 
   detail.innerHTML = `
     <div class="slot-detail">
       <div class="slot-detail-left">
         <span class="slot-detail-time">${fmt12(slot.time)}</span>
-        ${weatherHtml}
-        ${minNote}
+        ${weatherHtml}${minNote}
         ${slot.pricePerPlayer
-          ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/player${slot.taxesMode ? ' ' + slot.taxesMode : ''}</span></span>`
+          ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/player${slot.taxesMode?' '+slot.taxesMode:''}</span></span>`
           : `<span style="font-size:13px;color:var(--ink-60)">Price TBD</span>`}
       </div>
       <div class="slot-detail-actions">
@@ -805,27 +923,20 @@ async function toggleSlot(sectionId, slotId, parentCardId) {
 async function loadWeatherForParents(parents) {
   const date = document.getElementById('filterDate').value;
   for (const parent of parents) {
-    const courseId = parent.courseId;
-    const coords   = CLUB_COORDS[courseId];
-    const cardId   = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
-    const el       = document.getElementById(`weather-${cardId}`);
-    if (!el) continue;
-    if (!coords) { el.innerHTML = ''; continue; }
-    const w = await fetchDailyWeather(courseId, coords.lat, coords.lng, date);
-    if (!w) { el.innerHTML = ''; continue; }
-    el.innerHTML = `
-      <span class="parent-weather-icon">${w.icon}</span>
-      <div>
-        <div style="font-size:14px;font-weight:500;color:var(--ink)">${w.tmax}° / ${w.tmin}°C</div>
-        <div class="parent-weather-text">${w.desc}</div>
-      </div>`;
+    const coords = CLUB_COORDS[parent.courseId];
+    const cardId = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
+    const el     = document.getElementById(`weather-${cardId}`);
+    if (!el || !coords) { if(el) el.innerHTML=''; continue; }
+    const w = await fetchDailyWeather(parent.courseId, coords.lat, coords.lng, date);
+    if (!w) { el.innerHTML=''; continue; }
+    el.innerHTML = `<span class="parent-weather-icon">${w.icon}</span><div><div style="font-size:13px;font-weight:500;color:var(--ink)">${w.tmax}° / ${w.tmin}°C</div><div class="parent-weather-text">${w.desc}</div></div>`;
   }
 }
 
 function getBookingUrl(slot, players) {
-  if (slot.source === 'chronogolf') return slot.bookingUrl.replace(/nb_players=\d+/, 'nb_players=' + players);
+  if (slot.source === 'chronogolf') return slot.bookingUrl.replace(/nb_players=\d+/, 'nb_players='+players);
   if (slot.source === 'foreup')     return slot.bookingUrl;
-  return slot.bookingUrl.replace(/nbplayers=\d+/, 'nbplayers=' + players);
+  return slot.bookingUrl.replace(/nbplayers=\d+/, 'nbplayers='+players);
 }
 
 function fmt12(t) {
@@ -848,27 +959,7 @@ function showPrompt() {
     </div>`;
 }
 
-function updateStats() {
-  const pub = allTeeTimes.filter(t => !t.membersOnly);
-  document.getElementById('statTotal').textContent   = pub.length;
-  document.getElementById('statCourses').textContent = new Set(pub.map(t => t.courseId)).size;
-}
-
-// ── CLUB PANEL ──
-function toggleClubPanel() {
-  const panel = document.getElementById('clubFilterPanel');
-  const btn   = document.getElementById('clubToggleBtn');
-  const open  = panel.classList.toggle('open');
-  btn.classList.toggle('active', open);
-  if (open) document.getElementById('clubSearch').focus();
-}
-
-function onClubCheck(cb, id) {
-  if (cb.checked) { selectedClubs.add(id); cb.closest('.club-checkbox-item').classList.add('selected'); }
-  else            { selectedClubs.delete(id); cb.closest('.club-checkbox-item').classList.remove('selected'); }
-  updateClubBadge(); applyFiltersAndRender();
-}
-
+// ── CLUB FILTER ──
 function onClubCheckGroup(cb, idsStr) {
   const ids = idsStr.split(',');
   if (cb.checked) { ids.forEach(id => selectedClubs.add(id)); cb.closest('.club-checkbox-item').classList.add('selected'); }
@@ -884,10 +975,9 @@ function selectAllClubs() {
 
 function checkAllClubs() {
   document.querySelectorAll('.club-checkbox-item').forEach(label => {
-    const ids = (label.dataset.ids || label.dataset.id || '').split(',');
+    const ids = (label.dataset.ids||'').split(',');
     const cb = label.querySelector('input');
-    cb.checked=true; label.classList.add('selected');
-    ids.forEach(id => selectedClubs.add(id));
+    cb.checked=true; label.classList.add('selected'); ids.forEach(id=>selectedClubs.add(id));
   });
   updateClubBadge(); applyFiltersAndRender();
 }
@@ -898,14 +988,11 @@ function filterClubGrid() {
 }
 
 function updateClubBadge() {
-  const badge = document.getElementById('clubToggleBadge');
-  const btn   = document.getElementById('clubToggleBtn');
-  if (selectedClubs.size > 0 && selectedClubs.size < allClubIds.length) {
-    badge.style.display=''; badge.textContent=selectedClubs.size; btn.classList.add('active');
-  } else {
-    badge.style.display='none';
-    if (!document.getElementById('clubFilterPanel').classList.contains('open')) btn.classList.remove('active');
-  }
+  const badge = document.getElementById('clubBadge');
+  const btn   = document.getElementById('pillClub');
+  const count = document.querySelectorAll('.club-checkbox-item.selected').length;
+  if (count > 0) { badge.style.display=''; badge.textContent=count; btn.classList.add('active'); }
+  else { badge.style.display='none'; if(!document.getElementById('clubPanel').classList.contains('open')) btn.classList.remove('active'); }
 }
 
 // ── ALERTS ──
@@ -924,7 +1011,7 @@ function populateAlertCourseDropdown() {
 }
 
 function prefillAlert(courseId, date, time) {
-  scrollToAlerts();
+  switchTab('alerts');
   const [hh] = time.split(':').map(Number);
   if (alertType==='date-window') {
     document.getElementById('alertDate').value     = date;
@@ -961,15 +1048,24 @@ function deleteAlert(id) {
 }
 
 function renderLocalAlerts() {
-  const card=document.getElementById('activeAlertsCard'), list=document.getElementById('alertsList'), count=document.getElementById('headerAlertCount');
-  if (!localAlerts.length) { card.style.display='none'; count.style.display='none'; return; }
-  card.style.display=''; count.style.display=''; count.textContent=localAlerts.length;
-  list.innerHTML = localAlerts.map(a => {
+  const badge = document.getElementById('alertTabBadge');
+  badge.style.display = localAlerts.length ? '' : 'none';
+  badge.textContent   = localAlerts.length;
+
+  const html = localAlerts.length ? localAlerts.map(a => {
     const desc = a.type==='date-window'
       ? `${a.date} · ${fmtTime(a.timeFrom)} – ${fmtTime(a.timeTo)}`
       : `${allTeeTimes.find(t=>t.courseId===a.courseId)?.courseName||'Any course'}`;
-    return `<div class="alert-item"><div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div><button class="delete-alert-btn" onclick="deleteAlert(${a.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button></div>`;
-  }).join('');
+    return `<div class="alert-item">
+      <div><div class="alert-item-text">${desc}</div><div class="alert-item-sub">${a.contact}${a.players?` · ${a.players} players`:''}</div></div>
+      <button class="delete-alert-btn" onclick="deleteAlert(${a.id})"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg></button>
+    </div>`;
+  }).join('') : '<div class="no-alerts-msg">No active alerts yet.</div>';
+
+  const card2 = document.getElementById('activeAlertsCard2');
+  const list2 = document.getElementById('alertsList2');
+  card2.style.display = localAlerts.length ? '' : 'none';
+  list2.innerHTML = html;
 }
 
 function fmtTime(t) {
@@ -978,8 +1074,8 @@ function fmtTime(t) {
   return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
 }
 
-function scrollToAlerts() { document.getElementById('alertsAnchor').scrollIntoView({behavior:'smooth',block:'start'}); }
 function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
+
 function toast(msg) {
   const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
   document.getElementById('toastContainer').appendChild(el);
