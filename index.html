@@ -538,7 +538,8 @@ async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
     hourlyCache[key] = result;
     return result;
   } catch { return null; }
-}
+};
+
 
 // ── DISTANCE ──
 function haversineKm(lat1, lng1, lat2, lng2) {
@@ -582,7 +583,8 @@ window.clearPrice = function clearPrice() {
   document.getElementById('priceBadge').style.display = 'none';
   document.getElementById('pillPrice').classList.remove('active');
   applyFiltersAndRender();
-}
+};
+
 
 // ── TABS ──
 window.switchTab = function switchTab(tab) {
@@ -592,7 +594,8 @@ window.switchTab = function switchTab(tab) {
   document.getElementById('tabFind').classList.toggle('active', tab === 'find');
   document.getElementById('tabAlerts').classList.toggle('active', tab === 'alerts');
   document.getElementById('floatFilterBtn').style.display = tab === 'find' ? '' : 'none';
-}
+};
+
 
 // ── PANEL TOGGLE ──
 window.togglePanel = function togglePanel(panelId, btnId) {
@@ -602,7 +605,8 @@ window.togglePanel = function togglePanel(panelId, btnId) {
   const open  = panel.classList.toggle('open');
   btn.classList.toggle('active', open || btn.querySelector('.filter-pill-badge')?.style.display !== 'none');
   if (panelId === 'clubPanel' && open) document.getElementById('clubSearch')?.focus();
-}
+};
+
 
 // ── INIT ──
 (async function init() {
@@ -671,7 +675,8 @@ function updateStatus(ls) {
   if (!ls) return;
   const m = Math.round((Date.now() - new Date(ls)) / 60000);
   document.getElementById('statusText').textContent = m < 2 ? 'Just updated' : `Updated ${m}m ago`;
-}
+};
+
 
 // ── SEARCH ──
 window.doSearch = async function doSearch() {
@@ -681,7 +686,8 @@ window.doSearch = async function doSearch() {
   populateAlertCourseDropdown();
   btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
   applyFiltersAndRender();
-}
+};
+
 
 // ── FILTERS ──
 window.applyFiltersAndRender = function applyFiltersAndRender() {
@@ -788,7 +794,8 @@ window.applyFiltersAndRender = function applyFiltersAndRender() {
 
   document.getElementById('resultsList').innerHTML = parents.map((p,i) => renderParentCard(p,i)).join('');
   setTimeout(() => loadWeatherForParents(parents), 100);
-}
+};
+
 
 // ── RENDER ──
 function renderParentCard(pclub, idx) {
@@ -966,7 +973,8 @@ function showPrompt() {
       <h3>How many players?</h3>
       <p>Select the number of players above to see available tee times.</p>
     </div>`;
-}
+};
+
 
 // ── CLUB FILTER ──
 function onClubCheckGroup(cb, idsStr) {
@@ -1002,7 +1010,8 @@ function updateClubBadge() {
   const count = document.querySelectorAll('.club-checkbox-item.selected').length;
   if (count > 0) { badge.style.display=''; badge.textContent=count; btn.classList.add('active'); }
   else { badge.style.display='none'; if(!document.getElementById('clubPanel').classList.contains('open')) btn.classList.remove('active'); }
-}
+};
+
 
 // ── ALERTS ──
 function populateAlertCourseDropdown() {
