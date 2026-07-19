@@ -820,7 +820,7 @@ function renderParentCard(pclub, idx) {
   }
 
   return `
-    <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent='${JSON.stringify(parent)}'>
+    <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent='${JSON.stringify({parentName:pclub.parentName,parentUrl:pclub.parentUrl,courseId:pclub.courseId,courses:pclub.courses,allSlots:pclub.allSlots})}'>
       <div class="parent-card-header">
         <div class="parent-card-left">
           <div class="parent-card-name">${nameHtml}</div>
