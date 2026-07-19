@@ -598,9 +598,10 @@ window.switchTab = function switchTab(tab) {
 window.togglePanel = function togglePanel(panelId, btnId) {
   const panel = document.getElementById(panelId);
   const btn   = document.getElementById(btnId);
+  if (!panel || !btn) return;
   const open  = panel.classList.toggle('open');
   btn.classList.toggle('active', open || btn.querySelector('.filter-pill-badge')?.style.display !== 'none');
-  if (panelId === 'clubPanel' && open) document.getElementById('clubSearch').focus();
+  if (panelId === 'clubPanel' && open) document.getElementById('clubSearch')?.focus();
 }
 
 // ── INIT ──
