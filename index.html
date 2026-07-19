@@ -553,7 +553,9 @@ async function geocodeAndFilter() {
   const input = document.getElementById('locationInput').value.trim();
   if (!input) return;
   try {
-    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(input + ', Quebec, Canada')}&format=json&limit=1`);
+    const isPostal = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/.test(input.trim());
+    const query = isPostal ? `${input.trim()}, Canada` : `${input}, Quebec, Canada`;
+    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`);
     const d = await r.json();
     if (d.length > 0) {
       userLocation = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
