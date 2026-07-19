@@ -415,8 +415,10 @@
     </div>
     <div class="alerts-page-body">
       <div class="form-row">
-        <label>Club</label>
-        <select id="alertCourse"><option value="">Any club</option></select>
+        <label>Club <span style="font-weight:400;color:var(--ink-60)">(leave empty for any)</span></label>
+        <input type="text" id="alertClubSearch" placeholder="Search clubs..." oninput="filterAlertClubs()" style="width:100%;height:38px;border:1.5px solid var(--ink-10);border-radius:var(--radius-md);padding:0 10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--sand-50);margin-bottom:8px;" />
+        <div id="alertClubGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-height:180px;overflow-y:auto;"></div>
+        <div id="alertClubSelected" style="font-size:12px;color:var(--ink-60);margin-top:6px;"></div>
       </div>
       <div class="form-row">
         <label>Date</label>
@@ -1023,7 +1025,8 @@ function populateAlertCourseDropdown() {
 window.prefillAlert = function prefillAlert(courseId, date, time) {
   switchTab('alerts');
   const [hh] = time.split(':').map(Number);
-  document.getElementById('alertCourse').value   = courseId;
+  const cb = document.querySelector(`#alertClubGrid input[value="${courseId}"]`);
+  if (cb) { cb.checked = true; updateAlertClubSelected(); }
   document.getElementById('alertDate').value     = date;
   document.getElementById('alertTimeFrom').value = `${String(Math.max(0,hh-1)).padStart(2,'0')}:00`;
   document.getElementById('alertTimeTo').value   = `${String(Math.min(23,hh+2)).padStart(2,'0')}:00`;
@@ -1033,9 +1036,12 @@ window.prefillAlert = function prefillAlert(courseId, date, time) {
 window.createAlert = async function createAlert() {
   const contact = document.getElementById('alertContact').value.trim();
   if (!contact) { toast('Please enter an email or phone number.'); return; }
+  const checkedClubs = [...document.querySelectorAll('#alertClubGrid input:checked')];
+  const courseIds = checkedClubs.map(c => c.value);
   const alert = {
     id: Date.now(), type: 'date-window', contact,
-    courseId: document.getElementById('alertCourse').value || null,
+    courseIds: courseIds.length > 0 ? courseIds : null,
+    courseId: courseIds.length === 1 ? courseIds[0] : null,
     date:     document.getElementById('alertDate').value || null,
     timeFrom: document.getElementById('alertTimeFrom').value || null,
     timeTo:   document.getElementById('alertTimeTo').value || null,
