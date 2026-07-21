@@ -457,7 +457,7 @@
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-const API_BASE = 'https://api.teefind.ca/api';
+const API_BASE     = 'https://api.teefind.ca/api';
 const BUBBLES_INIT = 6;
 const ROUND_HOURS  = 4.5;
 
@@ -617,6 +617,8 @@ window.togglePanel = function togglePanel(panelId, btnId) {
   document.getElementById('alertDate').value  = today;
   await Promise.all([loadTeeTimes(), loadStatus(), loadCourses()]);
   populateAlertCourseDropdown();
+  // Also populate alert clubs independently
+  fetch(`${API_BASE}/courses`).then(r=>r.json()).then(cs=>fillAlertClubGrid(cs.map(c=>({courseId:c.id,courseName:c.name})))).catch(()=>{});
   renderLocalAlerts();
   showPrompt();
 
