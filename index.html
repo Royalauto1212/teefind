@@ -617,8 +617,8 @@ window.togglePanel = function togglePanel(panelId, btnId) {
   document.getElementById('alertDate').value  = today;
   await Promise.all([loadTeeTimes(), loadStatus(), loadCourses()]);
   populateAlertCourseDropdown();
-  // Also populate alert clubs independently
-  fetch(`${API_BASE}/courses`).then(r=>r.json()).then(cs=>fillAlertClubGrid(cs.map(c=>({courseId:c.id,courseName:c.name})))).catch(()=>{});
+  // Populate alert club grid
+  fetch(`${API_BASE}/courses`).then(r=>r.json()).then(cs=>window.fillAlertClubGrid(cs.map(c=>({courseId:c.id,courseName:c.name})))).catch(e=>console.warn('Alert clubs:', e));
   renderLocalAlerts();
   showPrompt();
 
