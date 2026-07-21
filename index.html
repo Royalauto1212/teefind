@@ -610,6 +610,27 @@ window.togglePanel = function togglePanel(panelId, btnId) {
 };
 
 
+// ── ALERT CLUB GRID ──
+window.fillAlertClubGrid = function(courses) {
+  const grid = document.getElementById('alertClubGrid');
+  if (!grid) return;
+  grid.innerHTML = [...courses].sort((a,b)=>a.courseName.localeCompare(b.courseName)).map(t => `<label style="display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--ink);" onmouseover="this.style.background='var(--sand-50)'" onmouseout="this.style.background=''"><input type="checkbox" value="${t.courseId}" data-name="${t.courseName}" onchange="window.updateAlertClubSelected()" style="accent-color:var(--green-600);width:13px;height:13px;flex-shrink:0;" />${t.courseName}</label>`).join('');
+};
+
+window.filterAlertClubs = function filterAlertClubs() {
+  const q = document.getElementById('alertClubSearch').value.toLowerCase();
+  document.querySelectorAll('#alertClubGrid label').forEach(label => {
+    label.style.display = label.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+};
+
+window.updateAlertClubSelected = function updateAlertClubSelected() {
+  const checked = [...document.querySelectorAll('#alertClubGrid input:checked')];
+  const el = document.getElementById('alertClubSelected');
+  if (!el) return;
+  el.textContent = checked.length === 0 ? '' : `Selected: ${checked.map(c=>c.dataset.name).join(', ')}`;
+};
+
 // ── INIT ──
 (async function init() {
   const today = new Date().toISOString().split('T')[0];
@@ -816,7 +837,7 @@ function renderParentCard(pclub, idx) {
 
   let distHtml = '';
   if (userLocation) {
-    const coords = CLUB_COORDS[pclub.courseId];
+    const coords = CLUB_COORDS[parent.courseId];
     if (coords) {
       const km = haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng);
       distHtml = `<div class="distance-badge">📍 ${km.toFixed(1)} km away</div>`;
@@ -943,7 +964,7 @@ window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
 async function loadWeatherForParents(parents) {
   const date = document.getElementById('filterDate').value;
   for (const parent of parents) {
-    const coords = CLUB_COORDS[pclub.courseId];
+    const coords = CLUB_COORDS[parent.courseId];
     const cardId = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
     const el     = document.getElementById(`weather-${cardId}`);
     if (!el || !coords) { if(el) el.innerHTML=''; continue; }
@@ -1019,9 +1040,11 @@ function updateClubBadge() {
 
 // ── ALERTS ──
 function populateAlertCourseDropdown() {
-  const sel    = document.getElementById('alertCourse');
-  const unique = [...new Map(allTeeTimes.map(t=>[t.courseId,t])).values()].sort((a,b)=>a.courseName.localeCompare(b.courseName));
-  sel.innerHTML = '<option value="">Any course</option>' + unique.map(t=>`<option value="${t.courseId}">${t.courseName}</option>`).join('');
+  // Update alert club grid with latest tee time data
+  if (allTeeTimes.length > 0) {
+    const courses = [...new Map(allTeeTimes.map(t=>[t.courseId,t])).values()];
+    window.fillAlertClubGrid(courses);
+  }
 }
 
 window.prefillAlert = function prefillAlert(courseId, date, time) {
