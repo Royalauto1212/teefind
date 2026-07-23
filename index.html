@@ -225,6 +225,7 @@
   </a>
   <div class="header-right">
     <div class="status-pill"><span class="status-dot"></span><span id="statusText">Loading...</span></div>
+    <button id="langToggle" onclick="toggleLang()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:rgba(255,255,255,0.85);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:4px 10px;cursor:pointer;letter-spacing:0.05em;">FR</button>
   </div>
 </header>
 
@@ -830,11 +831,11 @@ window.applyFiltersAndRender = function applyFiltersAndRender() {
     document.getElementById('resultsList').innerHTML = `
       <div class="empty-state">
         <svg viewBox="0 0 24 24" fill="none" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="4.5" r="2.5"/><line x1="12" y1="7" x2="12" y2="18" stroke-width="1.5"/><line x1="8.5" y1="18" x2="15.5" y2="18" stroke-width="1.5"/></svg>
-        <h3>No tee times found</h3>
-        <p>Try adjusting your filters.</p>
+        <h3>${t('noTimesTitle')}</h3>
+        <p>${t('noTimesSub')}</p>
         <p style="margin-top:1rem;">
           <button onclick="switchTab('alerts')" style="background:none;border:none;color:var(--green-600);font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;text-decoration:underline;">
-            Can't find what you're looking for? Set a cancellation alert →
+            ${t('noTimesAlert')}
           </button>
         </p>
       </div>`;
@@ -1019,8 +1020,8 @@ function showPrompt() {
         <path d="M23 21v-2a4 4 0 0 0-3-3.87" stroke-width="1.5"/>
         <path d="M16 3.13a4 4 0 0 1 0 7.75" stroke-width="1.5"/>
       </svg>
-      <h3>How many players?</h3>
-      <p>Select the number of players above to see available tee times.</p>
+      <h3>${t('promptTitle')}</h3>
+      <p>${t('promptSub')}</p>
     </div>`;
 };
 
@@ -1138,6 +1139,285 @@ function fmtTime(t) {
 }
 
 window.scrollToFilters = function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
+
+// ── LANGUAGE ──
+let currentLang = 'en';
+
+const TRANSLATIONS = {
+  en: {
+    tabFind: 'Find a tee time',
+    tabAlerts: 'Cancellation alerts',
+    heroTitle: 'Find a tee time,<br><em>instantly.</em>',
+    heroSub: 'All your favourite Montreal courses, one search.',
+    labelDate: 'Date',
+    labelPlayers: 'Players',
+    labelFrom: 'From',
+    labelTo: 'To',
+    labelHoles: 'Holes',
+    labelSort: 'Sort by',
+    searchBtn: 'Search',
+    filterClub: 'Filter by club',
+    filterNear: 'Near me',
+    filterPrice: 'Price range',
+    selectClubs: 'Select clubs',
+    showAll: 'Show all',
+    checkAll: 'Check all',
+    searchClubs: 'Search clubs...',
+    labelWithin: 'Within',
+    applyBtn: 'Apply',
+    clearBtn: 'Clear',
+    priceLabel: 'Price per player (CAD)',
+    sortEarliest: 'Earliest',
+    sortPriceUp: 'Price ↑',
+    sortPriceDown: 'Price ↓',
+    sortDistance: 'Distance',
+    sortName: 'Name',
+    opt1p: '1 player', opt2p: '2 players', opt3p: '3 players', opt4p: '4 players',
+    optAny: 'Any', opt9h: '9 holes', opt18h: '18 holes',
+    countClubs: 'clubs with available times',
+    promptTitle: 'How many players?',
+    promptSub: 'Select the number of players above to see available tee times.',
+    noTimesTitle: 'No tee times found',
+    noTimesSub: 'Try adjusting your filters.',
+    noTimesAlert: "Can't find what you're looking for? Set a cancellation alert →",
+    cadPlayer: 'CAD / player',
+    holesLabel: 'holes',
+    alertsTitle: 'Cancellation alerts',
+    alertsDesc: "Get notified by email or SMS the moment a tee time opens up that matches what you're looking for.",
+    clubLabel: 'Club',
+    clubHint: '(leave empty for any)',
+    clearAll: 'Clear all',
+    dateLabel: 'Date',
+    timeRangeLabel: 'Time range',
+    playersLabel: 'Players needed',
+    notifyLabel: 'Notify me at',
+    notifyPlaceholder: 'email or +1 555 000 0000',
+    createAlert: 'Create alert',
+    activeAlerts: 'Your active alerts',
+    noAlerts: 'No active alerts yet.',
+    locationPlaceholder: 'e.g. H3H 1G6 or 123 Main St',
+    bookBtn: 'Book',
+    alertBtn: '+ Alert',
+    showMore: 'more',
+    showLess: 'Show less',
+    updatedJust: 'Just updated',
+    updatedAgo: 'm ago',
+    filtersBtn: 'Filters',
+    perPlayer: 'CAD/player',
+    toastAlert: "Alert created! We'll notify you when a tee time opens up.",
+    toastNoContact: 'Please enter an email or phone number.',
+    toastNoLocation: 'Location not found. Try a postal code like H3H 2J8.',
+  },
+  fr: {
+    tabFind: "Trouver un départ",
+    tabAlerts: "Alertes d’annulation",
+    heroTitle: "Trouvez un départ,<br><em>instantanément.</em>",
+    heroSub: "Tous vos parcours montréalais préférés, une seule recherche.",
+    labelDate: "Date",
+    labelPlayers: "Joueurs",
+    labelFrom: "De",
+    labelTo: "À",
+    labelHoles: "Trous",
+    labelSort: "Trier par",
+    searchBtn: "Rechercher",
+    filterClub: "Filtrer par club",
+    filterNear: "Près de moi",
+    filterPrice: "Fourchette de prix",
+    selectClubs: "Sélectionner des clubs",
+    showAll: "Tout afficher",
+    checkAll: "Tout cocher",
+    searchClubs: "Rechercher des clubs...",
+    labelWithin: "Dans un rayon de",
+    applyBtn: "Appliquer",
+    clearBtn: "Effacer",
+    priceLabel: "Prix par joueur (CAD)",
+    sortEarliest: "Le plus tôt",
+    sortPriceUp: "Prix ↑",
+    sortPriceDown: "Prix ↓",
+    sortDistance: "Distance",
+    sortName: "Nom",
+    opt1p: "1 joueur", opt2p: "2 joueurs", opt3p: "3 joueurs", opt4p: "4 joueurs",
+    optAny: "Peu importe", opt9h: "9 trous", opt18h: "18 trous",
+    countClubs: "clubs avec des disponibilités",
+    promptTitle: "Combien de joueurs?",
+    promptSub: "Sélectionnez le nombre de joueurs pour voir les départs disponibles.",
+    noTimesTitle: "Aucun départ trouvé",
+    noTimesSub: "Essayez d’ajuster vos filtres.",
+    noTimesAlert: "Vous ne trouvez pas ce que vous cherchez? Créez une alerte →",
+    cadPlayer: "CAD / joueur",
+    holesLabel: "trous",
+    alertsTitle: "Alertes d’annulation",
+    alertsDesc: "Soyez notifié par courriel ou SMS dès qu’un départ se libère selon vos critères.",
+    clubLabel: "Club",
+    clubHint: "(laisser vide pour tous)",
+    clearAll: "Tout effacer",
+    dateLabel: "Date",
+    timeRangeLabel: "Plage horaire",
+    playersLabel: "Joueurs requis",
+    notifyLabel: "Me notifier à",
+    notifyPlaceholder: "courriel ou +1 555 000 0000",
+    createAlert: "Créer une alerte",
+    activeAlerts: "Vos alertes actives",
+    noAlerts: "Aucune alerte active pour l’instant.",
+    locationPlaceholder: "ex. H3H 1G6 ou 123 rue Principale",
+    bookBtn: "Réserver",
+    alertBtn: "+ Alerte",
+    showMore: "de plus",
+    showLess: "Voir moins",
+    updatedJust: "Mis à jour",
+    updatedAgo: "min",
+    filtersBtn: "Filtres",
+    perPlayer: "CAD/joueur",
+    toastAlert: "Alerte créée! Vous serez notifié dès qu’un départ se libère.",
+    toastNoContact: "Veuillez entrer un courriel ou un numéro de téléphone.",
+    toastNoLocation: "Lieu introuvable. Essayez un code postal comme H3H 2J8.",
+  }
+};
+
+window.toggleLang = function toggleLang() {
+  currentLang = currentLang === 'en' ? 'fr' : 'en';
+  document.getElementById('langToggle').textContent = currentLang === 'en' ? 'FR' : 'EN';
+  applyTranslations();
+};
+
+function t(key) {
+  return TRANSLATIONS[currentLang][key] || TRANSLATIONS['en'][key] || key;
+}
+
+function applyTranslations() {
+  const T = TRANSLATIONS[currentLang];
+
+  // Tabs
+  document.querySelector('#tabFind').childNodes[2].textContent = ' ' + T.tabFind;
+  document.querySelector('#tabAlerts').childNodes[2].textContent = ' ' + T.tabAlerts;
+
+  // Hero
+  document.querySelector('.hero h1').innerHTML = T.heroTitle;
+  document.querySelector('.hero-sub').textContent = T.heroSub;
+
+  // Filter labels
+  const labels = document.querySelectorAll('.field label');
+  const labelKeys = ['labelDate','labelPlayers','labelFrom','labelTo','labelHoles','labelSort'];
+  labels.forEach((l, i) => { if (labelKeys[i]) l.textContent = T[labelKeys[i]]; });
+
+  // Search button
+  document.getElementById('searchBtn').innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ${T.searchBtn}`;
+
+  // Filter pills
+  document.getElementById('pillClub').childNodes[2].textContent = ' ' + T.filterClub + ' ';
+  document.getElementById('pillDistance').childNodes[2].textContent = ' ' + T.filterNear + ' ';
+  document.getElementById('pillPrice').childNodes[2].textContent = ' ' + T.filterPrice + ' ';
+
+  // Select options
+  const players = document.getElementById('filterPlayers');
+  if (players) {
+    players.options[0].text = T.labelPlayers;
+    players.options[1].text = T.opt1p;
+    players.options[2].text = T.opt2p;
+    players.options[3].text = T.opt3p;
+    players.options[4].text = T.opt4p;
+  }
+
+  const holes = document.getElementById('filterHoles');
+  if (holes) {
+    holes.options[0].text = T.optAny;
+    holes.options[1].text = T.opt9h;
+    holes.options[2].text = T.opt18h;
+  }
+
+  const sort = document.getElementById('sortSelect');
+  if (sort) {
+    sort.options[0].text = T.sortEarliest;
+    sort.options[1].text = T.sortPriceUp;
+    sort.options[2].text = T.sortPriceDown;
+    sort.options[3].text = T.sortDistance;
+    sort.options[4].text = T.sortName;
+  }
+
+  // Club filter header
+  const clubTitle = document.querySelector('.club-filter-title');
+  if (clubTitle) clubTitle.textContent = T.selectClubs;
+  const clubActions = document.querySelectorAll('.club-filter-action');
+  if (clubActions[0]) clubActions[0].textContent = T.showAll;
+  if (clubActions[1]) clubActions[1].textContent = T.checkAll;
+  const clubSearch = document.getElementById('clubSearch');
+  if (clubSearch) clubSearch.placeholder = T.searchClubs;
+
+  // Location placeholder
+  const locInput = document.getElementById('locationInput');
+  if (locInput) locInput.placeholder = T.locationPlaceholder;
+
+  // Price label
+  const priceLabel = document.querySelector('.price-range-label');
+  if (priceLabel) priceLabel.textContent = T.priceLabel;
+
+  // Results count
+  const countNum = document.getElementById('countNum').textContent;
+  document.querySelector('.results-count').innerHTML = `<strong id="countNum">${countNum}</strong> ${T.countClubs}`;
+
+  // Alerts tab
+  const alertHeaders = document.querySelectorAll('.alerts-page-header h2');
+  if (alertHeaders[0]) alertHeaders[0].textContent = T.alertsTitle;
+  const alertDescs = document.querySelectorAll('.alerts-page-header p');
+  if (alertDescs[0]) alertDescs[0].textContent = T.alertsDesc;
+  if (alertHeaders[1]) alertHeaders[1].textContent = T.activeAlerts;
+
+  // Alert form labels - update all form-row labels in alerts tab
+  const alertBody = document.querySelector('.alerts-page-body');
+  if (alertBody) {
+    const formLabels = alertBody.querySelectorAll('.form-row > label');
+    const alertLabelKeys = ['clubLabel', 'dateLabel', 'timeRangeLabel', 'playersLabel', 'notifyLabel'];
+    formLabels.forEach((l, i) => {
+      if (alertLabelKeys[i]) {
+        // preserve the hint span if present
+        const hint = l.querySelector('span');
+        l.textContent = T[alertLabelKeys[i]] + ' ';
+        if (hint && i === 0) {
+          hint.textContent = T.clubHint;
+          l.appendChild(hint);
+        }
+      }
+    });
+  }
+
+  // Alert form inputs
+  const alertContact = document.getElementById('alertContact');
+  if (alertContact) alertContact.placeholder = T.notifyPlaceholder;
+
+  const alertClubSearch = document.getElementById('alertClubSearch');
+  if (alertClubSearch) alertClubSearch.placeholder = T.searchClubs;
+
+  // Alert clear all button
+  const alertClearBtn = document.querySelector('#alertClubGrid').parentElement?.querySelector('.club-filter-action');
+  if (alertClearBtn) alertClearBtn.textContent = T.clearAll;
+
+  // Create alert button
+  const createBtn = document.querySelector('.create-alert-btn');
+  if (createBtn) createBtn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg> ${T.createAlert}`;
+
+  // Alert players dropdown
+  const alertPlayers = document.getElementById('alertPlayers');
+  if (alertPlayers) {
+    alertPlayers.options[0].text = T.optAny;
+    alertPlayers.options[1].text = T.opt1p;
+    alertPlayers.options[2].text = T.opt2p;
+    alertPlayers.options[3].text = T.opt3p;
+    alertPlayers.options[4].text = T.opt4p;
+  }
+
+  // No alerts message
+  const noAlertsMsg = document.querySelector('.no-alerts-msg');
+  if (noAlertsMsg) noAlertsMsg.textContent = T.noAlerts;
+
+  // Float filter button
+  const floatBtn = document.getElementById('floatFilterBtn');
+  if (floatBtn) floatBtn.childNodes[2].textContent = ' ' + T.filtersBtn;
+
+  // Re-render results to pick up translated strings
+  const playersVal = document.getElementById('filterPlayers').value;
+  if (!playersVal) showPrompt();
+  else if (allTeeTimes.length > 0) applyFiltersAndRender();
+}
 
 function toast(msg) {
   const el=document.createElement('div'); el.className='toast'; el.textContent=msg;
