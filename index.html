@@ -67,7 +67,7 @@
 
   /* FILTER CARD */
   .filter-card { background: var(--white); border-radius: var(--radius-xl) var(--radius-xl) 0 0; padding: 1.25rem 1.75rem; box-shadow: var(--shadow-float); position: sticky; top: 60px; z-index: 90; }
-  .filter-row-main { display: grid; grid-template-columns: 140px 120px 100px 100px 110px 110px auto; gap: 10px; align-items: end; }
+  .filter-row-main { display: grid; grid-template-columns: 130px 110px 90px 90px 100px 1fr 90px auto; gap: 10px; align-items: end; }
   .filter-row-extra { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 10px; align-items: center; }
 
   .field label { display: block; font-size: 11px; font-weight: 600; letter-spacing: 0.06em; text-transform: uppercase; color: var(--ink-60); margin-bottom: 5px; }
@@ -321,6 +321,20 @@
               <option value="name">Name</option>
             </select>
           </div>
+          <div class="field">
+            <label id="labelNear">Near</label>
+            <input type="text" id="locationInput" placeholder="Postal code or address" onkeydown="if(event.key==='Enter')geocodeAndFilter()" />
+          </div>
+          <div class="field select-wrap">
+            <label>km</label>
+            <select id="distanceKm" onchange="userLocation && applyFiltersAndRender()">
+              <option value="10">10 km</option>
+              <option value="20" selected>20 km</option>
+              <option value="30">30 km</option>
+              <option value="50">50 km</option>
+              <option value="100">100 km</option>
+            </select>
+          </div>
           <button class="search-btn" id="searchBtn" onclick="doSearch()">
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
             Search
@@ -334,11 +348,7 @@
             Filter by club
             <span class="filter-pill-badge" id="clubBadge" style="display:none">0</span>
           </button>
-          <button class="filter-pill-btn" id="pillDistance" onclick="togglePanel('distancePanel','pillDistance')">
-            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="10" r="3"/><path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.5 7.35 11.76a1 1 0 0 0 1.3 0C12.95 21.5 20 15.4 20 10a8 8 0 0 0-8-8z"/></svg>
-            Near me
-            <span class="filter-pill-badge" id="distanceBadge" style="display:none">✓</span>
-          </button>
+
           <button class="filter-pill-btn" id="pillPrice" onclick="togglePanel('pricePanel','pillPrice')">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             Price range
@@ -358,30 +368,6 @@
           </div>
           <input type="text" class="club-search-input" id="clubSearch" placeholder="Search clubs..." oninput="filterClubGrid()" />
           <div class="club-grid" id="clubGrid"></div>
-        </div>
-
-        <!-- Distance filter panel -->
-        <div class="filter-panel" id="distancePanel">
-          <div class="distance-row">
-            <div class="field">
-              <label>Address or postal code</label>
-              <input type="text" id="locationInput" placeholder="e.g. H3H 1G6 or 123 Rue Principale" />
-            </div>
-            <div class="distance-select-wrap">
-              <label style="font-size:11px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-60);margin-bottom:5px;display:block;">Within</label>
-              <select id="distanceKm" onchange="applyFiltersAndRender()">
-                <option value="10">10 km</option>
-                <option value="20" selected>20 km</option>
-                <option value="30">30 km</option>
-                <option value="50">50 km</option>
-                <option value="100">100 km</option>
-              </select>
-            </div>
-            <button class="search-btn" onclick="geocodeAndFilter()" style="margin-bottom:0">
-              Apply
-            </button>
-            <button class="filter-pill-btn" onclick="clearDistance()" style="margin-bottom:0">Clear</button>
-          </div>
         </div>
 
         <!-- Price range panel -->
@@ -577,8 +563,7 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
     const d = await r.json();
     if (d.length > 0) {
       userLocation = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
-      document.getElementById('distanceBadge').style.display = '';
-      document.getElementById('pillDistance').classList.add('active');
+
       applyFiltersAndRender();
     } else {
       toast('Location not found. Try a postal code like H3H 2J8.');
@@ -589,8 +574,6 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
 window.clearDistance = function clearDistance() {
   userLocation = null;
   document.getElementById('locationInput').value = '';
-  document.getElementById('distanceBadge').style.display = 'none';
-  document.getElementById('pillDistance').classList.remove('active');
   applyFiltersAndRender();
 }
 
@@ -734,6 +717,9 @@ function updateStatus(ls) {
 window.doSearch = async function doSearch() {
   const btn = document.getElementById('searchBtn');
   btn.textContent = 'Searching...';
+  // Geocode if location entered but not yet geocoded
+  const locInput = document.getElementById('locationInput').value.trim();
+  if (locInput && !userLocation) await geocodeAndFilter();
   await loadTeeTimes();
   populateAlertCourseDropdown();
   btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
@@ -1410,6 +1396,10 @@ function applyTranslations() {
   // No alerts message
   const noAlertsMsg = document.querySelector('.no-alerts-msg');
   if (noAlertsMsg) noAlertsMsg.textContent = T.noAlerts;
+
+  // Near label
+  const labelNear = document.getElementById('labelNear');
+  if (labelNear) labelNear.textContent = currentLang === 'fr' ? 'Près de' : 'Near';
 
   // Float filter button
   const floatBtn = document.getElementById('floatFilterBtn');
