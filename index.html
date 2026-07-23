@@ -416,9 +416,11 @@
     <div class="alerts-page-body">
       <div class="form-row">
         <label>Club <span style="font-weight:400;color:var(--ink-60)">(leave empty for any)</span></label>
-        <input type="text" id="alertClubSearch" placeholder="Search clubs..." oninput="filterAlertClubs()" style="width:100%;height:38px;border:1.5px solid var(--ink-10);border-radius:var(--radius-md);padding:0 10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--sand-50);margin-bottom:8px;" />
-        <div id="alertClubGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-height:180px;overflow-y:auto;"></div>
-        <div id="alertClubSelected" style="font-size:12px;color:var(--ink-60);margin-top:6px;"></div>
+        <div style="margin-bottom:8px;display:flex;align-items:center;justify-content:space-between;">
+          <input type="text" id="alertClubSearch" placeholder="Search clubs..." oninput="filterAlertClubs()" style="flex:1;height:34px;border:1.5px solid var(--ink-10);border-radius:var(--radius-md);padding:0 10px;font-family:'DM Sans',sans-serif;font-size:13px;outline:none;background:var(--sand-50);margin-right:8px;" />
+          <button onclick="clearAlertClubs()" style="font-size:12px;font-weight:500;color:var(--green-600);background:none;border:none;cursor:pointer;font-family:'DM Sans',sans-serif;white-space:nowrap;">Clear all</button>
+        </div>
+        <div id="alertClubGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:3px;max-height:200px;overflow-y:auto;border:1.5px solid var(--ink-10);border-radius:var(--radius-md);padding:6px;background:var(--sand-50);"></div>
       </div>
       <div class="form-row">
         <label>Date</label>
@@ -430,6 +432,16 @@
           <input type="time" id="alertTimeFrom" value="07:00"/>
           <input type="time" id="alertTimeTo" value="12:00"/>
         </div>
+      </div>
+      <div class="form-row">
+        <label>Players needed</label>
+        <select id="alertPlayers">
+          <option value="">Any</option>
+          <option value="1">1 player</option>
+          <option value="2">2 players</option>
+          <option value="3">3 players</option>
+          <option value="4">4 players</option>
+        </select>
       </div>
       <div class="form-row">
         <label>Notify me at</label>
@@ -614,39 +626,33 @@ window.togglePanel = function togglePanel(panelId, btnId) {
 window.fillAlertClubGrid = function(courses) {
   const grid = document.getElementById('alertClubGrid');
   if (!grid) return;
-  // Group by parent name same as filter panel
-  const parentGroups = {};
-  for (const c of courses) {
-    const group = CLUB_GROUPS[c.courseId];
-    const parentName = group ? group.parent : c.courseName;
-    if (!parentGroups[parentName]) parentGroups[parentName] = [];
-    parentGroups[parentName].push(c.courseId);
-  }
-  grid.innerHTML = Object.entries(parentGroups)
-    .sort(([a],[b]) => a.localeCompare(b))
-    .map(([name, ids]) => `<label style="display:flex;align-items:center;gap:6px;padding:5px 8px;border-radius:6px;cursor:pointer;font-size:12px;color:var(--ink);" onmouseover="this.style.background='var(--sand-50)'" onmouseout="this.style.background=''">
-      <input type="checkbox" value="${ids.join(',')}" data-name="${name}" onchange="window.updateAlertClubSelected()" style="accent-color:var(--green-600);width:13px;height:13px;flex-shrink:0;" />
-      ${name}
+  grid.innerHTML = [...courses].sort((a,b)=>a.courseName.localeCompare(b.courseName)).map(c => `
+    <label class="club-checkbox-item" data-name="${c.courseName.toLowerCase()}" style="font-size:12px;">
+      <input type="checkbox" value="${c.courseId}" data-name="${c.courseName}" onchange="window.updateAlertClubSelected()" style="accent-color:var(--green-600);width:13px;height:13px;flex-shrink:0;cursor:pointer;" />
+      ${c.courseName}
     </label>`).join('');
+};
+
+window.clearAlertClubs = function clearAlertClubs() {
+  document.querySelectorAll('#alertClubGrid input').forEach(cb => { cb.checked = false; cb.closest('label').classList.remove('selected'); });
+  window.updateAlertClubSelected();
 };
 
 window.filterAlertClubs = function filterAlertClubs() {
   const q = document.getElementById('alertClubSearch').value.toLowerCase();
   document.querySelectorAll('#alertClubGrid label').forEach(label => {
-    label.style.display = label.textContent.toLowerCase().includes(q) ? '' : 'none';
+    label.classList.toggle('hidden', !label.dataset.name.includes(q));
   });
 };
 
 window.updateAlertClubSelected = function updateAlertClubSelected() {
-  const checked = [...document.querySelectorAll('#alertClubGrid input:checked')];
-  const el = document.getElementById('alertClubSelected');
-  if (!el) return;
-  el.textContent = checked.length === 0 ? '' : `Selected: ${checked.map(c=>c.dataset.name).join(', ')}`;
+  document.querySelectorAll('#alertClubGrid input').forEach(cb => {
+    cb.closest('label').classList.toggle('selected', cb.checked);
+  });
 };
 
 window.getAlertCourseIds = function getAlertCourseIds() {
-  const checked = [...document.querySelectorAll('#alertClubGrid input:checked')];
-  return checked.flatMap(c => c.value.split(','));
+  return [...document.querySelectorAll('#alertClubGrid input:checked')].map(c => c.value);
 };
 
 // ── INIT ──
@@ -1087,7 +1093,7 @@ window.createAlert = async function createAlert() {
     date:     document.getElementById('alertDate').value || null,
     timeFrom: document.getElementById('alertTimeFrom').value || null,
     timeTo:   document.getElementById('alertTimeTo').value || null,
-    players:  null,
+    players:  document.getElementById('alertPlayers').value || null,
     createdAt: new Date().toISOString(),
   };
   try { await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(alert) }); } catch {}
