@@ -959,7 +959,7 @@ function renderParentCard(pclub, idx) {
   }
 
   return `
-    <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent='${JSON.stringify({parentName:pclub.parentName,parentUrl:pclub.parentUrl,courseId:pclub.courseId,courses:pclub.courses,allSlots:pclub.allSlots})}'>
+    <div class="parent-card" id="${cardId}" style="animation-delay:${delay}ms" data-parent="${JSON.stringify({parentName:pclub.parentName,parentUrl:pclub.parentUrl,courseId:pclub.courseId,courses:pclub.courses,allSlots:pclub.allSlots}).replace(/"/g,'&quot;')}">
       <div class="parent-card-header">
         <div class="parent-card-left">
           <div class="parent-card-name">${nameHtml}</div>
@@ -1011,7 +1011,7 @@ function renderCourseSection(course, parentCardId) {
 
 window.expandSection = function expandSection(sectionId, parentCardId) {
   const section = document.getElementById(sectionId);
-  const slots   = JSON.parse(section.dataset.slots);
+  const slots   = JSON.parse(section.dataset.slots.replace(/&quot;/g,'"'));
   const el      = document.getElementById(`bubbles-${sectionId}`);
   el.innerHTML  = slots.map(s =>
     `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
@@ -1021,7 +1021,7 @@ window.expandSection = function expandSection(sectionId, parentCardId) {
 
 window.collapseSection = function collapseSection(sectionId, parentCardId) {
   const section = document.getElementById(sectionId);
-  const slots   = JSON.parse(section.dataset.slots);
+  const slots   = JSON.parse(section.dataset.slots.replace(/&quot;/g,'"'));
   const el      = document.getElementById(`bubbles-${sectionId}`);
   const detail  = document.getElementById(`detail-${sectionId}`);
   const visible = slots.slice(0, BUBBLES_INIT);
@@ -1035,7 +1035,7 @@ window.collapseSection = function collapseSection(sectionId, parentCardId) {
 
 window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
   const section  = document.getElementById(sectionId);
-  const slots    = JSON.parse(section.dataset.slots);
+  const slots    = JSON.parse(section.dataset.slots.replace(/&quot;/g,'"'));
   const slot     = slots.find(s => s.id === slotId);
   const detail   = document.getElementById(`detail-${sectionId}`);
   const courseId = section.dataset.courseId;
