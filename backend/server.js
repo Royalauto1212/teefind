@@ -10,6 +10,10 @@
  * Requires: npm install express cors node-cron nodemailer twilio playwright
  */
 
+require('dotenv').config();
+const { Resend } = require('resend');
+const resend = new Resend(process.env.RESEND_API_KEY);
+
 const express      = require('express');
 const cors         = require('cors');
 const cron         = require('node-cron');
@@ -38,9 +42,13 @@ const CONFIG = {
 };
 
 let teeTimeCache   = [];
+let chronoCache    = []; // Chrono Golf data pushed from Mac
 let alertsStore    = [];
 let lastScrapeTime = null;
 let alertIdCounter = 1;
+
+const CHRONO_WORKER = 'https://chrono-proxy.markusfares.workers.dev';
+const FOREUP_WORKER = 'https://chrono-proxy.markusfares.workers.dev';
 
 const HEADERS = {
   'User-Agent':      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
@@ -58,11 +66,38 @@ const HEADERS = {
 const MINUTE_GOLF_URL = 'https://www.minutegolf.ca/index.php?option=com_ggportal&lang=en&export=&format=raw&req=teetimes';
 
 const MINUTE_REGIONS = [
-  // { id: 11, name: 'Lanaudière' },
-  // { id: 12, name: 'Laurentides' },
-  // { id: 13, name: 'Montérégie' },
-  { id: 14, name: 'Montreal - Laval' },
+  // New regions being turned on now — filtered to only the specific clubs we want,
+  // so we don't flood the app with every course in Lanaudière/Laurentides/Montérégie.
+  { id: 11, name: 'Lanaudière',       filterToAllowlist: true },
+  { id: 12, name: 'Laurentides',      filterToAllowlist: true },
+  { id: 13, name: 'Montérégie',       filterToAllowlist: true },
+  // This region was already active before — left exactly as it was (unfiltered),
+  // so any course that was already showing up from here keeps working unchanged.
+  { id: 14, name: 'Montreal - Laval', filterToAllowlist: false },
 ];
+
+// We query MinuteGolf by region (that's how their API works), but we only want
+// specific clubs out of each region's results, not every club MinuteGolf returns.
+// Match against accent-stripped, lowercased club names — add more keywords here
+// any time you want to include another club from an already-active region.
+const MINUTE_GOLF_ALLOWED_KEYWORDS = [
+  'st-francois', 'saint-francois',   // Golf St-François (Laval)
+  'versant',                         // Le Versant (Terrebonne)
+  'triangle',                        // Golf Triangle d'Or (Saint-Rémi)
+  'atlantide',                       // Golf Atlantide (Notre-Dame-de-l'Île-Perrot)
+  'champetre',                       // Golf Le Champêtre (Sainte-Anne-des-Plaines)
+];
+
+function normalizeClubName(name) {
+  return (name || '')
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '') // strip accents
+    .toLowerCase();
+}
+
+function isAllowedMinuteGolfClub(name) {
+  const normalized = normalizeClubName(name);
+  return MINUTE_GOLF_ALLOWED_KEYWORDS.some(k => normalized.includes(k));
+}
 
 async function scrapeMinuteGolf(dates) {
   const results = [];
@@ -97,8 +132,22 @@ async function scrapeMinuteGolf(dates) {
           const data = Array.isArray(raw) ? raw : (raw.clubs || []);
           if (!Array.isArray(data) || !data.length) continue;
 
+          // DEBUG: log every club id/name this region returns, once per scrape,
+          // so we can confirm whether Golf St-François appears here and under what id,
+          // and find keywords for any club we want to add later.
+          if (nbPlayers === 1) {
+            const clubList = data.map(c => `${c.id}:${c.name}`).join(' | ');
+            console.log(`[MinuteGolf][DEBUG] ${region.name} clubs seen: ${clubList}`);
+          }
+
+          // Only keep the specific clubs we actually want, even though the region
+          // query itself returns every club MinuteGolf has in that region.
+          const allowedData = region.filterToAllowlist
+            ? data.filter(club => isAllowedMinuteGolfClub(club.name))
+            : data; // region was already active before — keep showing everything, unchanged
+
           let count = 0;
-          for (const club of data) {
+          for (const club of allowedData) {
             for (const course of (club.courses || [])) {
               const courseName = course.name ? `${club.name} — ${course.name}` : club.name;
               for (const slot of (course.teetimes || [])) {
@@ -129,7 +178,7 @@ async function scrapeMinuteGolf(dates) {
             }
           }
           console.log(`[MinuteGolf] ${count} slots for ${region.name} on ${date} (${nbPlayers}p)`);
-          await sleep(300);
+          await sleep(800);
         } // end nbPlayers loop
 
       } catch (err) {
@@ -173,9 +222,8 @@ async function scrapeForeuUpGolf(dates) {
           `&specials_only=0&api_key=`;
 
         console.log(`[Foreup] Fetching ${club.name} on ${date}...`);
-        const resp = await fetch(url, {
-          headers: { ...HEADERS, 'Referer': `https://foreupsoftware.com/index.php/booking/${club.courseId}/${club.scheduleId}` }
-        });
+        const workerUrl = `${FOREUP_WORKER}?url=${encodeURIComponent(url)}`;
+        const resp = await fetch(workerUrl, { headers: HEADERS });
 
         if (!resp.ok) { console.warn(`[Foreup] HTTP ${resp.status}`); continue; }
         const slots = await resp.json();
@@ -235,7 +283,7 @@ async function scrapeForeuUpGolf(dates) {
 
 const CHRONO_CLUBS = [
   { clubId: 221,   courseId: 152,   affiliationIds: [132033], name: 'Mystic Pines Montreal',              slug: 'mystic-pines-i-montreal',           holes: 9  },
-  { clubId: 18364, courseId: 21560, affiliationIds: [90415],  name: 'Golf St-Rose',                       slug: 'golf-st-rose',                      holes: 18 },
+  { clubId: 18364, courseId: 21560, affiliationIds: [90415],  name: 'Golf St-Rose',                       slug: 'ste-rose',                      holes: 18 },
   { clubId: 1619,  courseId: 1871,  affiliationIds: [7193],   name: 'Golf Dorval',                        slug: 'golf-dorval',                       holes: 18 },
   { clubId: 1395,  courseId: 1584,  affiliationIds: [6297],   name: 'Club de Golf Metropolitain Anjou (9)',  slug: 'club-de-golf-metropolitain-anjou',   holes: 9  },
   { clubId: 1395,  courseId: 1584,  affiliationIds: [6297],   name: 'Club de Golf Metropolitain Anjou (18)', slug: 'club-de-golf-metropolitain-anjou',   holes: 18 },
@@ -243,59 +291,38 @@ const CHRONO_CLUBS = [
   { clubId: 1524,  courseId: 1763,  affiliationIds: [6813],   name: 'Golf St-Lambert',                    slug: 'golf-st-lambert',                   holes: 18 },
   { clubId: 1509,  courseId: 1740,  affiliationIds: [6753],   name: 'Golf des Îles de Boucherville',      slug: 'golf-des-iles-de-boucherville',      holes: 18 },
   { clubId: 1476,  courseId: 1704,  affiliationIds: [6621],   name: 'Golf St-Janvier',                    slug: 'golf-st-janvier',                   holes: 18 },
-  { clubId: 1397,  courseId: 1589,  affiliationIds: [6305],   name: 'Golf Mirabel - Le Boisé',            slug: 'golf-mirabel',                      holes: 18 },
-  { clubId: 1397,  courseId: 1588,  affiliationIds: [6305],   name: 'Golf Mirabel - Le Campagnard',       slug: 'golf-mirabel',                      holes: 18 },
-  { clubId: 18950, courseId: 23133, affiliationIds: [112078], name: 'La Seigneurie',                      slug: 'la-seigneurie',                     holes: 18 },
+  { clubId: 1397,  courseId: 1589,  affiliationIds: [6305],   name: 'Golf Mirabel - Le Boisé',            slug: 'club-de-golf-mirabel',                      holes: 18 },
+  { clubId: 1397,  courseId: 1588,  affiliationIds: [6305],   name: 'Golf Mirabel - Le Campagnard',       slug: 'club-de-golf-mirabel',                      holes: 18 },
+  { clubId: 18950, courseId: 23133, affiliationIds: [112078], name: 'La Seigneurie',                                      slug: 'club-de-golf-la-seigneurie',                     holes: 18 },
+  { clubId: 18890, courseId: 22977, affiliationIds: [109868], name: 'Falcon Golf Course',                                    slug: 'falcon-golf-course-quebec',          holes: 18 },
+  { clubId: 1411,  courseId: 20766, affiliationIds: [6361],   name: 'Golf International 2000 — A (St-Bernard/Champlain)',    slug: 'golf-international-2000',            holes: 18 },
+  { clubId: 1411,  courseId: 1619,  affiliationIds: [6361],   name: 'Golf International 2000 — B (Champlain/America)',      slug: 'golf-international-2000',            holes: 18 },
+  { clubId: 1411,  courseId: 1618,  affiliationIds: [6361],   name: 'Golf International 2000 — D (America/St-Bernard)',     slug: 'golf-international-2000',            holes: 18 },
 ];
 
 async function scrapeChronoGolf(dates) {
   const results = [];
 
-  const browser = await chromium.launch({
-    headless: false,
-    args: ['--disable-blink-features=AutomationControlled'],
-  });
-  const context = await browser.newContext({
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
-    locale: 'en-CA',
-    extraHTTPHeaders: { 'Accept-Language': 'en-CA,en;q=0.9,fr-CA;q=0.8' },
-  });
-  await context.addInitScript(() => {
-    Object.defineProperty(navigator, 'webdriver', { get: () => undefined });
-  });
-  const page = await context.newPage();
-
-  console.log('[ChronoGolf] Establishing session...');
-  await page.goto('https://www.chronogolf.ca', { waitUntil: 'domcontentloaded', timeout: 30000 });
-  await sleep(3000);
-  await page.goto(`https://www.chronogolf.ca/club/${CHRONO_CLUBS[0].slug}/teetimes`, { waitUntil: 'domcontentloaded', timeout: 30000 });
+  console.log('[ChronoGolf] Starting scrape via Cloudflare Worker...');
   await sleep(3000);
 
+  const priceCache = {};
   for (const club of CHRONO_CLUBS) {
     for (const date of dates) {
       try {
         for (const nbPlayers of [1, 2, 3, 4]) {
-        const affiliationParams = club.affiliationIds.map(id => `affiliation_type_ids%5B%5D=${id}`).join('&');
-        const url = `https://www.chronogolf.ca/marketplace/clubs/${club.clubId}/teetimes` +
+        const affiliationParams = club.affiliationIds.map(id => `affiliation_type_ids[]=${id}`).join('&');
+        const chronoUrl = `https://www.chronogolf.ca/marketplace/clubs/${club.clubId}/teetimes` +
           `?date=${date}&course_id=${club.courseId}&${affiliationParams}&nb_holes=${club.holes}&nb_players=${nbPlayers}`;
+        const url = `${CHRONO_WORKER}?url=${encodeURIComponent(chronoUrl)}`;
 
         console.log(`[ChronoGolf] Fetching ${club.name} on ${date} (${nbPlayers}p)...`);
 
-        const response = await page.evaluate(async (fetchUrl) => {
-          try {
-            const resp = await fetch(fetchUrl, {
-              headers: {
-                'Accept':           'application/json, text/plain, */*',
-                'X-Requested-With': 'XMLHttpRequest',
-                'Referer':          'https://www.chronogolf.ca/',
-              }
-            });
-            if (!resp.ok) return { error: resp.status };
-            return await resp.json();
-          } catch (e) {
-            return { error: e.message };
-          }
-        }, url);
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 15000);
+        const resp = await fetch(url, { headers: HEADERS, signal: controller.signal });
+        clearTimeout(timeout);
+        const response = resp.ok ? await resp.json() : { error: resp.status };
 
         if (response?.error) {
           console.warn(`[ChronoGolf] Error ${response.error} for ${club.name} on ${date}`);
@@ -311,8 +338,9 @@ async function scrapeChronoGolf(dates) {
 
           const fees      = slot.green_fees || [];
           const publicFee = fees.find(f => club.affiliationIds.includes(f.affiliation_type_id));
-          const price     = publicFee?.green_fee ?? publicFee?.price ?? null;
-          const players   = nbPlayers;
+          const price     = publicFee?.green_fee ?? publicFee?.price ?? priceCache[`${club.clubId}-${slot.start_time}-${date}`] ?? null;
+          if (price) priceCache[`${club.clubId}-${slot.start_time}-${date}`] = price;
+          const players   = nbPlayers; // Use query player count directly
 
           results.push({
             id:             `chronogolf-${club.clubId}-${club.courseId}-${date}-${slot.start_time}-${nbPlayers}p`,
@@ -326,7 +354,7 @@ async function scrapeChronoGolf(dates) {
             pricePerPlayer: price,
             currency:       'CAD',
             membersOnly:    false,
-            bookingUrl:     `https://www.chronogolf.ca/club/${club.slug}#?date=${date}&course_id=${club.courseId}&nb_holes=${club.holes}&nb_players=${players}&affiliation_type_ids=${club.affiliationIds.join(',')}&is_deal=false`,
+            bookingUrl:     `https://www.chronogolf.ca/club/${club.slug}/booking/?source=chronogolf&medium=profile#/teetime/review?date=${date}&course_id=${club.courseId}&nb_holes=${club.holes}&affiliation_type_ids=${Array(nbPlayers).fill(club.affiliationIds[0]).join(',')}&teetime_id=${slot.id}&is_deal=false&new_user=false`,
             courseUrl:      `https://www.chronogolf.ca/club/${club.slug}`,
             rawId:          slot.id,
             uuid:           slot.uuid,
@@ -336,7 +364,7 @@ async function scrapeChronoGolf(dates) {
         }
 
         console.log(`[ChronoGolf] ${count} slots for ${club.name} on ${date} (${nbPlayers}p)`);
-        await sleep(300);
+        await sleep(800);
         } // end nbPlayers loop
 
       } catch (err) {
@@ -346,7 +374,6 @@ async function scrapeChronoGolf(dates) {
     }
   }
 
-  await browser.close();
   return results;
 }
 
@@ -395,7 +422,8 @@ async function checkAndFireAlerts(newTeeTimes) {
 function matchesAlert(t, alert) {
   if (t.membersOnly) return false;
   if (alert.source !== 'all' && alert.source !== t.source) return false;
-  if (alert.type === 'course' && alert.courseId && alert.courseId !== t.courseId) return false;
+  if (alert.courseIds && alert.courseIds.length > 0 && !alert.courseIds.includes(t.courseId)) return false;
+  else if (!alert.courseIds && alert.courseId && alert.courseId !== t.courseId) return false;
   if (alert.type === 'date-window') {
     if (alert.date     && alert.date     !== t.date)   return false;
     if (alert.timeFrom && t.time < alert.timeFrom)     return false;
@@ -406,23 +434,33 @@ function matchesAlert(t, alert) {
 }
 
 async function sendAlertNotification(alert, matches) {
-  const subject = `TeeFind: ${matches.length} tee time(s) just opened up`;
+  const subject = `⛳ Tee time available at ${matches[0].courseName}`;
   const body = [
-    "A tee time you're watching just became available!\n",
-    ...matches.map(t =>
-      `• ${t.courseName} — ${formatTime12h(t.time)} on ${t.date}\n` +
-      `  ${t.pricePerPlayer ? `$${t.pricePerPlayer} CAD/player` : 'Price TBD'} · ${t.holes} holes\n` +
-      `  Book here: ${t.bookingUrl}`
+    `A tee time just opened up that matches your alert!`,
+    '',
+    ...matches.slice(0, 5).map(t =>
+      `📍 ${t.courseName}\n` +
+      `🕐 ${formatTime12h(t.time)} on ${t.date}\n` +
+      `💰 ${t.pricePerPlayer ? `$${t.pricePerPlayer} CAD/player` : 'Price TBD'} · ${t.holes} holes\n` +
+      `👉 Book now: ${t.bookingUrl}`
     ),
-    '\n— TeeFind',
-  ].join('\n');
+    '',
+    matches.length > 5 ? `...and ${matches.length - 5} more available times.` : '',
+    '— TeeFind',
+    'teefind.ca',
+  ].filter(Boolean).join('\n');
   if (alert.contactType === 'email') await sendEmail(alert.contact, subject, body);
   else await sendSMS(alert.contact, `TeeFind: tee time opened at ${matches[0].courseName} on ${matches[0].date}. Book: ${matches[0].bookingUrl}`);
 }
 
 async function sendEmail(to, subject, text) {
   try {
-    await nodemailer.createTransport(CONFIG.email).sendMail({ from: CONFIG.email.from, to, subject, text });
+    await resend.emails.send({
+      from: 'TeeFind <alerts@teefind.ca>',
+      to,
+      subject,
+      text,
+    });
     console.log(`[Email] → ${to}`);
   } catch (e) { console.error('[Email] Failed:', e.message); }
 }
@@ -449,6 +487,7 @@ app.get('/api/tee-times', (req, res) => {
   if (timeTo)                     r = r.filter(t => t.time <= timeTo);
   if (holesOnly)                  r = r.filter(t => t.holes === parseInt(holesOnly));
   if (membersOnly === 'false')    r = r.filter(t => !t.membersOnly);
+  const now = new Date(); const todayStr = now.toISOString().split('T')[0]; const currentTime = now.toLocaleTimeString('en-CA', { hour: '2-digit', minute: '2-digit', hour12: false, timeZone: 'America/Toronto' }); r = r.filter(t => t.date > todayStr || (t.date === todayStr && t.time > currentTime));
   r.sort((a, b) => a.date.localeCompare(b.date) || a.time.localeCompare(b.time));
   res.json({ count: r.length, lastUpdated: lastScrapeTime, teeTimes: r });
 });
@@ -516,3 +555,14 @@ app.listen(CONFIG.port, () => console.log(`[Server] TeeFind on http://localhost:
 cron.schedule(`*/${CONFIG.scrapeIntervalMinutes} * * * *`, () => runScrape().catch(console.error));
 setTimeout(() => runScrape().catch(console.error), 3000);
 module.exports = app;
+// Endpoint to receive Chrono Golf data from Mac
+app.post('/api/chrono-push', (req, res) => {
+  const { teeTimes, secret } = req.body;
+  if (secret !== 'teefind2024') return res.status(401).json({ error: 'Unauthorized' });
+  if (!Array.isArray(teeTimes)) return res.status(400).json({ error: 'Invalid data' });
+  
+  // Store in separate cache so main scrape doesn't wipe it
+  chronoCache = teeTimes;
+  console.log(`[ChronoPush] Received ${teeTimes.length} Chrono Golf tee times from Mac`);
+  res.json({ received: teeTimes.length });
+});
