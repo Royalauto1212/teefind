@@ -894,7 +894,10 @@ window.applyFiltersAndRender = function applyFiltersAndRender() {
   // Distance filter
   if (userLocation) {
     parents = parents.filter(p => {
-      const coords = CLUB_COORDS[p.courseId];
+      let coords = CLUB_COORDS[p.courseId] || MINUTE_COORDS[p.parentName] || null;
+      if (!coords && p.courses) {
+        for (const c of p.courses) { if (CLUB_COORDS[c.courseId]) { coords = CLUB_COORDS[c.courseId]; break; } }
+      }
       if (!coords) return true;
       return haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng) <= distKm;
     });
@@ -907,7 +910,8 @@ window.applyFiltersAndRender = function applyFiltersAndRender() {
   if (sort === 'name')       parents.sort((a,b) => a.parentName.localeCompare(b.parentName));
   if (sort === 'distance' && userLocation) {
     parents.sort((a,b) => {
-      const ca = CLUB_COORDS[a.courseId], cb = CLUB_COORDS[b.courseId];
+      const ca = CLUB_COORDS[a.courseId] || MINUTE_COORDS[a.parentName];
+      const cb = CLUB_COORDS[b.courseId] || MINUTE_COORDS[b.parentName];
       const da = ca ? haversineKm(userLocation.lat, userLocation.lng, ca.lat, ca.lng) : 999;
       const db = cb ? haversineKm(userLocation.lat, userLocation.lng, cb.lat, cb.lng) : 999;
       return da - db;
@@ -952,7 +956,15 @@ function renderParentCard(pclub, idx) {
 
   let distHtml = '';
   if (userLocation) {
-    const coords = CLUB_COORDS[pclub.courseId];
+    let coords = CLUB_COORDS[pclub.courseId];
+    // For Minute Golf clubs, look up by parent name
+    if (!coords) coords = MINUTE_COORDS[pclub.parentName] || null;
+    // Try sub-courses
+    if (!coords && pclub.courses) {
+      for (const c of pclub.courses) {
+        if (CLUB_COORDS[c.courseId]) { coords = CLUB_COORDS[c.courseId]; break; }
+      }
+    }
     if (coords) {
       const km = haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng);
       distHtml = `<div class="distance-badge">📍 ${km.toFixed(1)} km away</div>`;
@@ -981,8 +993,11 @@ function renderParentCard(pclub, idx) {
     </div>`;
 }
 
+const SLOTS_STORE = {};
+
 function renderCourseSection(course, parentCardId) {
-  const sectionId = `section-${course.courseId}-${course.holes}`;
+  const sectionId = `section-${course.courseId}-${course.holes}-${course.courseName.replace(/[^a-zA-Z0-9]/g,'')}`;
+  SLOTS_STORE[sectionId] = course.slots;
   const visible   = course.slots.slice(0, BUBBLES_INIT);
   const hidden    = course.slots.slice(BUBBLES_INIT);
   const bubbles   = visible.map(s =>
@@ -1001,7 +1016,7 @@ function renderCourseSection(course, parentCardId) {
   }
 
   return `
-    <div class="course-section" id="${sectionId}" data-slots='${JSON.stringify(course.slots)}' data-course-id="${course.courseId}">
+    <div class="course-section" id="${sectionId}" data-course-id="${course.courseId}">
       <div class="course-section-header">${label} · ${course.holes}h</div>
       <div class="course-bubbles-wrap">
         <div class="time-bubbles" id="bubbles-${sectionId}">${bubbles}${moreBubble}</div>
@@ -1012,7 +1027,7 @@ function renderCourseSection(course, parentCardId) {
 
 window.expandSection = function expandSection(sectionId, parentCardId) {
   const section = document.getElementById(sectionId);
-  const slots   = JSON.parse(section.dataset.slots.replace(/&quot;/g,'"'));
+  const slots   = SLOTS_STORE[sectionId] || [];
   const el      = document.getElementById(`bubbles-${sectionId}`);
   el.innerHTML  = slots.map(s =>
     `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
@@ -1022,7 +1037,7 @@ window.expandSection = function expandSection(sectionId, parentCardId) {
 
 window.collapseSection = function collapseSection(sectionId, parentCardId) {
   const section = document.getElementById(sectionId);
-  const slots   = JSON.parse(section.dataset.slots.replace(/&quot;/g,'"'));
+  const slots   = SLOTS_STORE[sectionId] || [];
   const el      = document.getElementById(`bubbles-${sectionId}`);
   const detail  = document.getElementById(`detail-${sectionId}`);
   const visible = slots.slice(0, BUBBLES_INIT);
@@ -1036,7 +1051,7 @@ window.collapseSection = function collapseSection(sectionId, parentCardId) {
 
 window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
   const section  = document.getElementById(sectionId);
-  const slots    = JSON.parse(section.dataset.slots.replace(/&quot;/g,'"'));
+  const slots    = SLOTS_STORE[sectionId] || [];
   const slot     = slots.find(s => s.id === slotId);
   const detail   = document.getElementById(`detail-${sectionId}`);
   const courseId = section.dataset.courseId;
