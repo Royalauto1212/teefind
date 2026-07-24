@@ -22,7 +22,7 @@ app.use(express.json());
 
 const CONFIG = {
   port: 3001,
-  scrapeIntervalMinutes: 10,
+  scrapeIntervalMinutes: 5,
 };
 
 let teeTimeCache   = [];
