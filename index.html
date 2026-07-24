@@ -983,8 +983,14 @@ function renderCourseSection(course, parentCardId) {
   const moreBubble = hidden.length > 0
     ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>` : '';
 
-  const parentName = CLUB_GROUPS[course.courseId]?.parent || course.courseName;
-  const label = course.courseName !== parentName ? course.courseName : `${course.holes} holes`;
+  // For Minute Golf, extract sub-course name from "Club — SubCourse" format
+  let label;
+  if (course.source === 'minutegolf' && course.courseName.includes(' — ')) {
+    label = course.courseName.split(' — ').slice(1).join(' — ');
+  } else {
+    const parentName = CLUB_GROUPS[course.courseId]?.parent || course.courseName;
+    label = course.courseName !== parentName ? course.courseName : `${course.holes} holes`;
+  }
 
   return `
     <div class="course-section" id="${sectionId}" data-slots='${JSON.stringify(course.slots)}' data-course-id="${course.courseId}">
