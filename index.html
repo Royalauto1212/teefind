@@ -226,7 +226,7 @@
     <span class="logo-text">Tee<em>Find</em></span>
   </a>
   <div class="header-right">
-    <div class="status-pill"><span class="status-dot"></span><span id="statusText">Loading...</span></div>
+    <div class="status-pill"><span class="status-dot"></span><span id="statusText" data-loading="true">Loading...</span></div>
     <button id="langToggle" onclick="toggleLang()" style="background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:6px;color:rgba(255,255,255,0.85);font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;padding:4px 10px;cursor:pointer;letter-spacing:0.05em;">FR</button>
   </div>
 </header>
@@ -463,6 +463,7 @@ const BUBBLES_INIT = 6;
 const ROUND_HOURS  = 4.5;
 
 let allTeeTimes   = [];
+let lastScrapeTs  = null;
 let alertType     = 'date-window';
 let localAlerts   = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
 let selectedClubs = new Set();
@@ -559,8 +560,17 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
   try {
     const isPostal = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/.test(input.trim());
     const query = isPostal ? `${input.trim()}, Canada` : `${input}, Quebec, Canada`;
-    const r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1`);
-    const d = await r.json();
+    // countrycodes=ca hard-restricts results to Canada (free-text "Canada" in the query alone isn't reliably enforced).
+    // viewbox+bounded softly/firmly biases matches toward the greater Montreal area, which helps disambiguate
+    // postal-code-only queries that would otherwise sometimes match similar-looking codes elsewhere.
+    const params = `q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=ca&viewbox=-74.3,45.85,-73.1,45.3&bounded=1`;
+    let r = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
+    let d = await r.json();
+    if (!d.length) {
+      // Fall back to an unbounded (but still Canada-only) search in case the address is just outside the box
+      r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=ca`);
+      d = await r.json();
+    }
     if (d.length > 0) {
       userLocation = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
 
@@ -708,21 +718,30 @@ async function loadStatus() {
 
 function updateStatus(ls) {
   if (!ls) return;
-  const m = Math.round((Date.now() - new Date(ls)) / 60000);
-  document.getElementById('statusText').textContent = m < 2 ? 'Just updated' : `Updated ${m}m ago`;
+  lastScrapeTs = ls;
+  renderStatusText();
+};
+
+function renderStatusText() {
+  const el = document.getElementById('statusText');
+  if (!el || !lastScrapeTs) return;
+  el.dataset.loading = 'false';
+  const m = Math.round((Date.now() - new Date(lastScrapeTs)) / 60000);
+  if (m < 2) { el.textContent = t('updatedJust'); return; }
+  el.textContent = currentLang === 'fr' ? `Mis à jour il y a ${m} min` : `Updated ${m}m ago`;
 };
 
 
 // ── SEARCH ──
 window.doSearch = async function doSearch() {
   const btn = document.getElementById('searchBtn');
-  btn.textContent = 'Searching...';
+  btn.textContent = t('searchingBtn');
   // Geocode if location entered but not yet geocoded
   const locInput = document.getElementById('locationInput').value.trim();
   if (locInput && !userLocation) await geocodeAndFilter();
   await loadTeeTimes();
   populateAlertCourseDropdown();
-  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> Search`;
+  btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ${t('searchBtn')}`;
   applyFiltersAndRender();
 };
 
@@ -864,7 +883,7 @@ function renderParentCard(pclub, idx) {
           <div class="parent-card-name">${nameHtml}</div>
           ${coursesLabel ? `<div class="parent-card-subtitle">${coursesLabel}</div>` : ''}
           <div class="parent-weather-row" id="weather-${cardId}">
-            <span style="font-size:12px;color:var(--ink-30)">Loading weather...</span>
+            <span style="font-size:12px;color:var(--ink-30)">${t('loadingWeather')}</span>
           </div>
           ${distHtml}
         </div>
@@ -1190,6 +1209,9 @@ const TRANSLATIONS = {
     showLess: 'Show less',
     updatedJust: 'Just updated',
     updatedAgo: 'm ago',
+    statusLoading: 'Loading...',
+    searchingBtn: 'Searching...',
+    loadingWeather: 'Loading weather...',
     filtersBtn: 'Filters',
     perPlayer: 'CAD/player',
     toastAlert: "Alert created! We'll notify you when a tee time opens up.",
@@ -1254,6 +1276,9 @@ const TRANSLATIONS = {
     showLess: "Voir moins",
     updatedJust: "Mis à jour",
     updatedAgo: "min",
+    statusLoading: "Chargement...",
+    searchingBtn: "Recherche...",
+    loadingWeather: "Chargement de la météo...",
     filtersBtn: "Filtres",
     perPlayer: "CAD/joueur",
     toastAlert: "Alerte créée! Vous serez notifié dès qu’un départ se libère.",
@@ -1395,6 +1420,13 @@ function applyTranslations() {
   // No alerts message
   const noAlertsMsg = document.querySelector('.no-alerts-msg');
   if (noAlertsMsg) noAlertsMsg.textContent = T.noAlerts;
+
+  // Status pill (loading or already showing a timestamp)
+  const statusEl = document.getElementById('statusText');
+  if (statusEl) {
+    if (statusEl.dataset.loading === 'false') renderStatusText();
+    else statusEl.textContent = T.statusLoading;
+  }
 
   // Near label
   const labelNear = document.getElementById('labelNear');
