@@ -485,6 +485,17 @@ const CLUB_GROUPS = {
   '1618':  { parent: 'Golf International 2000', url: 'https://www.chronogolf.ca/club/golf-international-2000' },
 };
 
+// Minute Golf parent groupings (by courseId string from API)
+const MINUTE_GROUPS = {
+  "Cardinal":          { parent: "Le Cardinal",               url: "https://golfcardinal.com/en/" },
+  "Triangle d’Or": { parent: "Club de Golf Triangle d’Or", url: "https://www.golftriangledor.com/" },
+  "Champêtre (Le)": { parent: "Le Champêtre",       url: null },
+  "Versant (Le)":      { parent: "Le Versant",                url: null },
+  "Atlantide":         { parent: "Golf Atlantide",             url: null },
+  "UFO":               { parent: "Golf UFO",                   url: null },
+  "St-François":  { parent: "Golf St-François",     url: null },
+};
+
 // ── CLUB COORDS ──
 const CLUB_COORDS = {
   '152':   { lat: 45.5048, lng: -73.6186 },
@@ -506,9 +517,24 @@ const CLUB_COORDS = {
   '127':   { lat: 45.5631, lng: -73.8012 },
   '64':    { lat: 45.5889, lng: -73.7456 },
   '73':    { lat: 45.5748, lng: -73.8234 },
+  '22977': { lat: 45.4600, lng: -74.1756 }, // Falcon Golf Course (Hudson)
+  '20766': { lat: 45.0133, lng: -73.4208 }, // International 2000
+  '1619':  { lat: 45.0133, lng: -73.4208 },
+  '1618':  { lat: 45.0133, lng: -73.4208 },
 };
 
 // ── WEATHER ──
+// Minute Golf club coordinates (keyed by Minute Golf club ID as string)
+const MINUTE_COORDS = {
+  "Cardinal":           { lat: 45.5631, lng: -73.8012 },
+  "Atlantide":          { lat: 45.3667, lng: -73.8635 },
+  "Triangle d’Or": { lat: 45.2472, lng: -73.5931 },
+  "Champêtre (Le)":{ lat: 45.7964, lng: -73.8551 },
+  "Versant (Le)":       { lat: 45.6999, lng: -73.7097 },
+  "UFO":                { lat: 45.5748, lng: -73.8234 },
+  "St-François":   { lat: 45.5889, lng: -73.7456 },
+};
+
 const WMO = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️' };
 const WMO_DESC = { 0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm' };
 const weatherCache = {};
@@ -829,10 +855,27 @@ window.applyFiltersAndRender = function applyFiltersAndRender() {
   const parentMap = {};
   for (const course of Object.values(courseMap)) {
     const group = CLUB_GROUPS[course.courseId];
-    const parentName = group ? group.parent : course.courseName;
-    const parentUrl  = group ? group.url    : course.courseUrl || null;
+    // For Minute Golf, match by courseName prefix against MINUTE_GROUPS
+    let parentName, parentUrl;
+    if (group) {
+      parentName = group.parent;
+      parentUrl  = group.url;
+    } else if (course.source === 'minutegolf') {
+      // Match courseName prefix (e.g. "UFO — Le Laval" → "UFO")
+      const prefix = Object.keys(MINUTE_GROUPS).find(k => course.courseName.startsWith(k));
+      if (prefix) {
+        parentName = MINUTE_GROUPS[prefix].parent;
+        parentUrl  = MINUTE_GROUPS[prefix].url;
+      } else {
+        parentName = course.courseName;
+        parentUrl  = course.courseUrl || null;
+      }
+    } else {
+      parentName = course.courseName;
+      parentUrl  = course.courseUrl || null;
+    }
     if (!parentMap[parentName]) {
-      parentMap[parentName] = { parentName, parentUrl, courseId: course.courseId, courses: [], allSlots: [] };
+      parentMap[parentName] = { parentName, parentUrl, courseId: course.courseId, source: course.source, courses: [], allSlots: [] };
     }
     parentMap[parentName].courses.push(course);
     parentMap[parentName].allSlots.push(...course.slots);
@@ -1028,7 +1071,18 @@ window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
 async function loadWeatherForParents(parents) {
   const date = document.getElementById('filterDate').value;
   for (const parent of parents) {
-    const coords = CLUB_COORDS[parent.courseId];
+    let coords = CLUB_COORDS[parent.courseId];
+    // For Minute Golf clubs, look up coords by parent name prefix
+    if (!coords && parent.source === 'minutegolf') {
+      const prefix = Object.keys(MINUTE_COORDS).find(k => parent.parentName.includes(k) || parent.parentName.startsWith(k));
+      if (prefix) coords = MINUTE_COORDS[prefix];
+    }
+    // Also try sub-courses
+    if (!coords && parent.courses) {
+      for (const c of parent.courses) {
+        if (CLUB_COORDS[c.courseId]) { coords = CLUB_COORDS[c.courseId]; break; }
+      }
+    }
     const cardId = `parent-${parent.parentName.replace(/\s+/g,'-').replace(/[^a-zA-Z0-9-]/g,'')}`;
     const el     = document.getElementById(`weather-${cardId}`);
     if (!el || !coords) { if(el) el.innerHTML=''; continue; }
