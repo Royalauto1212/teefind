@@ -847,7 +847,8 @@ window.applyFiltersAndRender = function applyFiltersAndRender() {
   // Group by courseId+holes
   const courseMap = {};
   for (const t of results) {
-    const key = `${t.courseId}-${t.holes}`;
+    // Include courseName in key for Minute Golf clubs that share courseId
+    const key = t.source === 'minutegolf' ? `${t.courseId}-${t.holes}-${t.courseName}` : `${t.courseId}-${t.holes}`;
     if (!courseMap[key]) courseMap[key] = { ...t, slots: [] };
     courseMap[key].slots.push(t);
   }
