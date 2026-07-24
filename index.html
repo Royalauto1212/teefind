@@ -464,6 +464,7 @@ const ROUND_HOURS  = 4.5;
 
 let allTeeTimes   = [];
 let lastScrapeTs  = null;
+let lastGeocodedInput = null;
 let alertType     = 'date-window';
 let localAlerts   = JSON.parse(localStorage.getItem('teefind_alerts') || '[]');
 let selectedClubs = new Set();
@@ -559,21 +560,38 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
   if (!input) return;
   try {
     const isPostal = /^[A-Za-z]\d[A-Za-z]\s?\d[A-Za-z]\d$/.test(input.trim());
-    const query = isPostal ? `${input.trim()}, Canada` : `${input}, Quebec, Canada`;
-    // countrycodes=ca hard-restricts results to Canada (free-text "Canada" in the query alone isn't reliably enforced).
-    // viewbox+bounded softly/firmly biases matches toward the greater Montreal area, which helps disambiguate
-    // postal-code-only queries that would otherwise sometimes match similar-looking codes elsewhere.
-    const params = `q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=ca&viewbox=-74.3,45.85,-73.1,45.3&bounded=1`;
-    let r = await fetch(`https://nominatim.openstreetmap.org/search?${params}`);
-    let d = await r.json();
-    if (!d.length) {
-      // Fall back to an unbounded (but still Canada-only) search in case the address is just outside the box
-      r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=ca`);
+    let d = [];
+
+    if (isPostal) {
+      // Structured search against the postalcode field specifically. Free-text search on a bare
+      // postal code doesn't reliably parse it as a postcode — it can fall back to fuzzy word matching
+      // and return an unrelated place that happens to contain "Canada" in its name.
+      const fullCode = input.trim().toUpperCase().replace(/\s+/g, ' ');
+      const fsa = fullCode.slice(0, 3); // first 3 chars = forward sortation area, e.g. "H8P"
+
+      let r = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(fullCode)}&country=Canada&format=json&limit=1&countrycodes=ca`);
       d = await r.json();
+
+      if (!d.length) {
+        // Full 6-character Canadian postal codes are often missing from OSM's postcode data.
+        // Falling back to the 3-character FSA still geocodes to the right neighbourhood/borough.
+        r = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(fsa)}&country=Canada&format=json&limit=1&countrycodes=ca`);
+        d = await r.json();
+      }
+    } else {
+      const query = `${input}, Quebec, Canada`;
+      // countrycodes=ca hard-restricts results to Canada. viewbox+bounded biases toward greater Montreal.
+      let r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=ca&viewbox=-74.3,45.85,-73.1,45.3&bounded=1`);
+      d = await r.json();
+      if (!d.length) {
+        r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query)}&format=json&limit=1&countrycodes=ca`);
+        d = await r.json();
+      }
     }
+
     if (d.length > 0) {
       userLocation = { lat: parseFloat(d[0].lat), lng: parseFloat(d[0].lon) };
-
+      lastGeocodedInput = input;
       applyFiltersAndRender();
     } else {
       toast('Location not found. Try a postal code like H3H 2J8.');
@@ -583,6 +601,7 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
 
 window.clearDistance = function clearDistance() {
   userLocation = null;
+  lastGeocodedInput = null;
   document.getElementById('locationInput').value = '';
   applyFiltersAndRender();
 }
@@ -736,9 +755,14 @@ function renderStatusText() {
 window.doSearch = async function doSearch() {
   const btn = document.getElementById('searchBtn');
   btn.textContent = t('searchingBtn');
-  // Geocode if location entered but not yet geocoded
+  // Geocode if the location text is new/changed since the last time we geocoded
   const locInput = document.getElementById('locationInput').value.trim();
-  if (locInput && !userLocation) await geocodeAndFilter();
+  if (locInput && locInput !== lastGeocodedInput) {
+    await geocodeAndFilter();
+  } else if (!locInput) {
+    userLocation = null;
+    lastGeocodedInput = null;
+  }
   await loadTeeTimes();
   populateAlertCourseDropdown();
   btn.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg> ${t('searchBtn')}`;
