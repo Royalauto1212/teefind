@@ -850,7 +850,7 @@ function renderParentCard(pclub, idx) {
 
   let distHtml = '';
   if (userLocation) {
-    const coords = CLUB_COORDS[parent.courseId];
+    const coords = CLUB_COORDS[pclub.courseId];
     if (coords) {
       const km = haversineKm(userLocation.lat, userLocation.lng, coords.lat, coords.lng);
       distHtml = `<div class="distance-badge">📍 ${km.toFixed(1)} km away</div>`;
@@ -1293,7 +1293,6 @@ function applyTranslations() {
 
   // Filter pills
   document.getElementById('pillClub').childNodes[2].textContent = ' ' + T.filterClub + ' ';
-  document.getElementById('pillDistance').childNodes[2].textContent = ' ' + T.filterNear + ' ';
   document.getElementById('pillPrice').childNodes[2].textContent = ' ' + T.filterPrice + ' ';
 
   // Select options
