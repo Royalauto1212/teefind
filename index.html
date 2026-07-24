@@ -578,6 +578,14 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
         r = await fetch(`https://nominatim.openstreetmap.org/search?postalcode=${encodeURIComponent(fsa)}&country=Canada&format=json&limit=1&countrycodes=ca`);
         d = await r.json();
       }
+
+      if (!d.length) {
+        // Some FSAs have no postcode-boundary data in OSM at all (not even at the 3-char level).
+        // Retry as a free-text search, but bounded to the Montreal area so a miss can't escape
+        // to an unrelated match elsewhere in the country (as happened before this fix).
+        r = await fetch(`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(fullCode + ', Quebec, Canada')}&format=json&limit=1&countrycodes=ca&viewbox=-74.3,45.85,-73.1,45.3&bounded=1`);
+        d = await r.json();
+      }
     } else {
       const query = `${input}, Quebec, Canada`;
       // countrycodes=ca hard-restricts results to Canada. viewbox+bounded biases toward greater Montreal.
@@ -594,7 +602,7 @@ window.geocodeAndFilter = async function geocodeAndFilter() {
       lastGeocodedInput = input;
       applyFiltersAndRender();
     } else {
-      toast('Location not found. Try a postal code like H3H 2J8.');
+      toast(t('toastNoLocation'));
     }
   } catch { toast('Could not geocode location.'); }
 }
@@ -1240,7 +1248,7 @@ const TRANSLATIONS = {
     perPlayer: 'CAD/player',
     toastAlert: "Alert created! We'll notify you when a tee time opens up.",
     toastNoContact: 'Please enter an email or phone number.',
-    toastNoLocation: 'Location not found. Try a postal code like H3H 2J8.',
+    toastNoLocation: 'Location not found. Try a full address (e.g. 123 Main St) — some postal codes aren\'t in our map data yet.',
   },
   fr: {
     tabFind: "Trouver un départ",
@@ -1307,7 +1315,7 @@ const TRANSLATIONS = {
     perPlayer: "CAD/joueur",
     toastAlert: "Alerte créée! Vous serez notifié dès qu’un départ se libère.",
     toastNoContact: "Veuillez entrer un courriel ou un numéro de téléphone.",
-    toastNoLocation: "Lieu introuvable. Essayez un code postal comme H3H 2J8.",
+    toastNoLocation: "Lieu introuvable. Essayez une adresse complète (ex. 123 rue Principale) — certains codes postaux ne sont pas encore dans nos données.",
   }
 };
 
