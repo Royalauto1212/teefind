@@ -1016,9 +1016,10 @@ function renderCourseSection(course, parentCardId) {
     label = course.courseName !== parentName ? course.courseName : `${course.holes} holes`;
   }
 
+  const holesLabel = currentLang === 'fr' ? 'tr' : 'h';
   return `
     <div class="course-section" id="${sectionId}" data-course-id="${course.courseId}">
-      <div class="course-section-header">${label} · ${course.holes}h</div>
+      <div class="course-section-header">${label} · ${course.holes}${holesLabel}</div>
       <div class="course-bubbles-wrap">
         <div class="time-bubbles" id="bubbles-${sectionId}">${bubbles}${moreBubble}</div>
         <div id="detail-${sectionId}"></div>
@@ -1130,6 +1131,7 @@ function getBookingUrl(slot, players) {
 
 function fmt12(t) {
   const [hh,mm] = t.split(':').map(Number);
+  if (currentLang === 'fr') return `${String(hh).padStart(2,'0')}:${String(mm).padStart(2,'0')}`;
   return `${hh%12||12}:${String(mm).padStart(2,'0')} ${hh>=12?'PM':'AM'}`;
 }
 
@@ -1406,6 +1408,8 @@ const TRANSLATIONS = {
 window.toggleLang = function toggleLang() {
   currentLang = currentLang === 'en' ? 'fr' : 'en';
   document.getElementById('langToggle').textContent = currentLang === 'en' ? 'FR' : 'EN';
+  // Clear weather cache so descriptions reload in new language
+  Object.keys(weatherCache).forEach(k => delete weatherCache[k]);
   applyTranslations();
 };
 
