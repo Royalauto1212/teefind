@@ -458,6 +458,10 @@
   </div>
 </div>
 
+<div style="display:none" aria-hidden="true">
+  TeeFind — Find golf tee times in Montreal. Search and compare available tee times at 20+ Montreal area golf courses including Golf UFO, Le Versant, Golf Mirabel, Golf St-François, Golf Atlantide, Club de Golf Triangle d'Or, Le Champêtre, Le Cardinal, Golf St-Janvier, Golf St-Lambert, Golf des Îles de Boucherville, Golf St-Rose, La Seigneurie, Falcon Golf Course, Golf Dorval, Golf Mirabel, Mystic Pines Montreal, Club de Golf Métropolitain Anjou, Golf Municipal de Montréal, Golf International 2000, and Caughnawaga Golf Club. Book instantly or set cancellation alerts. Trouvez des heures de départ de golf à Montréal.
+</div>
+
 <button class="float-filter-btn" id="floatFilterBtn" onclick="scrollToFilters()">
   <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><line x1="4" y1="6" x2="20" y2="6"/><line x1="4" y1="12" x2="20" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
   Filters
@@ -1539,6 +1543,12 @@ function applyTranslations() {
     players.options[3].text = T.opt3p;
     players.options[4].text = T.opt4p;
   }
+
+  // From/To dropdowns - update "Any" option
+  ['filterTimeFrom', 'filterTimeTo'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) el.options[0].text = T.optAny;
+  });
 
   const holes = document.getElementById('filterHoles');
   if (holes) {
