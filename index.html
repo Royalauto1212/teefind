@@ -1280,6 +1280,37 @@ function fmtTime(t) {
 
 window.scrollToFilters = function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
 
+function showSuggestModal() {
+  const overlay = document.createElement('div');
+  overlay.id = 'suggestOverlay';
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:white;border-radius:16px;padding:2rem;max-width:380px;width:90%;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+      <h2 style="font-family:'DM Serif Display',serif;font-size:22px;margin-bottom:0.5rem;">Suggest a course</h2>
+      <p style="color:#666;font-size:13px;margin-bottom:1.25rem;line-height:1.5;">Know a Montreal area golf course we should add? Let us know!</p>
+      <input id="suggestName" type="text" placeholder="Course name" style="width:100%;height:40px;border:1.5px solid #e0e0e0;border-radius:10px;padding:0 12px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;margin-bottom:10px;box-sizing:border-box;" />
+      <input id="suggestEmail" type="email" placeholder="Your email (optional)" style="width:100%;height:40px;border:1.5px solid #e0e0e0;border-radius:10px;padding:0 12px;font-family:'DM Sans',sans-serif;font-size:14px;outline:none;margin-bottom:14px;box-sizing:border-box;" />
+      <button onclick="submitSuggestion()" style="width:100%;padding:12px;background:#3B6D11;color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:500;cursor:pointer;margin-bottom:8px;">Send suggestion</button>
+      <button onclick="document.getElementById('suggestOverlay').remove()" style="width:100%;padding:8px;background:none;border:none;color:#666;font-family:'DM Sans',sans-serif;font-size:13px;cursor:pointer;">Cancel</button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+async function submitSuggestion() {
+  const name = document.getElementById('suggestName').value.trim();
+  if (!name) { toast('Please enter a course name.'); return; }
+  const email = document.getElementById('suggestEmail').value.trim();
+  try {
+    await fetch(`${API_BASE}/suggest-course`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ courseName: name, email })
+    });
+  } catch {}
+  document.getElementById('suggestOverlay').remove();
+  toast('Thanks! We\'ll look into adding that course.');
+}
+
 async function showUpgradePrompt(email) {
   const overlay = document.createElement('div');
   overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
