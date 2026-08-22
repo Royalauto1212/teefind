@@ -538,6 +538,7 @@ const MINUTE_COORDS = {
 
 const WMO = { 0:'☀️',1:'🌤️',2:'⛅',3:'☁️',45:'🌫️',48:'🌫️',51:'🌦️',53:'🌦️',55:'🌧️',61:'🌧️',63:'🌧️',65:'🌧️',71:'🌨️',73:'🌨️',75:'❄️',80:'🌦️',81:'🌧️',82:'⛈️',95:'⛈️',96:'⛈️',99:'⛈️' };
 const WMO_DESC = { 0:'Clear sky',1:'Mainly clear',2:'Partly cloudy',3:'Overcast',45:'Foggy',48:'Foggy',51:'Light drizzle',53:'Drizzle',55:'Heavy drizzle',61:'Light rain',63:'Rain',65:'Heavy rain',71:'Light snow',73:'Snow',75:'Heavy snow',80:'Showers',81:'Rain showers',82:'Heavy showers',95:'Thunderstorm',96:'Thunderstorm',99:'Thunderstorm' };
+const WMO_DESC_FR = { 0:'Ciel dégagé',1:'Mostly clear',2:'Partiellement nuageux',3:'Nuageux',45:'Brouillard',48:'Brouillard',51:'Bruine légère',53:'Bruine',55:'Bruine forte',61:'Pluie légère',63:'Pluie',65:'Pluie forte',71:'Neige légère',73:'Neige',75:'Neige forte',80:'Averses',81:'Averses de pluie',82:'Fortes averses',95:'Orage',96:'Orage',99:'Orage' };
 const weatherCache = {};
 const hourlyCache  = {};
 
@@ -548,7 +549,8 @@ async function fetchDailyWeather(courseId, lat, lng, date) {
     const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&daily=weathercode,temperature_2m_max,temperature_2m_min&timezone=America%2FToronto&start_date=${date}&end_date=${date}`);
     const d = await r.json();
     const code = d.daily?.weathercode?.[0];
-    const result = { icon: WMO[code]||'🌤️', desc: WMO_DESC[code]||'', tmax: Math.round(d.daily?.temperature_2m_max?.[0]), tmin: Math.round(d.daily?.temperature_2m_min?.[0]) };
+    const descMap = currentLang === 'fr' ? WMO_DESC_FR : WMO_DESC;
+    const result = { icon: WMO[code]||'🌤️', desc: descMap[code]||'', tmax: Math.round(d.daily?.temperature_2m_max?.[0]), tmin: Math.round(d.daily?.temperature_2m_min?.[0]) };
     weatherCache[key] = result;
     return result;
   } catch { return null; }
@@ -985,7 +987,7 @@ function renderParentCard(pclub, idx) {
         </div>
         <div class="parent-card-right">
           <div class="parent-price-range">${priceHtml}</div>
-          <div class="parent-price-label">CAD / player</div>
+          <div class="parent-price-label">CAD / joueur</div>
         </div>
       </div>
       <div class="parent-courses">
@@ -1005,7 +1007,7 @@ function renderCourseSection(course, parentCardId) {
     `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
   ).join('');
   const moreBubble = hidden.length > 0
-    ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>` : '';
+    ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} ${t('showMore')}</button>` : '';
 
   // For Minute Golf, extract sub-course name from "Club — SubCourse" format
   let label;
@@ -1032,7 +1034,7 @@ window.expandSection = function expandSection(sectionId, parentCardId) {
   const el      = document.getElementById(`bubbles-${sectionId}`);
   el.innerHTML  = slots.map(s =>
     `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
-  ).join('') + `<button class="time-bubble show-more" onclick="collapseSection('${sectionId}','${parentCardId}')">Show less</button>`;
+  ).join('') + `<button class="time-bubble show-more" onclick="collapseSection('${sectionId}','${parentCardId}')">${t('showLess')}</button>`;
   setTimeout(() => el.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 50);
 }
 
@@ -1045,7 +1047,7 @@ window.collapseSection = function collapseSection(sectionId, parentCardId) {
   const hidden  = slots.slice(BUBBLES_INIT);
   el.innerHTML  = visible.map(s =>
     `<button class="time-bubble" onclick="toggleSlot('${sectionId}','${s.id}','${parentCardId}')" data-slot-id="${s.id}">${fmt12(s.time)}</button>`
-  ).join('') + (hidden.length > 0 ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} more</button>` : '');
+  ).join('') + (hidden.length > 0 ? `<button class="time-bubble show-more" onclick="expandSection('${sectionId}','${parentCardId}')">+${hidden.length} ${t('showMore')}</button>` : '');
   detail.innerHTML = '';
   activeSlot = null;
 }
@@ -1087,14 +1089,14 @@ window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
         ${weatherHtml}${minNote}
         ${slot.pricePerPlayer
           ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/player${slot.taxesMode?' '+slot.taxesMode:''}</span></span>`
-          : `<span style="font-size:13px;color:var(--ink-60)">Price TBD</span>`}
+          : `<span style="font-size:13px;color:var(--ink-60)">${currentLang === 'fr' ? 'Prix à déterminer' : 'Price TBD'}</span>`}
       </div>
       <div class="slot-detail-actions">
         <a class="book-btn" href="${bookingUrl}" target="_blank" rel="noopener">
-          Book now <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+          ${currentLang === "fr" ? "Réserver" : "Book now"} <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
         </a>
-        ${slot.courseUrl ? `<a class="alert-btn-sm" href="${slot.courseUrl}" target="_blank" rel="noopener" style="text-decoration:none;">Club page ↗</a>` : ''}
-        <button class="alert-btn-sm" onclick="prefillAlert('${slot.courseId}','${slot.date}','${slot.time}')">+ Alert</button>
+        ${slot.courseUrl ? `<a class="alert-btn-sm" href="${slot.courseUrl}" target="_blank" rel="noopener" style="text-decoration:none;">${currentLang === "fr" ? "Page du club ↗" : "Club page ↗"}</a>` : ''}
+        <button class="alert-btn-sm" onclick="prefillAlert('${slot.courseId}','${slot.date}','${slot.time}')">${currentLang === 'fr' ? '+ Alerte' : '+ Alert'}</button>
       </div>
     </div>`;
 }
