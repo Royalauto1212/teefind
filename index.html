@@ -714,9 +714,17 @@ window.getAlertCourseIds = function getAlertCourseIds() {
 
 // ── INIT ──
 (async function init() {
-  const today = new Date().toISOString().split('T')[0];
-  document.getElementById('filterDate').value = today;
-  document.getElementById('alertDate').value  = today;
+  const todayMTL = new Date().toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
+  const maxDate = new Date();
+  maxDate.setDate(maxDate.getDate() + 7);
+  const maxDateMTL = maxDate.toLocaleDateString('en-CA', { timeZone: 'America/Toronto' });
+  const filterDateEl = document.getElementById('filterDate');
+  filterDateEl.value = todayMTL;
+  filterDateEl.min = todayMTL;
+  filterDateEl.max = maxDateMTL;
+  document.getElementById('alertDate').value = todayMTL;
+  document.getElementById('alertDate').min = todayMTL;
+  document.getElementById('alertDate').max = maxDateMTL;
   await Promise.all([loadTeeTimes(), loadStatus(), loadCourses()]);
   populateAlertCourseDropdown();
   // Populate alert club grid
