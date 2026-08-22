@@ -1104,7 +1104,7 @@ window.toggleSlot = async function toggleSlot(sectionId, slotId, parentCardId) {
         <span class="slot-detail-time">${fmt12(slot.time)}</span>
         ${weatherHtml}${minNote}
         ${slot.pricePerPlayer
-          ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/player${slot.taxesMode?' '+slot.taxesMode:''}</span></span>`
+          ? `<span class="slot-detail-price">$${slot.pricePerPlayer} <span class="slot-detail-tax">CAD/${currentLang==='fr'?'joueur':'player'}${slot.taxesMode?' '+slot.taxesMode:''}</span></span>${slot.cartPrice ? `<span class="slot-detail-tax" style="color:var(--ink-60)"> + $${slot.cartPrice} ${currentLang==='fr'?'voiturette':'cart'}</span>` : ''}`
           : `<span style="font-size:13px;color:var(--ink-60)">${currentLang === 'fr' ? 'Prix à déterminer' : 'Price TBD'}</span>`}
       </div>
       <div class="slot-detail-actions">
