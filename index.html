@@ -4,6 +4,12 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>TeeFind — Tee Times in Montreal</title>
+<meta name="description" content="Find and compare Montreal golf tee times in one search. Book tee times at 20+ Montreal area courses instantly. Free cancellation alerts." />
+<meta name="keywords" content="Montreal golf tee times, golf Montreal, réservation golf Montréal, tee times Laval, golf Quebec" />
+<meta property="og:title" content="TeeFind — Tee Times in Montreal" />
+<meta property="og:description" content="Find and compare Montreal golf tee times in one search. Book tee times at 20+ courses instantly." />
+<meta property="og:url" content="https://teefind.ca" />
+<meta name="robots" content="index, follow" />
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -1222,12 +1228,21 @@ window.createAlert = async function createAlert() {
     players:  document.getElementById('alertPlayers').value || null,
     createdAt: new Date().toISOString(),
   };
-  try { await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(alert) }); } catch {}
+  try {
+    const r = await fetch(`${API_BASE}/alerts`, { method:'POST', headers:{'Content-Type':'application/json'}, body:JSON.stringify(alert) });
+    if (r.status === 403) {
+      const d = await r.json();
+      if (d.error === 'free_limit') {
+        showUpgradePrompt(contact);
+        return;
+      }
+    }
+  } catch {}
   localAlerts.push(alert);
   localStorage.setItem('teefind_alerts', JSON.stringify(localAlerts));
   renderLocalAlerts();
   document.getElementById('alertContact').value = '';
-  toast("Alert created! We'll notify you when a tee time opens up.");
+  toast(currentLang === 'fr' ? "Alerte créée! Vous serez notifié dès qu'un départ se libère." : "Alert created! We'll notify you when a tee time opens up.");
 }
 
 window.deleteAlert = function deleteAlert(id) {
@@ -1264,6 +1279,39 @@ function fmtTime(t) {
 }
 
 window.scrollToFilters = function scrollToFilters() { window.scrollTo({top:0,behavior:'smooth'}); }
+
+async function showUpgradePrompt(email) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:9999;display:flex;align-items:center;justify-content:center;';
+  overlay.innerHTML = `
+    <div style="background:white;border-radius:16px;padding:2rem;max-width:400px;width:90%;text-align:center;box-shadow:0 8px 32px rgba(0,0,0,0.2);">
+      <div style="font-size:40px;margin-bottom:1rem;">⛳</div>
+      <h2 style="font-family:'DM Serif Display',serif;font-size:24px;margin-bottom:0.5rem;">Go Premium</h2>
+      <p style="color:#666;font-size:14px;margin-bottom:1.5rem;line-height:1.5;">
+        Free accounts get 1 alert. Upgrade to Premium for <strong>unlimited alerts</strong> at any course, any time.
+      </p>
+      <div style="font-family:'DM Serif Display',serif;font-size:36px;color:#3B6D11;margin-bottom:1.5rem;">$4.99<span style="font-size:16px;color:#666;">/month</span></div>
+      <button onclick="startCheckout('${email}')" style="width:100%;padding:14px;background:#3B6D11;color:white;border:none;border-radius:10px;font-family:'DM Sans',sans-serif;font-size:16px;font-weight:500;cursor:pointer;margin-bottom:10px;">
+        Upgrade to Premium →
+      </button>
+      <button onclick="this.closest('[style*=fixed]').remove()" style="width:100%;padding:10px;background:none;border:none;color:#666;font-family:'DM Sans',sans-serif;font-size:14px;cursor:pointer;">
+        Maybe later
+      </button>
+    </div>`;
+  document.body.appendChild(overlay);
+}
+
+async function startCheckout(email) {
+  try {
+    const r = await fetch(`${API_BASE}/create-checkout`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email })
+    });
+    const d = await r.json();
+    if (d.url) window.location.href = d.url;
+  } catch { toast('Could not start checkout. Please try again.'); }
+}
 
 // ── LANGUAGE ──
 let currentLang = 'en';
