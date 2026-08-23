@@ -593,7 +593,7 @@ async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
   const key = `h-${courseId}-${date}-${hour}`;
   if (hourlyCache[key]) return hourlyCache[key];
   try {
-    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,weathercode&timezone=America%2FToronto&start_date=${date}&end_date=${date}`);
+    const r = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lng}&hourly=temperature_2m,weathercode,windspeed_10m,precipitation_probability&timezone=America%2FToronto&start_date=${date}&end_date=${date}`);
     const d = await r.json();
     const hours = d.hourly?.time || [];
     const idx = hours.findIndex(t => t.includes(`T${String(hour).padStart(2,'0')}:`));
@@ -601,7 +601,9 @@ async function fetchHourlyWeather(courseId, lat, lng, date, hour) {
     const endIdx = Math.min(idx + Math.ceil(ROUND_HOURS), hours.length - 1);
     const temps = d.hourly.temperature_2m.slice(idx, endIdx + 1);
     const codes = d.hourly.weathercode.slice(idx, endIdx + 1);
-    const result = { tStart: Math.round(temps[0]), tEnd: Math.round(temps[temps.length-1]), icon: WMO[codes[0]]||'🌤️', iconEnd: WMO[codes[codes.length-1]]||'🌤️' };
+    const winds = d.hourly.windspeed_10m.slice(idx, endIdx + 1);
+    const precips = d.hourly.precipitation_probability.slice(idx, endIdx + 1);
+    const result = { tStart: Math.round(temps[0]), tEnd: Math.round(temps[temps.length-1]), icon: WMO[codes[0]]||'🌤️', iconEnd: WMO[codes[codes.length-1]]||'🌤️', wind: Math.round(Math.max(...winds)), precip: Math.round(Math.max(...precips)) };
     hourlyCache[key] = result;
     return result;
   } catch { return null; }
